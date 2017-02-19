@@ -1,8 +1,47 @@
 <resources>
     <string name="app_name">AuctionHunter</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="cat_add">Add</string>
+    <string name="cat_edit">Edit</string>
+    <string name="cat_remove">Remove</string>
+    <string name="search_title">Search</string>
+    <string name="sort">Sortowanie</string>
+    <string name="malejaco">Malejąco</string>
+    <string name="rosnaco">Rosnąco</string>
+    <string name="ceny">prices:</string>
+    <string name="cena_z_dostawa">ceny z dostawą:</string>
+    <string name="czas_do_konca">czasu do końca:</string>
+    <string name="odAdoZ">from A to Z</string>
+    <string name="odZdoA">from Z to A</string>
+    <string name="anuluj">Cancel</string>
+    <!-- przedmiot list view -->
+    <string name="item_cena_kupteraz">Buy Now</string>
+    <string name="item_cena_z_dostawa">z dostawą</string>
+    <!-- navigation bar -->
+    <string name="dodaj_cel">Add target</string>
+    <!-- dialog logowanie -->
+    <string name="login">Login</string>
+    <string name="haslo">Password</string>
+    <string name="ladowanie">Loading</string>
+    <string name="ladowanie2">Loading...</string>
+    <string name="brak_wynikow">No results</string>
+    <string name="pelny_opis">Full describe</string>
+    <string name="licytuj">Make offer</string>
+    <string name="kup_teraz">Buy It Now</string>
+    <string name="cena_kup_teraz">Price Buy It Now</string>
+    <!-- dodawanie przedmiotu -->
+    <string name="max">MAX</string>
+    <string name="min">MIN</string>
+    <string name="oferta_typu">Oferta typu:</string>
+    <string name="zapisz">Save</string>
+    <string name="nazwa">Name</string>
+    <string name="nazwa_wyszukiwania">Search name</string>
+    <string name="wybierz_kategorie">Select category</string>
+    <string name="brak">Empty</string>
+    <string name="wszystkie">All</string>
+    <string name="licytacje">Best offer</string>
+    <string name="cena">Price</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="action_settings">Settings</string>
 </resources>
