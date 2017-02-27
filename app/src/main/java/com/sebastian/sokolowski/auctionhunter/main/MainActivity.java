@@ -1,10 +1,9 @@
-package com.sebastian.sokolowski.auctionhunter;
+package com.sebastian.sokolowski.auctionhunter.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,9 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.sebastian.sokolowski.auctionhunter.R;
+import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
+import com.sebastian.sokolowski.auctionhunter.main.adapter.DrawerAdapter;
+import com.sebastian.sokolowski.auctionhunter.newTarget.NewTargetActivity;
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements MainContract.View {
+
+    private MainPresenter mainPresenter;
+    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +37,12 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                mainPresenter.addNewTarget();
             }
         });
+
+        mDrawerList = (ListView) findViewById(R.id.left_drawer_lv);
+        mDrawerList.setAdapter(new DrawerAdapter(this));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -38,8 +50,17 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mainPresenter = new MainPresenter(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -74,28 +95,35 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+    public void showAddTarget() {
+        Intent intent = new Intent(this, NewTargetActivity.class);
+        startActivity(intent);
+    }
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+    @Override
+    public void showViewType(Type type) {
 
-        } else if (id == R.id.nav_slideshow) {
+    }
 
-        } else if (id == R.id.nav_manage) {
+    @Override
+    public void showLoadingProgress() {
 
-        } else if (id == R.id.nav_share) {
+    }
 
-        } else if (id == R.id.nav_send) {
+    @Override
+    public void showNoTarget() {
 
-        }
+    }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    @Override
+    public void showTargets(List<Target> targets) {
+
+    }
+
+
+    @Override
+    public void showErrorDialog() {
+
     }
 }
