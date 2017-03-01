@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,12 +18,16 @@ import android.widget.ListView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
+import com.sebastian.sokolowski.auctionhunter.database.entity.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.main.adapter.DrawerAdapter;
+import com.sebastian.sokolowski.auctionhunter.main.adapter.MainAdapter;
+import com.sebastian.sokolowski.auctionhunter.main.views.SliderRecyclerView;
 import com.sebastian.sokolowski.auctionhunter.newTarget.NewTargetActivity;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private MainPresenter mMainPresenter;
     private ListView mDrawerList;
+    private SliderRecyclerView mTargetList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 mMainPresenter.addNewTarget();
             }
         });
+
+        mTargetList = (SliderRecyclerView) findViewById(R.id.rv_target_list);
+        mTargetList.setAdapter(new MainAdapter(this, new ArrayList<TargetItem>()));
+        mTargetList.setLayoutManager(new LinearLayoutManager(this));
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer_lv);
         mDrawerList.setAdapter(new DrawerAdapter(this, mMainPresenter));

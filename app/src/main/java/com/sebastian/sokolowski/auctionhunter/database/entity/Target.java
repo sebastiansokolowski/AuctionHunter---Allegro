@@ -1,5 +1,8 @@
 package com.sebastian.sokolowski.auctionhunter.database.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Sebastain Sokołowski on 23.02.17.
  */
@@ -7,7 +10,15 @@ package com.sebastian.sokolowski.auctionhunter.database.entity;
 public class Target {
     private String drawerName;
     private Integer countAll;
-    private Integer countNow;
+    private List<TargetItem> targetItemList = new ArrayList<>();
+
+    public List<TargetItem> getTargetItemList() {
+        return targetItemList;
+    }
+
+    public void setTargetItemList(List<TargetItem> targetItemList) {
+        this.targetItemList = targetItemList;
+    }
 
     public String getDrawerName() {
         return drawerName;
@@ -26,10 +37,6 @@ public class Target {
     }
 
     public Integer getCountNow() {
-        return countNow;
-    }
-
-    public void setCountNow(Integer countNow) {
-        this.countNow = countNow;
+        return targetItemList.size();
     }
 }

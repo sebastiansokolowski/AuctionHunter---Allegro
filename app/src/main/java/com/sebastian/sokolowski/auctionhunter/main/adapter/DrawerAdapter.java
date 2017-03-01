@@ -28,15 +28,12 @@ public class DrawerAdapter extends BaseAdapter {
     {
         Target target1 = new Target();
         target1.setDrawerName("czekolada");
-        target1.setCountNow(1);
         target1.setCountAll(12);
         Target target2 = new Target();
         target2.setDrawerName("laptop");
-        target2.setCountNow(3);
         target2.setCountAll(41);
         Target target3 = new Target();
         target3.setDrawerName("samsung s6");
-        target3.setCountNow(11);
         target3.setCountAll(100);
 
         targetList.add(target1);
@@ -68,7 +65,7 @@ public class DrawerAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).
-                    inflate(R.layout.drawer_target_list_item, parent, false);
+                    inflate(R.layout.list_drawer_target_item, parent, false);
         }
         Target currentItem = getItem(position);
 
