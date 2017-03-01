@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="sort_type">
+        <item>Ending time</item>
+        <item>Starting time</item>
+        <item>Price</item>
+        <item>Price delivery</item>
+        <item>Popularity</item>
+        <item>Name</item>
+        <item>Relevance</item>
+    </array>
+    <array name="sort_order">
+        <item>ASC</item>
+        <item>DESC</item>
+    </array>
+</resources>

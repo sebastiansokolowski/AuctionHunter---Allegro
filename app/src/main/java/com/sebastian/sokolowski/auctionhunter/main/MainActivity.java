@@ -1,9 +1,9 @@
 package com.sebastian.sokolowski.auctionhunter.main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,12 +18,18 @@ import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
 import com.sebastian.sokolowski.auctionhunter.main.adapter.DrawerAdapter;
 import com.sebastian.sokolowski.auctionhunter.newTarget.NewTargetActivity;
+import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
+import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
+import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 
 import java.util.List;
 
+import static android.content.DialogInterface.BUTTON_NEGATIVE;
+import static android.content.DialogInterface.BUTTON_POSITIVE;
+
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
-    private MainPresenter mainPresenter;
+    private MainPresenter mMainPresenter;
     private ListView mDrawerList;
 
     @Override
@@ -37,12 +43,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainPresenter.addNewTarget();
+                mMainPresenter.addNewTarget();
             }
         });
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer_lv);
-        mDrawerList.setAdapter(new DrawerAdapter(this));
+        mDrawerList.setAdapter(new DrawerAdapter(this, mMainPresenter));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,12 +56,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        mainPresenter = new MainPresenter(this);
+        mMainPresenter = new MainPresenter(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        mMainPresenter.start();
     }
 
     @Override
@@ -76,23 +84,48 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main_activity, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.target_sort_type:
+                DialogHelper.changeSortTypeDialog(this, new DialogHelper.OnChangeSortType() {
+                    @Override
+                    public void onChangeSortType(SortTypeEnum sortTypeEnum, SortOrderEnum sortOrderEnum) {
+                        mMainPresenter.changeSortType(sortTypeEnum);
+                        mMainPresenter.changeSortOrder(sortOrderEnum);
+                    }
+                });
+                break;
+            case R.id.target_view_type:
+                break;
+            case R.id.add_target:
+                mMainPresenter.addNewTarget();
+                break;
+            case R.id.edit_target:
+                mMainPresenter.editTarget();
+                break;
+            case R.id.delete_target:
+                DialogHelper.deleteTargetDialog(this, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case BUTTON_POSITIVE:
+                                        mMainPresenter.deleteTarget();
+                                        break;
+                                    case BUTTON_NEGATIVE:
+                                        break;
+                                }
+                            }
+                        }
+                );
+                break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
@@ -107,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showLoadingProgress() {
+    public void showLoadingProgressBar() {
 
     }
 

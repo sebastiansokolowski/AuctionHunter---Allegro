@@ -2,26 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/cel_sort"
+        android:id="@+id/target_sort_type"
         android:icon="@drawable/ic_action_sort_by_size"
         android:title="@string/sort"
-        android:visible="false"
         app:showAsAction="collapseActionView|ifRoom" />
     <item
-        android:id="@+id/cel_add"
+        android:id="@+id/target_view_type"
+        android:icon="@drawable/ic_action_sort_by_size"
+        android:title="@string/sort"
+        app:showAsAction="collapseActionView|ifRoom" />
+    <item
+        android:id="@+id/add_target"
         android:icon="@drawable/ic_action_new"
         android:title="@string/cat_add"
         app:showAsAction="collapseActionView|ifRoom" />
     <item
-        android:id="@+id/cel_edit"
+        android:id="@+id/edit_target"
         android:icon="@drawable/ic_action_edit"
         android:title="@string/cat_edit"
-        android:visible="false"
         app:showAsAction="collapseActionView" />
     <item
-        android:id="@+id/cel_delete"
+        android:id="@+id/delete_target"
         android:icon="@drawable/ic_action_discard"
         android:title="@string/cat_remove"
-        android:visible="false"
         app:showAsAction="collapseActionView" />
 </menu>

@@ -1,6 +1,8 @@
 package com.sebastian.sokolowski.auctionhunter.main;
 
 import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
+import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
+import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 
 import java.util.List;
 
@@ -12,15 +14,11 @@ public interface MainContract {
     interface View {
         enum Type {LIST, GRID}
 
-        enum SortType {PRICE, ADD_TIME, END_TIME}
-
-        enum SortOrder {ASC, DESC}
-
         void showAddTarget();
 
         void showViewType(Type type);
 
-        void showLoadingProgress();
+        void showLoadingProgressBar();
 
         void showNoTarget();
 
@@ -36,12 +34,18 @@ public interface MainContract {
 
         void setActualTarget(Target actualTarget);
 
-        void changeSortType(View.SortType sortType);
+        void changeSortType(SortTypeEnum sortTypeEnum);
 
-        void changeSortOrder(View.SortOrder sortOrder);
+        void changeSortOrder(SortOrderEnum sortOrderEnum);
 
         void addToFavouriteTarget(Target target);
 
         void removeTarget(Target target);
+
+        void start();
+
+        void deleteTarget();
+
+        void editTarget();
     }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
+import com.sebastian.sokolowski.auctionhunter.main.MainPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,11 @@ import java.util.List;
  */
 
 public class DrawerAdapter extends BaseAdapter {
+    private final MainPresenter mainPresenter;
+    private final Context context;
+
+
     private List<Target> targetList = new ArrayList<>();
-    private Context context;
 
     {
         Target target1 = new Target();
@@ -40,8 +44,9 @@ public class DrawerAdapter extends BaseAdapter {
         targetList.add(target3);
     }
 
-    public DrawerAdapter(Context context) {
+    public DrawerAdapter(Context context, MainPresenter mainPresenter) {
         this.context = context;
+        this.mainPresenter = mainPresenter;
     }
 
     @Override

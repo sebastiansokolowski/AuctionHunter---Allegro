@@ -44,4 +44,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="action_settings">Settings</string>
+
+    <!-- dialog messages -->
+    <string name="dialog_message_remove_target">Are you sure?</string>
+    <string name="dialog_title_remove_target">Remove target</string>
+    <string name="dialog_title_sort_type_target">Sort type</string>
+    <string name="dialog_title_sort_order_target">Sort order</string>
+
+    <string name="dialog_ok_button">Ok</string>
+    <string name="dialog_cancel_button">Cancel</string>
 </resources>

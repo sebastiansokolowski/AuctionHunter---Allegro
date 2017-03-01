@@ -45,4 +45,10 @@
     <string name="wszystkie">Wszystkie</string>
     <string name="licytacje">Licytacje</string>
     <string name="cena">Cena</string>
+    <string name="dialog_cancel_button">Anuluj</string>
+    <string name="dialog_ok_button">Ok</string>
+    <string name="dialog_message_remove_target">Czy jesteś pewien</string>
+    <string name="dialog_title_remove_target">Usuwanie celu</string>
+    <string name="dialog_title_sort_type_target">Sposób sortowania</string>
+    <string name="dialog_title_sort_order_target">Kolejność sortowania</string>
 </resources>

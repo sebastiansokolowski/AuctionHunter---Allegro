@@ -1,6 +1,8 @@
 package com.sebastian.sokolowski.auctionhunter.main;
 
 import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
+import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
+import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 
 /**
  * Created by Sebastain Sokołowski on 21.02.17.
@@ -30,12 +32,12 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void changeSortType(MainContract.View.SortType sortType) {
+    public void changeSortType(SortTypeEnum sortTypeEnum) {
 
     }
 
     @Override
-    public void changeSortOrder(MainContract.View.SortOrder sortOrder) {
+    public void changeSortOrder(SortOrderEnum sortOrderEnum) {
 
     }
 
@@ -46,6 +48,21 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void removeTarget(Target target) {
+
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void deleteTarget() {
+
+    }
+
+    @Override
+    public void editTarget() {
 
     }
 }
