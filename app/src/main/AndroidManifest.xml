@@ -22,6 +22,8 @@
         </activity>
 
         <activity android:name=".newTarget.NewTargetActivity" />
+
+        <service android:name=".service.SearchService" />
     </application>
 
 </manifest>
