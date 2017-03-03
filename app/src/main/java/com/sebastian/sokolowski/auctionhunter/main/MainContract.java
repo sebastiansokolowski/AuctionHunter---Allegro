@@ -25,6 +25,12 @@ public interface MainContract {
         void showTargets(List<Target> targets);
 
         void showErrorDialog();
+
+        void showProgressDialog(int max);
+
+        void showErrorProgressDialog(String message);
+
+        void incrementProgressDialog();
     }
 
     interface Presenter {

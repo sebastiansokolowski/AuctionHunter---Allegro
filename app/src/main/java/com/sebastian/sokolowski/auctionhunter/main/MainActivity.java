@@ -1,8 +1,10 @@
 package com.sebastian.sokolowski.auctionhunter.main;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,6 +31,7 @@ import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainPresenter mMainPresenter;
     private ListView mDrawerList;
     private SliderRecyclerView mTargetList;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,5 +173,43 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showErrorDialog() {
 
+    }
+
+    @Override
+    public void showProgressDialog(int max) {
+        mProgressDialog = DialogHelper.progressDialog(this, max, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void showErrorProgressDialog(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mProgressDialog != null) {
+                    mProgressDialog.setMessage(message);
+                    mProgressDialog = null;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void incrementProgressDialog() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mProgressDialog != null) {
+                    mProgressDialog.incrementProgressBy(1);
+                    if (mProgressDialog.getProgress() == mProgressDialog.getMax()) {
+                        mProgressDialog.cancel();
+                    }
+                }
+            }
+        });
     }
 }
