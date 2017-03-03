@@ -7,7 +7,7 @@ import com.alexgilleran.icesoap.soapfault.SOAP11Fault;
  * Created by Sebastain Sokołowski on 20.02.17.
  */
 
-public class SOAPFault extends SOAP11Fault {
+public class AllegroSOAPFault extends SOAP11Fault {
     @XMLField("faultcode")
     private String faultcode;
 

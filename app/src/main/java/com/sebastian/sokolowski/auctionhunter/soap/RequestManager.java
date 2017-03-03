@@ -2,12 +2,14 @@ package com.sebastian.sokolowski.auctionhunter.soap;
 
 import com.alexgilleran.icesoap.observer.SOAP11Observer;
 import com.alexgilleran.icesoap.observer.SOAPObserver;
+import com.alexgilleran.icesoap.request.Request;
 import com.alexgilleran.icesoap.request.RequestFactory;
 import com.alexgilleran.icesoap.request.SOAP11Request;
 import com.alexgilleran.icesoap.request.impl.RequestFactoryImpl;
 import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoGetCatsDataCountEnvelope;
 import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoGetCatsDataLimitEnvelope;
 import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoGetItemsListEnvelope;
+import com.sebastian.sokolowski.auctionhunter.soap.fault.AllegroSOAPFault;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataCountResponse.DoGetCatsDataCountResponse;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse.DoGetCatsDataLimitResponse;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.DoGetItemsListResponse;
@@ -39,12 +41,12 @@ public class RequestManager {
         definitionRequest.execute(doGetCatsDataCountResponseSOAP11Observer);
     }
 
-    public void doGetCatsDataLimit(DoGetCatsDataLimitEnvelope doGetCatsDataLimitEnvelope, SOAP11Observer<DoGetCatsDataLimitResponse> doGetCatsDataLimitResponseSOAP11Observer){
-        SOAP11Request<DoGetCatsDataLimitResponse> definitionRequest = requestFactory.buildRequest(
+    public void doGetCatsDataLimit(DoGetCatsDataLimitEnvelope doGetCatsDataLimitEnvelope, SOAPObserver<DoGetCatsDataLimitResponse, AllegroSOAPFault> doGetCatsDataLimitResponseSOAP11Observer){
+        Request<DoGetCatsDataLimitResponse,AllegroSOAPFault> definitionRequest = requestFactory.buildRequest(
                 URL,
                 doGetCatsDataLimitEnvelope.create(),
                 "#doGetCatsDataLimit",
-                DoGetCatsDataLimitResponse.class);
+                DoGetCatsDataLimitResponse.class, AllegroSOAPFault.class);
         definitionRequest.execute(doGetCatsDataLimitResponseSOAP11Observer);
     }
 }
