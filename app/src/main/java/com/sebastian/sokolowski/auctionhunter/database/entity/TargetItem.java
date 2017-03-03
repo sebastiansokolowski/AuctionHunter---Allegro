@@ -5,8 +5,6 @@ package com.sebastian.sokolowski.auctionhunter.database.entity;
  */
 
 public class TargetItem {
-    public enum Offertype {BUY_NOW, AUCTION, BOTH}
-
     private Offertype offertype;
     private String url;
     private String name;
@@ -79,4 +77,6 @@ public class TargetItem {
     public void setWhen(String when) {
         this.when = when;
     }
+
+    public enum Offertype {BUY_NOW, AUCTION, BOTH}
 }

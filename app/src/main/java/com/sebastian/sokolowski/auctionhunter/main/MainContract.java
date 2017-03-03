@@ -12,8 +12,6 @@ import java.util.List;
 
 public interface MainContract {
     interface View {
-        enum Type {LIST, GRID}
-
         void showAddTarget();
 
         void showViewType(Type type);
@@ -31,6 +29,8 @@ public interface MainContract {
         void showErrorProgressDialog(String message);
 
         void incrementProgressDialog();
+
+        enum Type {LIST, GRID}
     }
 
     interface Presenter {

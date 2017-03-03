@@ -48,7 +48,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                 @Override
                 public void onException(Request<DoGetCatsDataLimitResponse, AllegroSOAPFault> request, SOAPException e) {
-                    if(request.getSOAPFault().getFaultString() != null){
+                    if (request.getSOAPFault().getFaultString() != null) {
                         mView.showErrorProgressDialog(request.getSOAPFault().getFaultString());
                     }
                 }

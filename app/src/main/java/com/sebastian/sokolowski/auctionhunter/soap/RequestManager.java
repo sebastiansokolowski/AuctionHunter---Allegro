@@ -32,7 +32,7 @@ public class RequestManager {
         definitionRequest.execute(doGetItemsListResponseSOAP11Observer);
     }
 
-    public void doGetCatsDataCount(SOAP11Observer<DoGetCatsDataCountResponse> doGetCatsDataCountResponseSOAP11Observer){
+    public void doGetCatsDataCount(SOAP11Observer<DoGetCatsDataCountResponse> doGetCatsDataCountResponseSOAP11Observer) {
         SOAP11Request<DoGetCatsDataCountResponse> definitionRequest = requestFactory.buildRequest(
                 URL,
                 new DoGetCatsDataCountEnvelope(),
@@ -41,8 +41,8 @@ public class RequestManager {
         definitionRequest.execute(doGetCatsDataCountResponseSOAP11Observer);
     }
 
-    public void doGetCatsDataLimit(DoGetCatsDataLimitEnvelope doGetCatsDataLimitEnvelope, SOAPObserver<DoGetCatsDataLimitResponse, AllegroSOAPFault> doGetCatsDataLimitResponseSOAP11Observer){
-        Request<DoGetCatsDataLimitResponse,AllegroSOAPFault> definitionRequest = requestFactory.buildRequest(
+    public void doGetCatsDataLimit(DoGetCatsDataLimitEnvelope doGetCatsDataLimitEnvelope, SOAPObserver<DoGetCatsDataLimitResponse, AllegroSOAPFault> doGetCatsDataLimitResponseSOAP11Observer) {
+        Request<DoGetCatsDataLimitResponse, AllegroSOAPFault> definitionRequest = requestFactory.buildRequest(
                 URL,
                 doGetCatsDataLimitEnvelope.create(),
                 "#doGetCatsDataLimit",

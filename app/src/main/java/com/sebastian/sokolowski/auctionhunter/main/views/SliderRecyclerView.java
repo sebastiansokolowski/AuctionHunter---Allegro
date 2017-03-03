@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.sebastian.sokolowski.auctionhunter.main.adapter.MainAdapter;
 
@@ -54,7 +53,7 @@ public class SliderRecyclerView extends RecyclerView {
 
             @Override
             public void onSwiped(ViewHolder viewHolder, int direction) {
-                if(getAdapter() != null){
+                if (getAdapter() != null) {
                     MainAdapter mainAdapter = (MainAdapter) getAdapter();
                     mainAdapter.onItemDismiss(viewHolder.getAdapterPosition());
                 }

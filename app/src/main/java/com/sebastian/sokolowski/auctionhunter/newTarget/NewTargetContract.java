@@ -10,12 +10,6 @@ import java.util.List;
 
 public interface NewTargetContract {
     interface View {
-        enum Type {LIST, GRID}
-
-        enum SortType {PRICE, ADD_TIME, END_TIME}
-
-        enum SortOrder {ASC, DESC}
-
         void showAddTarget();
 
         void showViewType(Type type);
@@ -27,6 +21,12 @@ public interface NewTargetContract {
         void showTargets(List<Target> targets);
 
         void showErrorDialog();
+
+        enum Type {LIST, GRID}
+
+        enum SortType {PRICE, ADD_TIME, END_TIME}
+
+        enum SortOrder {ASC, DESC}
     }
 
     interface Presenter {

@@ -44,10 +44,6 @@ public class DialogHelper {
         dialog.show();
     }
 
-    public interface OnChangeSortType {
-        void onChangeSortType(SortTypeEnum sortTypeEnum, SortOrderEnum sortOrderEnum);
-    }
-
     public static void changeSortTypeDialog(Context context, final OnChangeSortType onChangeSortType) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -81,5 +77,9 @@ public class DialogHelper {
         builder.setNegativeButton(R.string.dialog_cancel_button, null);
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public interface OnChangeSortType {
+        void onChangeSortType(SortTypeEnum sortTypeEnum, SortOrderEnum sortOrderEnum);
     }
 }
