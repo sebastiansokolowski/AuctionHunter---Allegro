@@ -1,16 +1,15 @@
 package com.sebastian.sokolowski.auctionhunter.utils;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.sebastian.sokolowski.auctionhunter.R;
-import com.sebastian.sokolowski.auctionhunter.soap.request.SortOptionsType;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 
@@ -19,6 +18,21 @@ import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
  */
 
 public class DialogHelper {
+
+    public static ProgressDialog progressDialog(Context context, int max, DialogInterface.OnClickListener onCancelListener) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMax(max);
+        progressDialog.setMessage("");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressNumberFormat(null);
+        progressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, context.getString(R.string.dialog_cancel_button), onCancelListener);
+        progressDialog.setTitle(context.getString(R.string.dialog_title_download_cats));
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        return progressDialog;
+    }
 
     public static void deleteTargetDialog(Context context, DialogInterface.OnClickListener listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

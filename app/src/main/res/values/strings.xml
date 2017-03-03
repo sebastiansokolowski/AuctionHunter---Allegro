@@ -50,6 +50,7 @@
     <string name="dialog_title_remove_target">Remove target</string>
     <string name="dialog_title_sort_type_target">Sort type</string>
     <string name="dialog_title_sort_order_target">Sort order</string>
+    <string name="dialog_title_download_cats">Downloading categories</string>
 
     <string name="dialog_ok_button">Ok</string>
     <string name="dialog_cancel_button">Cancel</string>
