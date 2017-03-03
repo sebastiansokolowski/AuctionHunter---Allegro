@@ -1,4 +1,4 @@
-package com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataResponse;
+package com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse;
 
 import com.alexgilleran.icesoap.annotation.XMLField;
 
