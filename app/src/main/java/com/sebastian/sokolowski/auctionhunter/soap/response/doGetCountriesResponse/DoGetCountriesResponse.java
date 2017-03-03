@@ -13,4 +13,8 @@ import java.util.List;
 public class DoGetCountriesResponse {
     @XMLField("countryArray/item")
     private List<CountryInfoType> countryInfoTypeList;
+
+    public List<CountryInfoType> getCountryInfoTypeList() {
+        return countryInfoTypeList;
+    }
 }

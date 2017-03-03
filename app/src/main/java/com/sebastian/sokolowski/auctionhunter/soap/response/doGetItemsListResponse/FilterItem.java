@@ -6,7 +6,7 @@ import com.alexgilleran.icesoap.annotation.XMLField;
  * Created by Sebastain Sokołowski on 20.02.17.
  */
 
-class FilterItem {
+public class FilterItem {
     @XMLField("filterId")
     private String filterId;
     @XMLField("filterName")

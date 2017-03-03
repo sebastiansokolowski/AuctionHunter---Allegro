@@ -15,4 +15,16 @@ public class DoGetCatsDataCountResponse {
     private Long verKey;
     @XMLField("verStr")
     private String verStr;
+
+    public Integer getCatsCount() {
+        return catsCount;
+    }
+
+    public Long getVerKey() {
+        return verKey;
+    }
+
+    public String getVerStr() {
+        return verStr;
+    }
 }

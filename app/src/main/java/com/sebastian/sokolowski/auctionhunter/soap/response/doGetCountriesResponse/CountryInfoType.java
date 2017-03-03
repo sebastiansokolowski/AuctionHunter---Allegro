@@ -6,9 +6,17 @@ import com.alexgilleran.icesoap.annotation.XMLField;
  * Created by Sebastain Sokołowski on 20.02.17.
  */
 
-class CountryInfoType {
+public class CountryInfoType {
     @XMLField("countryId")
     private Integer countryId;
     @XMLField("countryName")
     private String countryName;
+
+    public Integer getCountryId() {
+        return countryId;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
 }
