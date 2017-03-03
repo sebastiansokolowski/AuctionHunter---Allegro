@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
-import com.sebastian.sokolowski.auctionhunter.database.entity.TargetItem;
+import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

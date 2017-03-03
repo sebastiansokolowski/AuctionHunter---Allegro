@@ -17,8 +17,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
-import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
-import com.sebastian.sokolowski.auctionhunter.database.entity.TargetItem;
+import com.sebastian.sokolowski.auctionhunter.database.models.Target;
+import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.main.adapter.DrawerAdapter;
 import com.sebastian.sokolowski.auctionhunter.main.adapter.MainAdapter;
 import com.sebastian.sokolowski.auctionhunter.main.views.SliderRecyclerView;
@@ -29,6 +29,8 @@ import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        Realm.init(this);
         mMainPresenter = new MainPresenter(this);
     }
 
@@ -173,14 +176,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showProgressDialog(int max) {
-        mProgressDialog = DialogHelper.progressDialog(this, max, new DialogInterface.OnClickListener() {
+    public void showProgressDialog(final int max) {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
+            public void run() {
+                mProgressDialog = DialogHelper.progressDialog(MainActivity.this, max, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
             }
         });
+
     }
+
 
     @Override
     public void showErrorProgressDialog(final String message) {

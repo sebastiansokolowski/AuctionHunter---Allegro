@@ -1,6 +1,6 @@
 package com.sebastian.sokolowski.auctionhunter.newTarget;
 
-import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
+import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 
 /**
  * Created by Sebastain Sokołowski on 21.02.17.

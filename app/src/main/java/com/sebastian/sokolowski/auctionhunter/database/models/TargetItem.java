@@ -1,4 +1,4 @@
-package com.sebastian.sokolowski.auctionhunter.database.entity;
+package com.sebastian.sokolowski.auctionhunter.database.models;
 
 /**
  * Created by Sebastian Sokołowski on 01.03.17.

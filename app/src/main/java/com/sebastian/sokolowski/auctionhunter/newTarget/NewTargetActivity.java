@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sebastian.sokolowski.auctionhunter.R;
-import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
+import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 
 import java.util.List;
 

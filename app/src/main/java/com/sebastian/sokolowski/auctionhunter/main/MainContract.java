@@ -1,6 +1,6 @@
 package com.sebastian.sokolowski.auctionhunter.main;
 
-import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
+import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 

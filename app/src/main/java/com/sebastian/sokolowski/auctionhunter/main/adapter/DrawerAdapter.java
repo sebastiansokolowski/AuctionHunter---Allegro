@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
-import com.sebastian.sokolowski.auctionhunter.database.entity.Target;
+import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.main.MainPresenter;
 
 import java.util.ArrayList;

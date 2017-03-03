@@ -1,4 +1,4 @@
-package com.sebastian.sokolowski.auctionhunter.database.entity;
+package com.sebastian.sokolowski.auctionhunter.database.models;
 
 import java.util.ArrayList;
 import java.util.List;
