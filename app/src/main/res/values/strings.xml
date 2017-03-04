@@ -54,4 +54,5 @@
 
     <string name="dialog_ok_button">Ok</string>
     <string name="dialog_cancel_button">Cancel</string>
+    <string name="SHARED_PREFERENCES_DOWNLOADED_CATS" translatable="false">SHARED_PREFERENCES_DOWNLOADED_CATS</string>
 </resources>

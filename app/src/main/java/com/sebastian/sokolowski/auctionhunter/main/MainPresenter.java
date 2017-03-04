@@ -1,8 +1,12 @@
 package com.sebastian.sokolowski.auctionhunter.main;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.alexgilleran.icesoap.exception.SOAPException;
 import com.alexgilleran.icesoap.observer.SOAPObserver;
 import com.alexgilleran.icesoap.request.Request;
+import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.Cat;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.soap.RequestManager;
@@ -25,15 +29,30 @@ public class MainPresenter implements MainContract.Presenter {
     private final MainContract.View mView;
     private final RequestManager mRequestManager;
     private Realm mRealm = Realm.getDefaultInstance();
+    private SharedPreferences mSharedPreferences;
+    private Context mContext;
 
-    public MainPresenter(MainContract.View view) {
-        mView = view;
+    //cats download
+    private int completionCatsData = 0;
+
+    public MainPresenter(MainActivity mainActivity) {
+        mView = mainActivity;
+        mContext = mainActivity;
+        mSharedPreferences = mainActivity.getPreferences(Context.MODE_PRIVATE);
         mRequestManager = new RequestManager();
     }
 
     @Override
     public void start() {
-        downloadCatsCount();
+        if (!mSharedPreferences.getBoolean(mContext.getString(R.string.SHARED_PREFERENCES_DOWNLOADED_CATS), false)) {
+            downloadCatsCount();
+        }
+    }
+
+    private void finishedDownloadCats() {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(mContext.getString(R.string.SHARED_PREFERENCES_DOWNLOADED_CATS), true);
+        editor.commit();
     }
 
     private void downloadCatsCount() {
@@ -64,14 +83,15 @@ public class MainPresenter implements MainContract.Presenter {
 
         //set progress bar max
         int packageElement = 2500;
-        int offset = (int) Math.ceil(count / (double) packageElement);
-        mView.showProgressDialog(offset);
-        int i = 0;
+        final int maxOffset = (int) Math.ceil(count / (double) packageElement);
+        mView.showProgressDialog(maxOffset);
+        int currentOffset = 0;
+        completionCatsData = 0;
 
-        for (; i != offset; i++) {
+        for (; currentOffset != maxOffset; currentOffset++) {
             DoGetCatsDataLimitEnvelope doGetCatsDataLimitEnvelope = new DoGetCatsDataLimitEnvelope();
-            doGetCatsDataLimitEnvelope.setOffset(i);
-            doGetCatsDataLimitEnvelope.setPackageElement(offset);
+            doGetCatsDataLimitEnvelope.setOffset(currentOffset);
+            doGetCatsDataLimitEnvelope.setPackageElement(packageElement);
 
             mRequestManager.doGetCatsDataLimit(doGetCatsDataLimitEnvelope, new SOAPObserver<DoGetCatsDataLimitResponse, AllegroSOAPFault>() {
                 @Override
@@ -96,6 +116,11 @@ public class MainPresenter implements MainContract.Presenter {
                     }
                     mView.incrementProgressDialog();
                     mRealm.commitTransaction();
+
+                    completionCatsData++;
+                    if (completionCatsData == maxOffset) {
+                        finishedDownloadCats();
+                    }
                 }
 
                 @Override
