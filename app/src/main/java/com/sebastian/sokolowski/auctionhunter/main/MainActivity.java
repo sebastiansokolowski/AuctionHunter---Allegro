@@ -23,6 +23,7 @@ import com.sebastian.sokolowski.auctionhunter.main.adapter.DrawerAdapter;
 import com.sebastian.sokolowski.auctionhunter.main.adapter.MainAdapter;
 import com.sebastian.sokolowski.auctionhunter.main.views.SliderRecyclerView;
 import com.sebastian.sokolowski.auctionhunter.newTarget.NewTargetActivity;
+import com.sebastian.sokolowski.auctionhunter.settings.SettingsActivity;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
@@ -218,5 +219,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 }
             }
         });
+    }
+
+    public void showSettings(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 }

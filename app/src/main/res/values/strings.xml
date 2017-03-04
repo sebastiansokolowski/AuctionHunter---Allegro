@@ -54,5 +54,18 @@
 
     <string name="dialog_ok_button">Ok</string>
     <string name="dialog_cancel_button">Cancel</string>
+
+    <!-- SHARED PREFERENCES -->
     <string name="SHARED_PREFERENCES_DOWNLOADED_CATS" translatable="false">SHARED_PREFERENCES_DOWNLOADED_CATS</string>
+
+    <!-- PREFERENCES -->
+    <string name="preferences_searching_interval">Searching interval</string>
+    <string name="preferences_night_mode">Night mode</string>
+    <string name="preferences_sound">Sound</string>
+    <string name="preferences_select_sound">Select sound</string>
+    <string name="preferences_vibration">Vibration</string>
+    <string name="preferences_searching">Searching</string>
+    <string name="preferences_notification">Notification</string>
+    <string name="preferences_other">Other</string>
+    <string name="preferences_update_cats">Update categories tree</string>
 </resources>

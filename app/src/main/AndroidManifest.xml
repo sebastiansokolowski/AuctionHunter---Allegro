@@ -23,6 +23,8 @@
 
         <activity android:name=".newTarget.NewTargetActivity" />
 
+        <activity android:name=".settings.SettingsActivity" />
+
         <service android:name=".service.SearchService" />
     </application>
 

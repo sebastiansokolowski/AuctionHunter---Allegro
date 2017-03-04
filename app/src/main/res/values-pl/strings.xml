@@ -52,4 +52,13 @@
     <string name="dialog_title_sort_type_target">Sposób sortowania</string>
     <string name="dialog_title_sort_order_target">Kolejność sortowania</string>
     <string name="dialog_title_download_cats">Pobieranie kategorii</string>
+    <string name="preferences_night_mode">Tryb nocny</string>
+    <string name="preferences_notification">Powiadomienie</string>
+    <string name="preferences_other">Inne</string>
+    <string name="preferences_searching">Wyszukiwanie</string>
+    <string name="preferences_searching_interval">Odstęp wyszukiwania</string>
+    <string name="preferences_select_sound">Wybierz dźwięk</string>
+    <string name="preferences_sound">Dźwięk</string>
+    <string name="preferences_update_cats">Aktualizuj kategorie</string>
+    <string name="preferences_vibration">Wibracje</string>
 </resources>

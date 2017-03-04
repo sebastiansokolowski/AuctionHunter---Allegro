@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/list_selected">
+
+    <PreferenceCategory android:title="@string/preferences_notification">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="cbp_vibration"
+            android:title="@string/preferences_vibration" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="cbp_sound"
+            android:title="@string/preferences_sound" />
+        <RingtonePreference
+            android:key="rp_ringtone"
+            android:ringtoneType="all"
+            android:title="@string/preferences_select_sound" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preferences_searching">
+        <SeekBarPreference
+            android:defaultValue="11"
+            android:max="24"
+            android:title="@string/preferences_searching_interval" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:key="cbp_sound"
+            android:title="@string/preferences_night_mode" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preferences_other">
+        <Preference
+            android:key="btn_category"
+            android:title="@string/preferences_update_cats" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
