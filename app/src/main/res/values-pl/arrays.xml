@@ -13,4 +13,9 @@
         <item>Rosnąco</item>
         <item>Malejąco</item>
     </array>
+    <array name="offer_type">
+        <item>Kup teraz</item>
+        <item>Aukcja</item>
+        <item>Wszystkie</item>
+    </array>
 </resources>

@@ -20,8 +20,6 @@
     <!-- navigation bar -->
     <string name="dodaj_cel">Add target</string>
     <!-- dialog logowanie -->
-    <string name="login">Login</string>
-    <string name="haslo">Password</string>
     <string name="ladowanie">Loading</string>
     <string name="ladowanie2">Loading...</string>
     <string name="brak_wynikow">No results</string>
@@ -29,18 +27,6 @@
     <string name="licytuj">Make offer</string>
     <string name="kup_teraz">Buy It Now</string>
     <string name="cena_kup_teraz">Price Buy It Now</string>
-    <!-- dodawanie przedmiotu -->
-    <string name="max">MAX</string>
-    <string name="min">MIN</string>
-    <string name="oferta_typu">Oferta typu:</string>
-    <string name="zapisz">Save</string>
-    <string name="nazwa">Name</string>
-    <string name="nazwa_wyszukiwania">Search name</string>
-    <string name="wybierz_kategorie">Select category</string>
-    <string name="brak">Empty</string>
-    <string name="wszystkie">All</string>
-    <string name="licytacje">Best offer</string>
-    <string name="cena">Price</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="action_settings">Settings</string>
@@ -68,4 +54,17 @@
     <string name="preferences_notification">Notification</string>
     <string name="preferences_other">Other</string>
     <string name="preferences_update_cats">Update categories tree</string>
+
+    <!-- ADD NEW TARGET ACTIVITY -->
+    <string name="new_target_add_category">Add category</string>
+    <string name="new_target_target_name">Target name</string>
+    <string name="new_target_searching_name">Searching name</string>
+    <string name="new_target_price">Price</string>
+    <string name="new_target_max_price">MAX</string>
+    <string name="new_target_min_price">MIN</string>
+    <string name="new_target_offer_type">Offer type</string>
+    <string name="new_target_save">Save</string>
+
+    <!-- ACTIVITY TITLE-->
+    <string name="activity_new_target_title">New target</string>
 </resources>

@@ -13,4 +13,9 @@
         <item>ASC</item>
         <item>DESC</item>
     </array>
+    <array name="offer_type">
+        <item>Buy now</item>
+        <item>Best offer</item>
+        <item>All</item>
+    </array>
 </resources>

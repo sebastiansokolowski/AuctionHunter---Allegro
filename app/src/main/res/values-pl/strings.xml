@@ -24,8 +24,6 @@
     <!-- navigation bar -->
     <string name="dodaj_cel">Dodaj cel</string>
     <!-- dialog logowanie -->
-    <string name="login">Login</string>
-    <string name="haslo">Hasło</string>
     <string name="ladowanie">Ładowanie</string>
     <string name="ladowanie2">Ładowanie...</string>
     <string name="brak_wynikow">Brak wyników</string>
@@ -34,17 +32,6 @@
     <string name="kup_teraz">Kup Teraz</string>
     <string name="cena_kup_teraz">Cena Kup Teraz</string>
     <!-- dodawanie przedmiotu -->
-    <string name="max">MAX</string>
-    <string name="min">MIN</string>
-    <string name="oferta_typu">Oferta typu:</string>
-    <string name="zapisz">Zapisz</string>
-    <string name="nazwa">Nazwa</string>
-    <string name="nazwa_wyszukiwania">Nazwa wyszukiwania</string>
-    <string name="wybierz_kategorie">Wybierz katerogię</string>
-    <string name="brak">Brak</string>
-    <string name="wszystkie">Wszystkie</string>
-    <string name="licytacje">Licytacje</string>
-    <string name="cena">Cena</string>
     <string name="dialog_cancel_button">Anuluj</string>
     <string name="dialog_ok_button">Ok</string>
     <string name="dialog_message_remove_target">Czy jesteś pewien</string>
@@ -61,4 +48,13 @@
     <string name="preferences_sound">Dźwięk</string>
     <string name="preferences_update_cats">Aktualizuj kategorie</string>
     <string name="preferences_vibration">Wibracje</string>
+    <string name="new_target_add_category">Dodaj kategorię</string>
+    <string name="new_target_max_price">MAX</string>
+    <string name="new_target_min_price">MIN</string>
+    <string name="new_target_offer_type">Oferta typu</string>
+    <string name="new_target_price">Cena</string>
+    <string name="new_target_save">Zapisz</string>
+    <string name="new_target_searching_name">Nazwa wyszukiwania</string>
+    <string name="new_target_target_name">Nazwa celu</string>
+    <string name="activity_new_target_title">Nowy cel</string>
 </resources>

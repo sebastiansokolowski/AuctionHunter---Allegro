@@ -21,7 +21,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".newTarget.NewTargetActivity" />
+        <activity
+            android:name=".newTarget.NewTargetActivity"
+            android:label="@string/activity_new_target_title"
+            android:parentActivityName=".main.MainActivity" />
 
         <activity android:name=".settings.SettingsActivity" />
 
