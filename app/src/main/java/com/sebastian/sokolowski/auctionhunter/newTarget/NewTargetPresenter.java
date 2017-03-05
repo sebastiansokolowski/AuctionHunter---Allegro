@@ -8,6 +8,7 @@ import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 
 public class NewTargetPresenter implements NewTargetContract.Presenter {
 
+    private final Target mTarget = new Target();
     private final NewTargetContract.View mView;
 
     public NewTargetPresenter(NewTargetContract.View view) {
@@ -15,37 +16,12 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
     }
 
     @Override
-    public void addNewTarget() {
+    public void start() {
 
     }
 
     @Override
-    public void changeView(NewTargetContract.View.Type type) {
-
-    }
-
-    @Override
-    public void setActualTarget(Target actualTarget) {
-
-    }
-
-    @Override
-    public void changeSortType(NewTargetContract.View.SortType sortType) {
-
-    }
-
-    @Override
-    public void changeSortOrder(NewTargetContract.View.SortOrder sortOrder) {
-
-    }
-
-    @Override
-    public void addToFavouriteTarget(Target target) {
-
-    }
-
-    @Override
-    public void removeTarget(Target target) {
+    public void addCategory() {
 
     }
 }

@@ -52,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:onClick="add_category"
                 android:text="@string/new_target_add_category" />
 
             <TextView
@@ -130,6 +129,5 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="end"
         android:layout_marginTop="10sp"
-        android:onClick="save"
         android:text="@string/new_target_save" />
 </RelativeLayout>
