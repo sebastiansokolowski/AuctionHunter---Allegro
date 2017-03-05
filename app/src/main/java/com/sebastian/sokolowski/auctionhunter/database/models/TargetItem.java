@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
 public class TargetItem extends RealmObject {
     @PrimaryKey
     private Integer id;
-    private Offertype offertype;
+    private String offertype;
     private String url;
     private String name;
     private String imageUrl;
@@ -19,12 +19,14 @@ public class TargetItem extends RealmObject {
     private String priceBid;
     private String when;
 
+    public enum Offertype {BUY_NOW, AUCTION, BOTH}
+
     public Offertype getOffertype() {
-        return offertype;
+        return Offertype.valueOf(offertype);
     }
 
     public void setOffertype(Offertype offertype) {
-        this.offertype = offertype;
+        this.offertype = offertype.toString();
     }
 
     public String getUrl() {
@@ -82,8 +84,6 @@ public class TargetItem extends RealmObject {
     public void setWhen(String when) {
         this.when = when;
     }
-
-    public enum Offertype {BUY_NOW, AUCTION, BOTH}
 
     public Integer getId() {
         return id;
