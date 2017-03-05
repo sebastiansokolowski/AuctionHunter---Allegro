@@ -1,7 +1,5 @@
 package com.sebastian.sokolowski.auctionhunter.database.models;
 
-import com.sebastian.sokolowski.auctionhunter.soap.request.FilterOptionsType;
-
 import java.util.List;
 
 import io.realm.RealmList;
@@ -13,10 +11,14 @@ import io.realm.RealmObject;
 
 public class Target extends RealmObject {
     private String drawerName;
+    private String searchingName;
+    private String priceMax;
+    private String priceMin;
+    private String offerType;
+    private String condition;
     private RealmList<TargetItem> allItems = new RealmList<>();
     private RealmList<TargetItem> newItems = new RealmList<>();
     private RealmList<TargetItem> favoriteItems = new RealmList<>();
-    private RealmList<FilterOptionsType> filterOptionsTypes = new RealmList<>();
 
     public RealmList<TargetItem> getAllItems() {
         return allItems;
@@ -62,16 +64,44 @@ public class Target extends RealmObject {
         return favoriteItems.size();
     }
 
-    public RealmList<FilterOptionsType> getFilterOptionsTypes() {
-        return filterOptionsTypes;
+    public String getPriceMax() {
+        return priceMax;
     }
 
-    public void addFilterOptionsType(FilterOptionsType filterOptionsType) {
-        this.filterOptionsTypes.add(filterOptionsType);
+    public void setPriceMax(String priceMax) {
+        this.priceMax = priceMax;
     }
 
-    public void addFilterOptionsTypes(List<FilterOptionsType> filterOptionsTypes) {
-        this.filterOptionsTypes.addAll(filterOptionsTypes);
+    public String getPriceMin() {
+        return priceMin;
+    }
+
+    public void setPriceMin(String priceMin) {
+        this.priceMin = priceMin;
+    }
+
+    public String getOfferType() {
+        return offerType;
+    }
+
+    public void setOfferType(String offerType) {
+        this.offerType = offerType;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getSearchingName() {
+        return searchingName;
+    }
+
+    public void setSearchingName(String searchingName) {
+        this.searchingName = searchingName;
     }
 
     public void addTargetItemToAllItems(TargetItem targetItem) {

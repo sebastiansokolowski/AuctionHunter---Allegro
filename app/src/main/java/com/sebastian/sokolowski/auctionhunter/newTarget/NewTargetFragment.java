@@ -7,8 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.sebastian.sokolowski.auctionhunter.R;
+import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.newTarget.selectCat.SelectCatFragment;
 
 /**
@@ -18,8 +23,7 @@ import com.sebastian.sokolowski.auctionhunter.newTarget.selectCat.SelectCatFragm
 public class NewTargetFragment extends Fragment implements NewTargetContract.View {
 
     private NewTargetPresenter mNewTargetPresenter;
-
-    private Button mAddCategory;
+    private LinearLayout mCategoryContainer;
 
     public NewTargetFragment() {
     }
@@ -46,11 +50,36 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_target, container, false);
 
-        mAddCategory = (Button) view.findViewById(R.id.btn_add_category);
-        mAddCategory.setOnClickListener(new View.OnClickListener() {
+        mCategoryContainer = (LinearLayout) view.findViewById(R.id.category_container);
+        final EditText mTargetName = (EditText) view.findViewById(R.id.et_target_name);
+        final EditText mSearchingName = (EditText) view.findViewById(R.id.et_searching_name);
+        Button mAddCategoryButton = (Button) view.findViewById(R.id.btn_add_category);
+        final EditText mMaxPrice = (EditText) view.findViewById(R.id.et_max_price);
+        final EditText mMinPrice = (EditText) view.findViewById(R.id.et_min_price);
+        final Spinner mOfferType = (Spinner) view.findViewById(R.id.sp_offer_type);
+        final Spinner mCondition = (Spinner) view.findViewById(R.id.sp_condition);
+        Button mSaveButton = (Button) view.findViewById(R.id.btn_save);
+
+
+        mAddCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSelectCategoryFragment();
+            }
+        });
+
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Target target = new Target();
+                target.setDrawerName(mTargetName.getText().toString());
+                target.setSearchingName(mSearchingName.getText().toString());
+                target.setPriceMax(mMaxPrice.getText().toString());
+                target.setPriceMin(mMinPrice.getText().toString());
+                target.setOfferType(mOfferType.getSelectedItem().toString());
+                target.setCondition(mCondition.getSelectedItem().toString());
+
+                mNewTargetPresenter.save(target);
             }
         });
 
@@ -61,10 +90,10 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
     public void showSelectCategoryFragment() {
         SelectCatFragment selectCatFragment = SelectCatFragment.newInstance();
         selectCatFragment.setParentId(0);
-        selectCatFragment.setOnClickCatItemListener(new NewTargetContract.OnClickCatItemListener(){
+        selectCatFragment.setOnClickCatItemListener(new NewTargetContract.OnClickCatItemListener() {
             @Override
-            public void onClickedCatItem(int actId) {
-                mNewTargetPresenter.addCategory();
+            public void onClickedCatItem(int catId) {
+                mNewTargetPresenter.addCategoryClicked(catId);
             }
         });
 
@@ -73,5 +102,25 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
                 .replace(R.id.container, selectCatFragment)
                 .addToBackStack("")
                 .commit();
+    }
+
+    @Override
+    public void setLoadingFilters(boolean loading) {
+
+    }
+
+    @Override
+    public void setFilters(NewTargetContract.View filters) {
+
+    }
+
+    @Override
+    public void showErrorToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void finishActivity() {
+        getActivity().finish();
     }
 }

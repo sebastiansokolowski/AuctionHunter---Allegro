@@ -21,7 +21,7 @@ public class SelectCatPresenter implements SelectCatContract.Presenter {
     private final Realm mRealm;
 
     public SelectCatPresenter(SelectCatFragment selectCatFragment, Integer parentId) {
-        mContext = selectCatFragment.getActivity();
+        mContext = selectCatFragment.getContext();
         mView = selectCatFragment;
         mParentId = parentId;
 
