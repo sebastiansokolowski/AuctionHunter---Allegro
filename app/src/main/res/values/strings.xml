@@ -67,4 +67,5 @@
 
     <!-- ACTIVITY TITLE-->
     <string name="activity_new_target_title">New target</string>
+    <string name="new_target_condition">Condition</string>
 </resources>

@@ -14,8 +14,13 @@
         <item>DESC</item>
     </array>
     <array name="offer_type">
+        <item>All</item>
         <item>Buy now</item>
         <item>Best offer</item>
+    </array>
+    <array name="condition">
         <item>All</item>
+        <item>New</item>
+        <item>Used</item>
     </array>
 </resources>

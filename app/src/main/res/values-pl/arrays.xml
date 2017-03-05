@@ -14,8 +14,13 @@
         <item>Malejąco</item>
     </array>
     <array name="offer_type">
+        <item>Wszystkie</item>
         <item>Kup teraz</item>
         <item>Aukcja</item>
+    </array>
+    <array name="condition">
         <item>Wszystkie</item>
+        <item>Nowy</item>
+        <item>Używany</item>
     </array>
 </resources>

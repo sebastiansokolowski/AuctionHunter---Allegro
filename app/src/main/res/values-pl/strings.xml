@@ -57,4 +57,5 @@
     <string name="new_target_searching_name">Nazwa wyszukiwania</string>
     <string name="new_target_target_name">Nazwa celu</string>
     <string name="activity_new_target_title">Nowy cel</string>
+    <string name="new_target_condition">Stan</string>
 </resources>
