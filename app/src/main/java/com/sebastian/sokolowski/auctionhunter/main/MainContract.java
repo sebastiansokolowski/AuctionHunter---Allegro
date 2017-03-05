@@ -19,7 +19,9 @@ public interface MainContract {
 
         void showLoadingProgressBar();
 
-        void showTextInfo(String message);
+        void showNoDataInfo();
+
+        void showNoTargetInfo();
 
         void showSelectTargetButton();
 
@@ -66,5 +68,7 @@ public interface MainContract {
         void changeTarget(Target target);
 
         void clickTargetItem(TargetItem targetItem);
+
+        void refreshTargetItems();
     }
 }

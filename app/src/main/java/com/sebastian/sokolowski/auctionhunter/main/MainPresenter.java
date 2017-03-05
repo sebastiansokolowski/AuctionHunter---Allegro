@@ -68,7 +68,7 @@ public class MainPresenter implements MainContract.Presenter {
     private void refreshDrawerAdapter() {
         List<Target> targetList = mRealm.where(Target.class).findAllSorted("drawerName");
         if (targetList.size() == 0) {
-            mView.showTextInfo(mContext.getString(R.string.main_activity_add_new_target));
+            mView.showNoTargetInfo();
         } else {
             mView.setDrawerAdapterList(targetList);
         }
@@ -208,7 +208,7 @@ public class MainPresenter implements MainContract.Presenter {
     public void changeTarget(Target target) {
         mCurrentTarget = target;
         if (target.getAllItems().size() == 0) {
-            mView.showTextInfo(mContext.getString(R.string.main_activity_no_data));
+            mView.showNoDataInfo();
         } else {
             mView.setMainAdapterList(target.getAllItems());
         }
@@ -217,5 +217,9 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void clickTargetItem(TargetItem targetItem) {
         mView.showTargetItem(ALLEGRO_URL_ITEM + targetItem.getId());
+    }
+
+    @Override
+    public void refreshTargetItems() {
     }
 }

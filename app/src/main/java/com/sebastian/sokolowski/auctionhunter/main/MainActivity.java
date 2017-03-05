@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private TextView mTextInfo;
     private SliderRecyclerView mTargetList;
     private Button mButtonSelectTarget;
+    private SwipeRefreshLayout mSwipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mMainPresenter.refreshTargetItems();
+            }
+        });
 
         mMainAdapter = new MainAdapter(this);
         mMainAdapter.setOnClickListener(new MainAdapter.OnClickDrawerItemListener() {
@@ -191,11 +201,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showTextInfo(String message) {
+    public void showNoDataInfo(){
         mButtonSelectTarget.setVisibility(View.INVISIBLE);
         mTargetList.setVisibility(View.INVISIBLE);
         mTextInfo.setVisibility(View.VISIBLE);
-        mTextInfo.setText(message);
+        mSwipeContainer.setVisibility(View.VISIBLE);
+        mTextInfo.setText(getString(R.string.main_activity_no_data));
+    }
+
+    @Override
+    public void showNoTargetInfo(){
+        mButtonSelectTarget.setVisibility(View.INVISIBLE);
+        mTargetList.setVisibility(View.INVISIBLE);
+        mTextInfo.setVisibility(View.VISIBLE);
+        mSwipeContainer.setVisibility(View.INVISIBLE);
+        mTextInfo.setText(getString(R.string.main_activity_add_new_target));
     }
 
     @Override
@@ -203,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mButtonSelectTarget.setVisibility(View.VISIBLE);
         mTargetList.setVisibility(View.INVISIBLE);
         mTextInfo.setVisibility(View.INVISIBLE);
+        mSwipeContainer.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -278,6 +299,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mButtonSelectTarget.setVisibility(View.INVISIBLE);
         mTextInfo.setVisibility(View.INVISIBLE);
         mTargetList.setVisibility(View.VISIBLE);
+        mSwipeContainer.setVisibility(View.VISIBLE);
+        mSwipeContainer.setRefreshing(false);
         mMainAdapter.setItems(list);
     }
 
