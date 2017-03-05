@@ -1,10 +1,15 @@
 package com.sebastian.sokolowski.auctionhunter.database.models;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Sebastian Sokołowski on 01.03.17.
  */
 
-public class TargetItem {
+public class TargetItem extends RealmObject {
+    @PrimaryKey
+    private Integer id;
     private Offertype offertype;
     private String url;
     private String name;
@@ -79,4 +84,12 @@ public class TargetItem {
     }
 
     public enum Offertype {BUY_NOW, AUCTION, BOTH}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
