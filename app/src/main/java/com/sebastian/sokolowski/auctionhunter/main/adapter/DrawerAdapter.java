@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
-import com.sebastian.sokolowski.auctionhunter.main.MainPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,31 +18,16 @@ import java.util.List;
  */
 
 public class DrawerAdapter extends BaseAdapter {
-    private final MainPresenter mainPresenter;
     private final Context context;
-
-
     private List<Target> targetList = new ArrayList<>();
+    private OnClickDrawerItemListener mOnClickListener;
 
-    {
-        Target target1 = new Target();
-        target1.setDrawerName("czekolada");
-        target1.setCountAll(12);
-        Target target2 = new Target();
-        target2.setDrawerName("laptop");
-        target2.setCountAll(41);
-        Target target3 = new Target();
-        target3.setDrawerName("samsung s6");
-        target3.setCountAll(100);
-
-        targetList.add(target1);
-        targetList.add(target2);
-        targetList.add(target3);
+    public DrawerAdapter(Context context) {
+        this.context = context;
     }
 
-    public DrawerAdapter(Context context, MainPresenter mainPresenter) {
-        this.context = context;
-        this.mainPresenter = mainPresenter;
+    public void setOnClickListener(OnClickDrawerItemListener onClickListener) {
+        mOnClickListener = onClickListener;
     }
 
     @Override
@@ -67,7 +51,7 @@ public class DrawerAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).
                     inflate(R.layout.list_drawer_target_item, parent, false);
         }
-        Target currentItem = getItem(position);
+        final Target currentItem = getItem(position);
 
         TextView targetNameTv = (TextView)
                 convertView.findViewById(R.id.target_name_tv);
@@ -75,8 +59,27 @@ public class DrawerAdapter extends BaseAdapter {
                 convertView.findViewById(R.id.target_counter_tv);
 
         targetNameTv.setText(currentItem.getDrawerName());
-        targetCountTv.setText(currentItem.getCountNow() + "/" + currentItem.getCountAll());
+        targetCountTv.setText(currentItem.getCountNew() + "/" + currentItem.getCountAll());
+
+        if (mOnClickListener != null) {
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClickListener.onClick(currentItem);
+                }
+            });
+        }
 
         return convertView;
+    }
+
+    public void setItems(List<Target> targetList) {
+        this.targetList.clear();
+        this.targetList.addAll(targetList);
+        notifyDataSetChanged();
+    }
+
+    public interface OnClickDrawerItemListener {
+        void onClick(Target target);
     }
 }
