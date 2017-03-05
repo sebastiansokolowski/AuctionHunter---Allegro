@@ -1,37 +1,18 @@
-## Welcome to GitHub Pages
+# AuctionHunter - Allegro
+Aplikacja do automatycznego wyszukiwania przedmiotów w serwisie Allegro (wykorzystująca WebAPI) w paru prostych krokach:  
+1. Dodaj nowy cel  
+2. Określ dokładne kryteria wyszukiwania  
+3. Poczekaj na notyfikację o nowym przedmiocie w serwisie Allegro, który spełnia twoje kryteria  
 
-You can use the [editor on GitHub](https://github.com/sebastiansokolowski/AuctionHunter---Allegro/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Allegro WebAPI http://allegro.pl/webapi
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Zadaniem aplikacji jest znalezienie przedmiotu z okrelonymi kryteriami takimi jak:
+- cena
+- kategoria
+- oferta Kup Teraz/Licytacja
+- dynamiczne filtry dla danej kategorii
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/sebastiansokolowski/AuctionHunter---Allegro/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Wykorzystywane biblioteki:
+- com.squareup.picasso:picasso:2.5.2
+- com.alexgilleran:icesoap:1.1.1
+- io.realm:realm-gradle-plugin:3.0.0
