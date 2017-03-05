@@ -31,8 +31,6 @@ import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
-
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
 
@@ -71,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        Realm.init(this);
         mMainPresenter = new MainPresenter(this);
     }
 
