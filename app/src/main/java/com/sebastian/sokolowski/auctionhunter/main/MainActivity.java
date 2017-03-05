@@ -3,6 +3,7 @@ package com.sebastian.sokolowski.auctionhunter.main;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
@@ -11,10 +12,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
@@ -28,7 +32,6 @@ import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
@@ -38,8 +41,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private MainPresenter mMainPresenter;
     private ListView mDrawerList;
-    private SliderRecyclerView mTargetList;
     private ProgressDialog mProgressDialog;
+    private DrawerAdapter mDrawerAdapter;
+    private MainAdapter mMainAdapter;
+
+    private TextView mTextInfo;
+    private SliderRecyclerView mTargetList;
+    private Button mButtonSelectTarget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +64,44 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         });
 
-        mTargetList = (SliderRecyclerView) findViewById(R.id.rv_target_list);
-        mTargetList.setAdapter(new MainAdapter(this, new ArrayList<TargetItem>()));
-        mTargetList.setLayoutManager(new LinearLayoutManager(this));
-
-        mDrawerList = (ListView) findViewById(R.id.left_drawer_lv);
-        mDrawerList.setAdapter(new DrawerAdapter(this, mMainPresenter));
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        mMainAdapter = new MainAdapter(this);
+        mMainAdapter.setOnClickListener(new MainAdapter.OnClickDrawerItemListener() {
+            @Override
+            public void onClick(TargetItem targetItem) {
+                mMainPresenter.clickTargetItem(targetItem);
+            }
+        });
+
+        mTargetList = (SliderRecyclerView) findViewById(R.id.rv_target_list);
+        mTargetList.setAdapter(mMainAdapter);
+        mTargetList.setLayoutManager(new LinearLayoutManager(this));
+
+        mDrawerAdapter = new DrawerAdapter(this);
+        mDrawerAdapter.setOnClickListener(new DrawerAdapter.OnClickDrawerItemListener() {
+            @Override
+            public void onClick(Target target) {
+                mMainPresenter.changeTarget(target);
+                drawer.closeDrawers();
+            }
+        });
+
+        mDrawerList = (ListView) findViewById(R.id.left_drawer_lv);
+        mDrawerList.setAdapter(mDrawerAdapter);
+
+        mTextInfo = (TextView) findViewById(R.id.tv_info);
+        mButtonSelectTarget = (Button) findViewById(R.id.btn_select_target);
+        mButtonSelectTarget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.START);
+            }
+        });
 
         mMainPresenter = new MainPresenter(this);
     }
@@ -75,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onResume() {
         super.onResume();
-
         mMainPresenter.start();
     }
 
@@ -158,8 +191,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showNoTarget() {
+    public void showTextInfo(String message) {
+        mButtonSelectTarget.setVisibility(View.INVISIBLE);
+        mTargetList.setVisibility(View.INVISIBLE);
+        mTextInfo.setVisibility(View.VISIBLE);
+        mTextInfo.setText(message);
+    }
 
+    @Override
+    public void showSelectTargetButton() {
+        mButtonSelectTarget.setVisibility(View.VISIBLE);
+        mTargetList.setVisibility(View.INVISIBLE);
+        mTextInfo.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -171,6 +214,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showErrorDialog() {
 
+    }
+
+    @Override
+    public void showTargetItem(String url) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
     @Override
@@ -216,6 +266,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 }
             }
         });
+    }
+
+    @Override
+    public void setDrawerAdapterList(List<Target> list) {
+        mDrawerAdapter.setItems(list);
+    }
+
+    @Override
+    public void setMainAdapterList(List<TargetItem> list) {
+        mButtonSelectTarget.setVisibility(View.INVISIBLE);
+        mTextInfo.setVisibility(View.INVISIBLE);
+        mTargetList.setVisibility(View.VISIBLE);
+        mMainAdapter.setItems(list);
     }
 
     public void showSettings(View view) {

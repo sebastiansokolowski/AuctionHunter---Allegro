@@ -12,6 +12,7 @@ import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,35 +21,11 @@ import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHolder> {
     private final Context context;
-    private final List<TargetItem> targetItems;
+    private OnClickDrawerItemListener mOnClickListener;
+    private final List<TargetItem> targetItems = new ArrayList<>();
 
-    public MainAdapter(Context context, List<TargetItem> targetItems) {
+    public MainAdapter(Context context) {
         this.context = context;
-        this.targetItems = targetItems;
-
-        addValues();
-    }
-
-    private void addValues() {
-        TargetItem targetItem = new TargetItem();
-        targetItem.setName("czekolada");
-        targetItem.setOffertype(TargetItem.Offertype.BOTH);
-        targetItem.setPrice("12.11");
-        targetItem.setPriceBid("1.11");
-        targetItem.setPriceFull("5.11");
-        targetItem.setWhen("2017-01-01");
-
-        TargetItem targetItem2 = new TargetItem();
-        targetItem2.setName("BMX");
-        targetItem2.setOffertype(TargetItem.Offertype.BUY_NOW);
-        targetItem2.setPrice("1113.12");
-        targetItem2.setPriceFull("1222.12");
-        targetItem2.setWhen("2017-03-04");
-
-        targetItems.add(targetItem);
-        targetItems.add(targetItem2);
-
-        notifyDataSetChanged();
     }
 
     @Override
@@ -62,7 +39,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
 
     @Override
     public void onBindViewHolder(TargetViewHolder holder, int position) {
-        TargetItem item = targetItems.get(position);
+        final TargetItem item = targetItems.get(position);
 
         holder.name.setText(item.getName());
         holder.when.setText(item.getWhen());
@@ -83,6 +60,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
         if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {
             Picasso.with(context).load(item.getImageUrl()).into(holder.mItemImage);
         }
+
+        if (mOnClickListener != null) {
+            holder.container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClickListener.onClick(item);
+                }
+            });
+        }
     }
 
     @Override
@@ -93,6 +79,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
     public void onItemDismiss(int position) {
         targetItems.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public void setOnClickListener(OnClickDrawerItemListener onClickListener) {
+        mOnClickListener = onClickListener;
     }
 
     public static class TargetViewHolder extends RecyclerView.ViewHolder {
@@ -118,5 +108,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
             priceBid = (TextView) view.findViewById(R.id.tv_item_price_bid);
             mItemImage = (ImageView) view.findViewById(R.id.iv_item_image);
         }
+    }
+
+    public void setItems(List<TargetItem> targetList) {
+        targetItems.clear();
+        targetItems.addAll(targetList);
+        notifyDataSetChanged();
+    }
+
+    public interface OnClickDrawerItemListener {
+        void onClick(TargetItem targetItem);
     }
 }

@@ -58,4 +58,7 @@
     <string name="new_target_target_name">Nazwa celu</string>
     <string name="activity_new_target_title">Nowy cel</string>
     <string name="new_target_condition">Stan</string>
+    <string name="main_activity_no_data">Brak wyników</string>
+    <string name="main_activity_add_new_target">Dodaj nowy cel</string>
+    <string name="main_activity_select_target">Wybierz cel</string>
 </resources>

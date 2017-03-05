@@ -1,6 +1,7 @@
 package com.sebastian.sokolowski.auctionhunter.main;
 
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
+import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 
@@ -18,17 +19,25 @@ public interface MainContract {
 
         void showLoadingProgressBar();
 
-        void showNoTarget();
+        void showTextInfo(String message);
+
+        void showSelectTargetButton();
 
         void showTargets(List<Target> targets);
 
         void showErrorDialog();
+
+        void showTargetItem(String url);
 
         void showProgressDialog(int max);
 
         void showErrorProgressDialog(String message);
 
         void incrementProgressDialog();
+
+        void setDrawerAdapterList(List<Target> list);
+
+        void setMainAdapterList(List<TargetItem> list);
 
         enum Type {LIST, GRID}
     }
@@ -53,5 +62,9 @@ public interface MainContract {
         void deleteTarget();
 
         void editTarget();
+
+        void changeTarget(Target target);
+
+        void clickTargetItem(TargetItem targetItem);
     }
 }

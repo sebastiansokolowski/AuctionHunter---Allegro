@@ -9,6 +9,7 @@ import com.alexgilleran.icesoap.request.Request;
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.Cat;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
+import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.soap.RequestManager;
 import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoGetCatsDataLimitEnvelope;
 import com.sebastian.sokolowski.auctionhunter.soap.fault.AllegroSOAPFault;
@@ -18,6 +19,8 @@ import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataCountRe
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse.CatInfoType;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse.DoGetCatsDataLimitResponse;
 
+import java.util.List;
+
 import io.realm.Realm;
 
 /**
@@ -25,6 +28,7 @@ import io.realm.Realm;
  */
 
 public class MainPresenter implements MainContract.Presenter {
+    private final String ALLEGRO_URL_ITEM = "http://allegro.pl/show_item.php?item=";
 
     private final MainContract.View mView;
     private final RequestManager mRequestManager = new RequestManager();
@@ -34,6 +38,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     //cats download
     private int completionCatsData = 0;
+    private Target mCurrentTarget;
 
     public MainPresenter(MainActivity mainActivity) {
         mView = mainActivity;
@@ -48,6 +53,24 @@ public class MainPresenter implements MainContract.Presenter {
     public void start() {
         if (!mSharedPreferences.getBoolean(mContext.getString(R.string.SHARED_PREFERENCES_DOWNLOADED_CATS), false)) {
             downloadCatsCount();
+        }
+
+        refreshDrawerAdapter();
+        checkIfTargetIsSelected();
+    }
+
+    private void checkIfTargetIsSelected() {
+        if (mCurrentTarget == null) {
+            mView.showSelectTargetButton();
+        }
+    }
+
+    private void refreshDrawerAdapter() {
+        List<Target> targetList = mRealm.where(Target.class).findAllSorted("drawerName");
+        if (targetList.size() == 0) {
+            mView.showTextInfo(mContext.getString(R.string.main_activity_add_new_target));
+        } else {
+            mView.setDrawerAdapterList(targetList);
         }
     }
 
@@ -179,5 +202,20 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void editTarget() {
 
+    }
+
+    @Override
+    public void changeTarget(Target target) {
+        mCurrentTarget = target;
+        if (target.getAllItems().size() == 0) {
+            mView.showTextInfo(mContext.getString(R.string.main_activity_no_data));
+        } else {
+            mView.setMainAdapterList(target.getAllItems());
+        }
+    }
+
+    @Override
+    public void clickTargetItem(TargetItem targetItem) {
+        mView.showTargetItem(ALLEGRO_URL_ITEM + targetItem.getId());
     }
 }
