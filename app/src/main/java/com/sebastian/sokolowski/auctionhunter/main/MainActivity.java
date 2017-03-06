@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private SliderRecyclerView mTargetList;
     private Button mButtonSelectTarget;
     private SwipeRefreshLayout mSwipeContainer;
+    private DrawerLayout mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +67,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         });
 
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+                this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.setDrawerListener(toggle);
         toggle.syncState();
 
         mSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onClick(Target target) {
                 mMainPresenter.changeTarget(target);
-                drawer.closeDrawers();
+                closeDrawer();
             }
         });
 
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mButtonSelectTarget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawer.openDrawer(Gravity.START);
+                openDrawer();
             }
         });
 
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+            closeDrawer();
         } else {
             super.onBackPressed();
         }
@@ -305,7 +306,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     public void showSettings(View view) {
+        closeDrawer();
+
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    private void openDrawer(){
+        mDrawer.openDrawer(Gravity.START);
+    }
+
+    private void closeDrawer(){
+        mDrawer.closeDrawers();
     }
 }
