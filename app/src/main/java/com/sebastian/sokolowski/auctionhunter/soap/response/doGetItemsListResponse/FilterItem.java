@@ -2,6 +2,8 @@ package com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListRespo
 
 import com.alexgilleran.icesoap.annotation.XMLField;
 
+import java.util.List;
+
 /**
  * Created by Sebastain Sokołowski on 20.02.17.
  */
@@ -19,6 +21,8 @@ public class FilterItem {
     private String filterDataType;
     @XMLField("filterIsRange")
     private Boolean filterIsRange;
+    @XMLField("filterValues/item")
+    private List<FilterValuesItem> filterValuesList;
 
     public String getFilterId() {
         return filterId;
@@ -42,5 +46,9 @@ public class FilterItem {
 
     public Boolean getFilterIsRange() {
         return filterIsRange;
+    }
+
+    public List<FilterValuesItem> getFilterValuesList() {
+        return filterValuesList;
     }
 }
