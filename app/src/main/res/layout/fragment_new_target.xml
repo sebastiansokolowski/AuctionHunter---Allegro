@@ -20,7 +20,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/new_target_target_name"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_target_name"
@@ -33,7 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/new_target_searching_name"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_searching_name"
@@ -41,11 +43,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="text" />
 
-            <LinearLayout
-                android:id="@+id/category_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
 
             <Button
                 android:id="@+id/btn_add_category"
@@ -54,101 +51,23 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:text="@string/new_target_add_category" />
+                android:text="@string/new_target_select_category" />
+
+            <LinearLayout
+                android:id="@+id/category_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/new_target_price"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <RelativeLayout
+                android:id="@+id/tv_select_category_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/et_max_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_toRightOf="@+id/holder_view_center"
-                    android:gravity="center"
-                    android:hint="@string/new_target_max_price"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:maxLines="1" />
-
-                <TextView
-                    android:id="@+id/holder_view_center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center"
-                    android:text="-"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="@dimen/myslnik" />
-
-                <EditText
-                    android:id="@+id/et_min_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/holder_view_center"
-                    android:gravity="center"
-                    android:hint="@string/new_target_min_price"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:maxLines="1" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/new_target_offer_type"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Spinner
-                    android:id="@+id/sp_offer_type"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/offer_type"
-                    android:gravity="center" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/new_target_condition"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Spinner
-                    android:id="@+id/sp_condition"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="1"
-                    android:entries="@array/condition" />
-
-            </LinearLayout>
-
+                android:layout_height="200dp"
+                android:gravity="center"
+                android:text="@string/new_target_filters_info"
+                android:textSize="22sp" />
         </LinearLayout>
+
     </ScrollView>
 
     <Button

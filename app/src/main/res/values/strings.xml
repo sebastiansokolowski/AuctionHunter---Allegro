@@ -58,19 +58,19 @@
     <!-- MAIN ACTIVITY -->
     <string name="main_activity_no_data">No results</string>
     <string name="main_activity_add_new_target">Add target to see results</string>
+    <string name="main_activity_select_target">Select target</string>
 
     <!-- ADD NEW TARGET ACTIVITY -->
-    <string name="new_target_add_category">Add category</string>
+    <string name="new_target_select_category">Select category</string>
     <string name="new_target_target_name">Target name</string>
-    <string name="new_target_searching_name">Searching name</string>
-    <string name="new_target_price">Price</string>
-    <string name="new_target_max_price">MAX</string>
-    <string name="new_target_min_price">MIN</string>
-    <string name="new_target_offer_type">Offer type</string>
+    <string name="new_target_target_min" translatable="false">MIN</string>
+    <string name="new_target_target_max" translatable="false">MAX</string>
     <string name="new_target_save">Save</string>
+    <string name="new_target_filters_info">Select category to show available filters</string>
 
     <!-- ACTIVITY TITLE-->
     <string name="activity_new_target_title">New target</string>
-    <string name="new_target_condition">Condition</string>
-    <string name="main_activity_select_target">Select target</string>
+    <string name="new_target_searching_name">Searching name</string>
+    <string name="new_target_no_filters_info">No filters available at this category</string>
+
 </resources>

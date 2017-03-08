@@ -12,9 +12,9 @@ public interface NewTargetContract {
 
         void setLoadingFilters(boolean loading);
 
-        void setFilters(View filters);
+        void addFilterView(android.view.View view);
 
-        void showErrorToast(String message);
+        void showErrorMessage(String message);
 
         void finishActivity();
     }
@@ -22,7 +22,7 @@ public interface NewTargetContract {
     interface Presenter {
         void start();
 
-        void addCategoryClicked(int catId);
+        void onCategoryClickListener(int catId);
 
         void save(Target target);
     }

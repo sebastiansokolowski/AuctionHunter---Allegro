@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
@@ -24,6 +23,7 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
 
     private NewTargetPresenter mNewTargetPresenter;
     private LinearLayout mCategoryContainer;
+    private TextView mSelectCategoryInfo;
 
     public NewTargetFragment() {
     }
@@ -53,15 +53,12 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
         mCategoryContainer = (LinearLayout) view.findViewById(R.id.category_container);
         final EditText mTargetName = (EditText) view.findViewById(R.id.et_target_name);
         final EditText mSearchingName = (EditText) view.findViewById(R.id.et_searching_name);
-        Button mAddCategoryButton = (Button) view.findViewById(R.id.btn_add_category);
-        final EditText mMaxPrice = (EditText) view.findViewById(R.id.et_max_price);
-        final EditText mMinPrice = (EditText) view.findViewById(R.id.et_min_price);
-        final Spinner mOfferType = (Spinner) view.findViewById(R.id.sp_offer_type);
-        final Spinner mCondition = (Spinner) view.findViewById(R.id.sp_condition);
+        mSelectCategoryInfo = (TextView) view.findViewById(R.id.tv_select_category_info);
+        Button mSelectCategoryButton = (Button) view.findViewById(R.id.btn_add_category);
         Button mSaveButton = (Button) view.findViewById(R.id.btn_save);
 
 
-        mAddCategoryButton.setOnClickListener(new View.OnClickListener() {
+        mSelectCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSelectCategoryFragment();
@@ -74,11 +71,8 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
                 Target target = new Target();
                 target.setDrawerName(mTargetName.getText().toString());
                 target.setSearchingName(mSearchingName.getText().toString());
-                target.setPriceMax(mMaxPrice.getText().toString());
-                target.setPriceMin(mMinPrice.getText().toString());
-                target.setOfferType(mOfferType.getSelectedItem().toString());
-                target.setCondition(mCondition.getSelectedItem().toString());
 
+                //TODO: add other filters  to item
                 mNewTargetPresenter.save(target);
             }
         });
@@ -93,7 +87,8 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
         selectCatFragment.setOnClickCatItemListener(new NewTargetContract.OnClickCatItemListener() {
             @Override
             public void onClickedCatItem(int catId) {
-                mNewTargetPresenter.addCategoryClicked(catId);
+                mNewTargetPresenter.onCategoryClickListener(catId);
+                mSelectCategoryInfo.setVisibility(View.GONE);
             }
         });
 
@@ -106,17 +101,17 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
 
     @Override
     public void setLoadingFilters(boolean loading) {
-
+        mSelectCategoryInfo.setVisibility(View.GONE);
     }
 
     @Override
-    public void setFilters(NewTargetContract.View filters) {
-
+    public void addFilterView(View view) {
+        mCategoryContainer.addView(view);
     }
 
     @Override
-    public void showErrorToast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    public void showErrorMessage(String message) {
+        mSelectCategoryInfo.setText(message);
     }
 
     @Override

@@ -48,17 +48,14 @@
     <string name="preferences_sound">Dźwięk</string>
     <string name="preferences_update_cats">Aktualizuj kategorie</string>
     <string name="preferences_vibration">Wibracje</string>
-    <string name="new_target_add_category">Dodaj kategorię</string>
-    <string name="new_target_max_price">MAX</string>
-    <string name="new_target_min_price">MIN</string>
-    <string name="new_target_offer_type">Oferta typu</string>
-    <string name="new_target_price">Cena</string>
+    <string name="new_target_select_category">Wybierz kategorię</string>
     <string name="new_target_save">Zapisz</string>
     <string name="new_target_searching_name">Nazwa wyszukiwania</string>
     <string name="new_target_target_name">Nazwa celu</string>
     <string name="activity_new_target_title">Nowy cel</string>
-    <string name="new_target_condition">Stan</string>
     <string name="main_activity_no_data">Brak wyników</string>
     <string name="main_activity_add_new_target">Dodaj nowy cel</string>
     <string name="main_activity_select_target">Wybierz cel</string>
+    <string name="new_target_filters_info">Wybierz kategorię aby zobaczyć dostępne filtry</string>
+    <string name="new_target_no_filters_info">Filtry są niedostępne w tej kategorii</string>
 </resources>

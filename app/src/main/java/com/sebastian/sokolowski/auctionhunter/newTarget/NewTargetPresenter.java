@@ -1,9 +1,25 @@
 package com.sebastian.sokolowski.auctionhunter.newTarget;
 
 import android.content.Context;
+import android.view.View;
 
+import com.alexgilleran.icesoap.exception.SOAPException;
+import com.alexgilleran.icesoap.observer.SOAPObserver;
+import com.alexgilleran.icesoap.request.Request;
 import com.sebastian.sokolowski.auctionhunter.R;
+import com.sebastian.sokolowski.auctionhunter.database.helper.FilterHelper;
+import com.sebastian.sokolowski.auctionhunter.database.models.FilterModel;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
+import com.sebastian.sokolowski.auctionhunter.soap.RequestManager;
+import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoGetItemsListEnvelope;
+import com.sebastian.sokolowski.auctionhunter.soap.fault.AllegroSOAPFault;
+import com.sebastian.sokolowski.auctionhunter.soap.request.FilterOptionsType;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.DoGetItemsListResponse;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.FilterItem;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 
@@ -15,6 +31,8 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
     private final NewTargetContract.View mView;
     private final Realm mRealm;
     private final Context mContext;
+    private final RequestManager mRequestManager = new RequestManager();
+    private HashMap<FilterModel, View> mFiltersHashMap;
 
     //data
     private Integer mCatId;
@@ -33,8 +51,48 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
     }
 
     @Override
-    public void addCategoryClicked(int catId) {
+    public void onCategoryClickListener(int catId) {
         mCatId = catId;
+
+        //loading categories
+        FilterOptionsType categoryFilter = new FilterOptionsType();
+        categoryFilter.setFilterId("category");
+        categoryFilter.addFilterValueId(catId + "");
+
+        DoGetItemsListEnvelope doGetItemsListEnvelope = new DoGetItemsListEnvelope();
+        doGetItemsListEnvelope.setResultScope(4);
+        doGetItemsListEnvelope.addFilterOptionsType(categoryFilter);
+
+        mView.setLoadingFilters(true);
+
+        mRequestManager.deGetItemsList(doGetItemsListEnvelope, new SOAPObserver<DoGetItemsListResponse, AllegroSOAPFault>() {
+            @Override
+            public void onCompletion(Request<DoGetItemsListResponse, AllegroSOAPFault> request) {
+                mView.setLoadingFilters(false);
+
+                if (request.getResult() == null || request.getResult().getFilterItemList() == null) {
+                    mView.showErrorMessage(mContext.getString(R.string.new_target_no_filters_info));
+                    return;
+                }
+                List<FilterItem> filterItemList = request.getResult().getFilterItemList();
+                if (filterItemList.size() == 0) {
+                    mView.showErrorMessage(mContext.getString(R.string.new_target_no_filters_info));
+                    return;
+                }
+                mFiltersHashMap = FilterHelper.createFiltersViews(mContext, filterItemList);
+
+                for (Map.Entry<FilterModel, View> entry : mFiltersHashMap.entrySet()
+                        ) {
+                    mView.addFilterView(entry.getValue());
+                }
+            }
+
+            @Override
+            public void onException(Request<DoGetItemsListResponse, AllegroSOAPFault> request, SOAPException e) {
+                mView.setLoadingFilters(false);
+                mView.showErrorMessage(request.getSOAPFault().getFaultString());
+            }
+        });
     }
 
     @Override
