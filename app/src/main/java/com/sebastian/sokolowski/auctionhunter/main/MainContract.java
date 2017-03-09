@@ -17,13 +17,15 @@ public interface MainContract {
 
         void showViewType(Type type);
 
-        void showLoadingProgressBar();
-
         void showNoDataInfo();
 
         void showNoTargetInfo();
 
         void showSelectTargetButton();
+
+        void showErrorToast(String message);
+
+        void showLoadingProgress(boolean loading);
 
         void showTargets(List<Target> targets);
 

@@ -18,6 +18,10 @@ import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataCountResponse.DoGetCatsDataCountResponse;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse.CatInfoType;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse.DoGetCatsDataLimitResponse;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.DoGetItemsListResponse;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.Item;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.PhotoInfoType;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.PriceInfoType;
 
 import java.util.List;
 
@@ -150,7 +154,6 @@ public class MainPresenter implements MainContract.Presenter {
 
                 @Override
                 public void onException(Request<DoGetCatsDataLimitResponse, AllegroSOAPFault> request, SOAPException e) {
-                    mRealm.cancelTransaction();
                     if (request.getSOAPFault().getFaultString() != null) {
                         mView.showErrorProgressDialog(request.getSOAPFault().getFaultString());
                     }
@@ -205,13 +208,86 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void changeTarget(Target target) {
+    public void changeTarget(final Target target) {
         mCurrentTarget = target;
-        if (target.getAllItems().size() == 0) {
-            mView.showNoDataInfo();
-        } else {
-            mView.setMainAdapterList(target.getAllItems());
+        refreshTargetList();
+        mView.showLoadingProgress(true);
+    }
+
+    private void refreshTargetList() {
+        if (mCurrentTarget == null) {
+            return;
         }
+        mRequestManager.doGetItemsList(mCurrentTarget, new SOAPObserver<DoGetItemsListResponse, AllegroSOAPFault>() {
+            @Override
+            public void onCompletion(Request<DoGetItemsListResponse, AllegroSOAPFault> request) {
+                mView.showLoadingProgress(false);
+                if (request.getResult() == null || request.getResult().getItemList() == null) {
+                    mView.showNoDataInfo();
+                    return;
+                }
+
+                mRealm.beginTransaction();
+                mCurrentTarget.getAllItems().clear();
+
+                for (Item item : request.getResult().getItemList()
+                        ) {
+                    TargetItem targetItem = new TargetItem();
+                    targetItem.setId(item.getItemId());
+                    targetItem.setName(item.getItemTitle());
+                    for (PhotoInfoType photoInfoType : item.getPhotosInfo()
+                            ) {
+                        switch (photoInfoType.getPhotoSize()) {
+                            case PHOTO_TYPE_LARGE:
+                                targetItem.setImageUrl(photoInfoType.getPhotoUrl());
+                                break;
+                        }
+                    }
+
+                    for (PriceInfoType priceInfoType : item.getPriceInfo()
+                            ) {
+                        switch (priceInfoType.getPriceType()) {
+                            case PRICE_TYPE_BIDDING:
+                                if (targetItem.getOffertype() == null) {
+                                    targetItem.setOffertype(TargetItem.Offertype.AUCTION);
+                                } else {
+                                    targetItem.setOffertype(TargetItem.Offertype.BOTH);
+                                }
+                                targetItem.setPriceBid(priceInfoType.getPriceValue());
+                                break;
+                            case PRICE_TYPE_BUY_NOW:
+                                if (targetItem.getOffertype() == null) {
+                                    targetItem.setOffertype(TargetItem.Offertype.BUY_NOW);
+                                } else {
+                                    targetItem.setOffertype(TargetItem.Offertype.BOTH);
+                                }
+                                targetItem.setPrice(priceInfoType.getPriceValue());
+                                break;
+                            case PRICE_TYPE_WITH_DELIVERY:
+                                targetItem.setPriceFull(priceInfoType.getPriceValue());
+                                break;
+                        }
+                    }
+
+                    mCurrentTarget.addTargetItemToAllItems(targetItem);
+                }
+
+                mRealm.commitTransaction();
+
+                if (mCurrentTarget.getAllItems().size() == 0) {
+                    mView.showNoDataInfo();
+                } else {
+                    mView.setMainAdapterList(mCurrentTarget.getAllItems());
+                }
+            }
+
+            @Override
+            public void onException(Request<DoGetItemsListResponse, AllegroSOAPFault> request, SOAPException e) {
+                if (request.getSOAPFault().getFaultString() != null) {
+                    mView.showErrorToast(request.getSOAPFault().getFaultString());
+                }
+            }
+        });
     }
 
     @Override
@@ -221,5 +297,6 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void refreshTargetItems() {
+        refreshTargetList();
     }
 }

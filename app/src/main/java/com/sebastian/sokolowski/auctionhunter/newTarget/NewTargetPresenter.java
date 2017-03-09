@@ -97,7 +97,7 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
 
     @Override
     public void save(Target target) {
-        if (mFiltersHashMap == null) {
+        if (mCatId == null || mFiltersHashMap == null) {
             mView.showToastMessage(mContext.getString(R.string.new_target_message_select_category));
             return;
         }
@@ -113,6 +113,8 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
         for (Map.Entry<FilterModel, View> entry : mFiltersHashMap.entrySet()) {
             target.addFilterModel(entry.getKey());
         }
+
+        target.setCategoryId(mCatId);
 
         mRealm.beginTransaction();
         mRealm.copyToRealm(target);

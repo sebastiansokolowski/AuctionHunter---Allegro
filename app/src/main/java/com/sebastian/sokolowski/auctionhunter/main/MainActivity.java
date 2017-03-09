@@ -17,9 +17,13 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private Button mButtonSelectTarget;
     private SwipeRefreshLayout mSwipeContainer;
     private DrawerLayout mDrawer;
+    private ImageView mLoadingImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mDrawerList.setAdapter(mDrawerAdapter);
 
         mTextInfo = (TextView) findViewById(R.id.tv_info);
+        mLoadingImage = (ImageView) findViewById(R.id.iv_loading);
         mButtonSelectTarget = (Button) findViewById(R.id.btn_select_target);
         mButtonSelectTarget.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,12 +203,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showLoadingProgressBar() {
+    public void showNoDataInfo() {
+        showLoadingProgress(false);
 
-    }
-
-    @Override
-    public void showNoDataInfo(){
         mButtonSelectTarget.setVisibility(View.INVISIBLE);
         mTargetList.setVisibility(View.INVISIBLE);
         mTextInfo.setVisibility(View.VISIBLE);
@@ -211,7 +214,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showNoTargetInfo(){
+    public void showNoTargetInfo() {
+        showLoadingProgress(false);
+
         mButtonSelectTarget.setVisibility(View.INVISIBLE);
         mTargetList.setVisibility(View.INVISIBLE);
         mTextInfo.setVisibility(View.VISIBLE);
@@ -221,10 +226,39 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showSelectTargetButton() {
+        showLoadingProgress(false);
+
         mButtonSelectTarget.setVisibility(View.VISIBLE);
         mTargetList.setVisibility(View.INVISIBLE);
         mTextInfo.setVisibility(View.INVISIBLE);
         mSwipeContainer.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showErrorToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showLoadingProgress(boolean loading) {
+        if (loading) {
+            mLoadingImage.setVisibility(View.VISIBLE);
+            mButtonSelectTarget.setVisibility(View.INVISIBLE);
+            mTargetList.setVisibility(View.INVISIBLE);
+            mTextInfo.setVisibility(View.INVISIBLE);
+            mSwipeContainer.setVisibility(View.INVISIBLE);
+
+            Animation loadingAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
+                    R.anim.progress_anim);
+            loadingAnimation.start();
+            loadingAnimation.setDuration(1000);
+            loadingAnimation.setRepeatMode(Animation.INFINITE);
+            loadingAnimation.setRepeatCount(Animation.INFINITE);
+            mLoadingImage.startAnimation(loadingAnimation);
+        } else {
+            mLoadingImage.setVisibility(View.INVISIBLE);
+            mLoadingImage.clearAnimation();
+        }
     }
 
     @Override
@@ -312,11 +346,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         startActivity(intent);
     }
 
-    private void openDrawer(){
+    private void openDrawer() {
         mDrawer.openDrawer(Gravity.START);
     }
 
-    private void closeDrawer(){
+    private void closeDrawer() {
         mDrawer.closeDrawers();
     }
 }

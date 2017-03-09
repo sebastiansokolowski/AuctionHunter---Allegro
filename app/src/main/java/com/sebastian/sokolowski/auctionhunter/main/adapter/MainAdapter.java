@@ -43,22 +43,22 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
 
         holder.name.setText(item.getName());
         holder.when.setText(item.getWhen());
-        holder.priceFull.setText(item.getPriceFull());
+        holder.priceFull.setText(item.getPriceFull()+"");
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.BUY_NOW) {
             holder.price.setVisibility(View.VISIBLE);
-            holder.price.setText(item.getPrice());
+            holder.price.setText(item.getPrice()+"");
         }
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.AUCTION) {
             holder.priceBid.setVisibility(View.VISIBLE);
-            holder.priceBid.setText(item.getPrice());
+            holder.priceBid.setText(item.getPrice()+"");
         }
 
         if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {
-            Picasso.with(context).load(item.getImageUrl()).into(holder.mItemImage);
+            Picasso.with(context).load(item.getImageUrl()).placeholder(R.anim.progress_anim).into(holder.mItemImage);
         }
 
         if (mOnClickListener != null) {
