@@ -3,6 +3,7 @@ package com.sebastian.sokolowski.auctionhunter.soap.envelopes;
 import com.alexgilleran.icesoap.envelope.SOAPEnvelope;
 import com.alexgilleran.icesoap.xml.XMLParentNode;
 import com.sebastian.sokolowski.auctionhunter.soap.request.FilterOptionsType;
+import com.sebastian.sokolowski.auctionhunter.soap.request.RangeValueType;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOptionsType;
 
 import java.util.ArrayList;
@@ -37,11 +38,21 @@ public class DoGetItemsListEnvelope extends BaseEnvelope {
                 XMLParentNode filterItem = filterParent.addNode(
                         NAMESPACE, "item");
                 filterItem.addTextNode(NAMESPACE, "filterId", optionsType.getFilterId());
-                for (String filterValue : optionsType.getFilterValueId()
-                        ) {
+
+
+                RangeValueType rangeValueType = optionsType.getFilterValueRange();
+                if (rangeValueType != null) {
+                    XMLParentNode filterValueItem = filterItem.addNode(
+                            NAMESPACE, "filterValueRange");
+                    filterValueItem.addTextNode(NAMESPACE, "rangeValueMin", rangeValueType.getRangeValueMin());
+                    filterValueItem.addTextNode(NAMESPACE, "rangeValueMax", rangeValueType.getRangeValueMax());
+                } else {
                     XMLParentNode filterValueItem = filterItem.addNode(
                             NAMESPACE, "filterValueId");
-                    filterValueItem.addTextNode(NAMESPACE, "item", filterValue);
+                    for (String filterValue : optionsType.getFilterValueId()
+                            ) {
+                        filterValueItem.addTextNode(NAMESPACE, "item", filterValue);
+                    }
                 }
             }
         }
