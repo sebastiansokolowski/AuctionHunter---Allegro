@@ -1,5 +1,6 @@
 package com.sebastian.sokolowski.auctionhunter.database.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmList;
@@ -36,9 +37,13 @@ public class FilterModel extends RealmObject {
     private String filterName;
     private String controlTypeEnum;
     private String dataTypeEnum;
-    private Boolean isRange;
+    private boolean isRange;
     private Integer arraySize;
     private RealmList<FilterValueModel> filterValueModels = new RealmList<>();
+
+    //request models
+    private RealmList<RealmString> filterValueIdList = new RealmList<>();
+    private FilterValueRangeModel filterValueIdRange = new FilterValueRangeModel();
 
     public String getFilterId() {
         return filterId;
@@ -66,7 +71,7 @@ public class FilterModel extends RealmObject {
     public void setControlTypeEnum(String controlType) {
         for (ControlTypeEnum controlTypeEnum : ControlTypeEnum.values()
                 ) {
-            if(controlTypeEnum.value.equals(controlType)){
+            if (controlTypeEnum.value.equals(controlType)) {
                 this.controlTypeEnum = controlTypeEnum.toString();
             }
         }
@@ -82,17 +87,17 @@ public class FilterModel extends RealmObject {
     public void setDataTypeEnum(String dataType) {
         for (DataTypeEnum dataTypeEnum : DataTypeEnum.values()
                 ) {
-            if(dataTypeEnum.value.equals(dataType)){
+            if (dataTypeEnum.value.equals(dataType)) {
                 this.dataTypeEnum = dataTypeEnum.toString();
             }
         }
     }
 
-    public Boolean getRange() {
+    public boolean isRange() {
         return isRange;
     }
 
-    public void setRange(Boolean range) {
+    public void setRange(boolean range) {
         isRange = range;
     }
 
@@ -110,5 +115,25 @@ public class FilterModel extends RealmObject {
 
     public void addFilterValue(FilterValueModel filterValueModel) {
         this.filterValueModels.add(filterValueModel);
+    }
+
+    public List<RealmString> getFilterValueIdList() {
+        return filterValueIdList;
+    }
+
+    public void addFilterValueId(RealmString filterValueId) {
+        this.filterValueIdList.add(filterValueId);
+    }
+
+    public void removeAllFilterValueId() {
+        this.filterValueIdList.clear();
+    }
+
+    public void removeFilterValueId(RealmString filterValueId) {
+        this.filterValueIdList.remove(filterValueId);
+    }
+
+    public FilterValueRangeModel getFilterValueIdRange() {
+        return filterValueIdRange;
     }
 }

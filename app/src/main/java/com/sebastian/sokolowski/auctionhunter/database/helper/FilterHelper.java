@@ -2,12 +2,16 @@ package com.sebastian.sokolowski.auctionhunter.database.helper;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.FilterModel;
 import com.sebastian.sokolowski.auctionhunter.database.models.FilterValueModel;
+import com.sebastian.sokolowski.auctionhunter.database.models.RealmString;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.FilterItem;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.FilterValuesItem;
 
@@ -34,7 +39,7 @@ public class FilterHelper {
     public static HashMap<FilterModel, View> createFiltersViews(Context context, List<FilterItem> filterItemList) {
         HashMap<FilterModel, View> filterViewHashMap = new HashMap<>();
 
-        for (FilterItem filterItem : filterItemList
+        for (final FilterItem filterItem : filterItemList
                 ) {
             if (filterItem.getFilterId() == null ||
                     filterItem.getFilterName() == null ||
@@ -49,7 +54,7 @@ public class FilterHelper {
                 continue;
             }
 
-            FilterModel filterModel = new FilterModel();
+            final FilterModel filterModel = new FilterModel();
             filterModel.setFilterId(filterItem.getFilterId());
             filterModel.setFilterName(filterItem.getFilterName());
             filterModel.setControlTypeEnum(filterItem.getFilterControlType());
@@ -86,11 +91,21 @@ public class FilterHelper {
 
             switch (filterModel.getControlTypeEnum()) {
                 case CONTROL_TYPE_CHECKBOX:
-                    for (FilterValueModel filterValueModel : filterModel.getFilterValueModels()
+                    for (final FilterValueModel filterValueModel : filterModel.getFilterValueModels()
                             ) {
                         CheckBox checkBox = new CheckBox(context);
                         checkBox.setText(filterValueModel.getFilterValueName());
-
+                        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                RealmString realmString = new RealmString(filterValueModel.getFilterValueId());
+                                if (isChecked) {
+                                    filterModel.addFilterValueId(realmString);
+                                } else {
+                                    filterModel.removeFilterValueId(realmString);
+                                }
+                            }
+                        });
                         view.addView(checkBox);
                     }
                     break;
@@ -105,22 +120,54 @@ public class FilterHelper {
                     }
 
                     Spinner spinner = new Spinner(context);
-                    ArrayAdapter<CharSequence> adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, list);
+                    final ArrayAdapter<CharSequence> adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, list);
                     spinner.setAdapter(adapter);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            filterModel.removeAllFilterValueId();
+
+                            if (position != 0) {
+                                RealmString realmString = new RealmString(filterModel.getFilterValueModels().get(position - 1).getFilterValueId());
+                                filterModel.addFilterValueId(realmString);
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            filterModel.removeAllFilterValueId();
+                        }
+                    });
 
                     view.addView(spinner);
                     break;
                 case CONTROL_TYPE_TEXTBOX:
-                    if (filterModel.getRange()) {
+                    if (filterModel.isRange()) {
                         LinearLayout linearLayoutHorizontal = new LinearLayout(context);
                         linearLayoutHorizontal.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                         linearLayoutHorizontal.setOrientation(LinearLayout.HORIZONTAL);
 
                         // min value
-                        EditText editTextMin = getEditTextView(context, filterModel.getDataTypeEnum());
+                        final EditText editTextMin = getEditTextView(context, filterModel.getDataTypeEnum());
                         editTextMin.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 4));
                         editTextMin.setHint(context.getString(R.string.new_target_target_min));
                         editTextMin.setGravity(Gravity.CENTER);
+                        editTextMin.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                filterModel.getFilterValueIdRange().setRangeValueMin(editTextMin.getText().toString());
+                            }
+                        });
                         linearLayoutHorizontal.addView(editTextMin);
 
                         // divider
@@ -132,15 +179,51 @@ public class FilterHelper {
                         linearLayoutHorizontal.addView(textDivider);
 
                         //max value
-                        EditText editTextMax = getEditTextView(context, filterModel.getDataTypeEnum());
+                        final EditText editTextMax = getEditTextView(context, filterModel.getDataTypeEnum());
                         editTextMax.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 4));
                         editTextMax.setHint(context.getString(R.string.new_target_target_max));
                         editTextMax.setGravity(Gravity.CENTER);
+                        editTextMax.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                filterModel.getFilterValueIdRange().setRangeValueMax(editTextMax.getText().toString());
+                            }
+                        });
                         linearLayoutHorizontal.addView(editTextMax);
 
                         view.addView(linearLayoutHorizontal);
                     } else {
-                        EditText editText = getEditTextView(context, filterModel.getDataTypeEnum());
+                        final EditText editText = getEditTextView(context, filterModel.getDataTypeEnum());
+                        editText.setMaxLines(1);
+                        editText.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                filterModel.removeAllFilterValueId();
+
+                                RealmString realmString = new RealmString(editText.getText().toString());
+                                filterModel.getFilterValueIdList().add(realmString);
+                            }
+                        });
                         view.addView(editText);
                     }
                     break;

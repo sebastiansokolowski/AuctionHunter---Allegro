@@ -19,6 +19,7 @@ public class Target extends RealmObject {
     private RealmList<TargetItem> allItems = new RealmList<>();
     private RealmList<TargetItem> newItems = new RealmList<>();
     private RealmList<TargetItem> favoriteItems = new RealmList<>();
+    private RealmList<FilterModel> filterModels = new RealmList<>();
 
     public RealmList<TargetItem> getAllItems() {
         return allItems;
@@ -126,5 +127,13 @@ public class Target extends RealmObject {
 
     public void addTargetItemsToFavoriteItems(List<TargetItem> targetItems) {
         this.favoriteItems.addAll(targetItems);
+    }
+
+    public RealmList<FilterModel> getFilterModels() {
+        return filterModels;
+    }
+
+    public void addFilterModel(FilterModel filterModel) {
+        this.filterModels.add(filterModel);
     }
 }

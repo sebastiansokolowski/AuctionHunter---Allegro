@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
@@ -112,6 +113,11 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
     @Override
     public void showErrorMessage(String message) {
         mSelectCategoryInfo.setText(message);
+    }
+
+    @Override
+    public void showToastMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override

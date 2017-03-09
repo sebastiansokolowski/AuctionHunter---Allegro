@@ -3,8 +3,6 @@ package com.sebastian.sokolowski.auctionhunter.soap.request;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Created by Sebastain Sokołowski on 20.02.17.
  */

@@ -16,6 +16,8 @@ public interface NewTargetContract {
 
         void showErrorMessage(String message);
 
+        void showToastMessage(String message);
+
         void finishActivity();
     }
 

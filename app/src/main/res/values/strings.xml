@@ -67,6 +67,9 @@
     <string name="new_target_target_max" translatable="false">MAX</string>
     <string name="new_target_save">Save</string>
     <string name="new_target_filters_info">Select category to show available filters</string>
+    <string name="new_target_message_select_category">Select category</string>
+    <string name="new_target_message_enter_target_name">Enter target name</string>
+    <string name="new_target_message_enter_searching_name">Enter searching name</string>
 
     <!-- ACTIVITY TITLE-->
     <string name="activity_new_target_title">New target</string>

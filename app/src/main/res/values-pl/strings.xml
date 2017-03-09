@@ -58,4 +58,7 @@
     <string name="main_activity_select_target">Wybierz cel</string>
     <string name="new_target_filters_info">Wybierz kategorię aby zobaczyć dostępne filtry</string>
     <string name="new_target_no_filters_info">Filtry są niedostępne w tej kategorii</string>
+    <string name="new_target_message_enter_target_name">Podaj nazwę celu</string>
+    <string name="new_target_message_enter_searching_name">Podaj nazwę wyszukiwania</string>
+    <string name="new_target_message_select_category">Wybierz kategorię</string>
 </resources>
