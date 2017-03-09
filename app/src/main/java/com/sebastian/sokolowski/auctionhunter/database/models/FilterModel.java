@@ -1,11 +1,9 @@
 package com.sebastian.sokolowski.auctionhunter.database.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Sebastian Sokołowski on 06.03.17.
@@ -32,7 +30,6 @@ public class FilterModel extends RealmObject {
         }
     }
 
-    @PrimaryKey
     private String filterId;
     private String filterName;
     private String controlTypeEnum;
