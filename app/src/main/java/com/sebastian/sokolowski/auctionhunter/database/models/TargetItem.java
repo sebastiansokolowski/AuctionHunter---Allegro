@@ -9,19 +9,22 @@ import io.realm.annotations.PrimaryKey;
 
 public class TargetItem extends RealmObject {
     @PrimaryKey
-    private Integer id;
+    private Long id;
     private String offertype;
     private String url;
     private String name;
     private String imageUrl;
-    private String price;
-    private String priceFull;
-    private String priceBid;
+    private Float price;
+    private Float priceFull;
+    private Float priceBid;
     private String when;
 
     public enum Offertype {BUY_NOW, AUCTION, BOTH}
 
     public Offertype getOffertype() {
+        if (offertype == null || offertype.equals("")) {
+            return null;
+        }
         return Offertype.valueOf(offertype);
     }
 
@@ -53,27 +56,27 @@ public class TargetItem extends RealmObject {
         this.imageUrl = imageUrl;
     }
 
-    public String getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
-    public String getPriceFull() {
+    public Float getPriceFull() {
         return priceFull;
     }
 
-    public void setPriceFull(String priceFull) {
+    public void setPriceFull(Float priceFull) {
         this.priceFull = priceFull;
     }
 
-    public String getPriceBid() {
+    public Float getPriceBid() {
         return priceBid;
     }
 
-    public void setPriceBid(String priceBid) {
+    public void setPriceBid(Float priceBid) {
         this.priceBid = priceBid;
     }
 
@@ -85,11 +88,11 @@ public class TargetItem extends RealmObject {
         this.when = when;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

@@ -12,10 +12,7 @@ import io.realm.RealmObject;
 public class Target extends RealmObject {
     private String drawerName;
     private String searchingName;
-    private String priceMax;
-    private String priceMin;
-    private String offerType;
-    private String condition;
+    private Integer categoryId;
     private RealmList<TargetItem> allItems = new RealmList<>();
     private RealmList<TargetItem> newItems = new RealmList<>();
     private RealmList<TargetItem> favoriteItems = new RealmList<>();
@@ -65,38 +62,6 @@ public class Target extends RealmObject {
         return favoriteItems.size();
     }
 
-    public String getPriceMax() {
-        return priceMax;
-    }
-
-    public void setPriceMax(String priceMax) {
-        this.priceMax = priceMax;
-    }
-
-    public String getPriceMin() {
-        return priceMin;
-    }
-
-    public void setPriceMin(String priceMin) {
-        this.priceMin = priceMin;
-    }
-
-    public String getOfferType() {
-        return offerType;
-    }
-
-    public void setOfferType(String offerType) {
-        this.offerType = offerType;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
     public String getSearchingName() {
         return searchingName;
     }
@@ -135,5 +100,13 @@ public class Target extends RealmObject {
 
     public void addFilterModel(FilterModel filterModel) {
         this.filterModels.add(filterModel);
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
     }
 }

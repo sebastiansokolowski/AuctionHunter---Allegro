@@ -15,6 +15,8 @@ public class DoGetItemsListResponse {
     private Integer itemsCount;
     @XMLField("itemsFeaturedCount")
     private Integer itemsFeaturedCount;
+    @XMLField("itemsList/item")
+    private List<Item> itemList;
     @XMLField("categoriesList/categoriesTree/item")
     private List<CategoryItem> categoryItemList;
     @XMLField("filtersList/item")
@@ -22,6 +24,10 @@ public class DoGetItemsListResponse {
 
     public Integer getItemsCount() {
         return itemsCount;
+    }
+
+    public List<Item> getItemList() {
+        return itemList;
     }
 
     public Integer getItemsFeaturedCount() {
