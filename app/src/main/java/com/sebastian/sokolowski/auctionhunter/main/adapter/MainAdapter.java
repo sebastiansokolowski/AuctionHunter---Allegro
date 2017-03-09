@@ -46,18 +46,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
 
         holder.name.setText(item.getName());
         holder.when.setText(item.getWhen());
-        holder.priceFull.setText(item.getPriceFull() + "");
+        holder.priceFull.setText(item.getPriceFull() + context.getString(R.string.main_activity_currency_name));
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.BUY_NOW) {
             holder.price.setVisibility(View.VISIBLE);
-            holder.price.setText(item.getPrice() + "");
+            holder.price.setText(item.getPrice() + context.getString(R.string.main_activity_currency_name));
         }
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.AUCTION) {
             holder.priceBid.setVisibility(View.VISIBLE);
-            holder.priceBid.setText(item.getPrice() + "");
+            holder.priceBid.setText(item.getPriceBid() + context.getString(R.string.main_activity_currency_name));
         }
 
         if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {
@@ -70,9 +70,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
 
                 @Override
                 public void onError() {
-                    if(Build.VERSION.SDK_INT >= 21){
+                    if (Build.VERSION.SDK_INT >= 21) {
                         holder.mItemImage.setImageDrawable(context.getDrawable(R.drawable.item_no_image));
-                    }else{
+                    } else {
                         holder.mItemImage.setImageDrawable(context.getResources().getDrawable(R.drawable.item_no_image));
                     }
                 }
