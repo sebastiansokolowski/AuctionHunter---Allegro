@@ -63,8 +63,6 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
         doGetItemsListEnvelope.setResultScope(4);
         doGetItemsListEnvelope.addFilterOptionsType(categoryFilter);
 
-        mView.setLoadingFilters(true);
-
         mRequestManager.deGetItemsList(doGetItemsListEnvelope, new SOAPObserver<DoGetItemsListResponse, AllegroSOAPFault>() {
             @Override
             public void onCompletion(Request<DoGetItemsListResponse, AllegroSOAPFault> request) {

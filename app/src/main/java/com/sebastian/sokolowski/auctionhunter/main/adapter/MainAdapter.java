@@ -1,6 +1,7 @@
 package com.sebastian.sokolowski.auctionhunter.main.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
+import com.sebastian.sokolowski.auctionhunter.utils.AnimationUtils;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,27 +41,42 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
     }
 
     @Override
-    public void onBindViewHolder(TargetViewHolder holder, int position) {
+    public void onBindViewHolder(final TargetViewHolder holder, int position) {
         final TargetItem item = targetItems.get(position);
 
         holder.name.setText(item.getName());
         holder.when.setText(item.getWhen());
-        holder.priceFull.setText(item.getPriceFull()+"");
+        holder.priceFull.setText(item.getPriceFull() + "");
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.BUY_NOW) {
             holder.price.setVisibility(View.VISIBLE);
-            holder.price.setText(item.getPrice()+"");
+            holder.price.setText(item.getPrice() + "");
         }
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.AUCTION) {
             holder.priceBid.setVisibility(View.VISIBLE);
-            holder.priceBid.setText(item.getPrice()+"");
+            holder.priceBid.setText(item.getPrice() + "");
         }
 
         if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {
-            Picasso.with(context).load(item.getImageUrl()).placeholder(R.anim.progress_anim).into(holder.mItemImage);
+            holder.mItemImage.startAnimation(AnimationUtils.createRotateAnimation(context));
+            Picasso.with(context).load(item.getImageUrl()).placeholder(R.drawable.ic_loading).into(holder.mItemImage, new Callback() {
+                @Override
+                public void onSuccess() {
+                    holder.mItemImage.clearAnimation();
+                }
+
+                @Override
+                public void onError() {
+                    if(Build.VERSION.SDK_INT >= 21){
+                        holder.mItemImage.setImageDrawable(context.getDrawable(R.drawable.item_no_image));
+                    }else{
+                        holder.mItemImage.setImageDrawable(context.getResources().getDrawable(R.drawable.item_no_image));
+                    }
+                }
+            });
         }
 
         if (mOnClickListener != null) {

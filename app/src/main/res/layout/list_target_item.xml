@@ -41,7 +41,7 @@
                 android:id="@+id/iv_item_image"
                 android:layout_width="128dp"
                 android:layout_height="96dp"
-                android:src="@drawable/brak_zdjecia_mini" />
+                android:src="@drawable/ic_loading" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.newTarget.selectCat.SelectCatFragment;
+import com.sebastian.sokolowski.auctionhunter.utils.AnimationUtils;
 
 /**
  * Created by Sebastian Sokołowski on 04.03.17.
@@ -25,6 +27,7 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
     private NewTargetPresenter mNewTargetPresenter;
     private LinearLayout mCategoryContainer;
     private TextView mSelectCategoryInfo;
+    private ImageView mImageViewLoading;
 
     public NewTargetFragment() {
     }
@@ -55,6 +58,7 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
         final EditText mTargetName = (EditText) view.findViewById(R.id.et_target_name);
         final EditText mSearchingName = (EditText) view.findViewById(R.id.et_searching_name);
         mSelectCategoryInfo = (TextView) view.findViewById(R.id.tv_select_category_info);
+        mImageViewLoading = (ImageView) view.findViewById(R.id.iv_loading);
         Button mSelectCategoryButton = (Button) view.findViewById(R.id.btn_add_category);
         Button mSaveButton = (Button) view.findViewById(R.id.btn_save);
 
@@ -73,12 +77,21 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
                 target.setDrawerName(mTargetName.getText().toString());
                 target.setSearchingName(mSearchingName.getText().toString());
 
-                //TODO: add other filters  to item
                 mNewTargetPresenter.save(target);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -90,6 +103,7 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
             public void onClickedCatItem(int catId) {
                 mNewTargetPresenter.onCategoryClickListener(catId);
                 mSelectCategoryInfo.setVisibility(View.GONE);
+                setLoadingFilters(true);
             }
         });
 
@@ -102,7 +116,15 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
 
     @Override
     public void setLoadingFilters(boolean loading) {
-        mSelectCategoryInfo.setVisibility(View.GONE);
+        if(loading){
+            mImageViewLoading.setVisibility(View.VISIBLE);
+            mImageViewLoading.startAnimation(AnimationUtils.createRotateAnimation(getContext()));
+        }else{
+            if(mImageViewLoading.getVisibility() == View.VISIBLE){
+                mImageViewLoading.clearAnimation();
+                mImageViewLoading.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override

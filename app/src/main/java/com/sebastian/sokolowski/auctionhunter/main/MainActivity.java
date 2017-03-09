@@ -248,13 +248,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             mTextInfo.setVisibility(View.INVISIBLE);
             mSwipeContainer.setVisibility(View.INVISIBLE);
 
-            Animation loadingAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
-                    R.anim.progress_anim);
-            loadingAnimation.start();
-            loadingAnimation.setDuration(1000);
-            loadingAnimation.setRepeatMode(Animation.INFINITE);
-            loadingAnimation.setRepeatCount(Animation.INFINITE);
-            mLoadingImage.startAnimation(loadingAnimation);
+            mLoadingImage.startAnimation(com.sebastian.sokolowski.auctionhunter.utils.AnimationUtils.createRotateAnimation(this));
         } else {
             mLoadingImage.setVisibility(View.INVISIBLE);
             mLoadingImage.clearAnimation();
