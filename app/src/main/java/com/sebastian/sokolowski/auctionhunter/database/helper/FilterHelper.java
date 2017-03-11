@@ -38,7 +38,7 @@ import java.util.List;
  */
 
 public class FilterHelper {
-    private static List<String> filtersIdToSkip = Arrays.asList("search", "category", "startingTime");
+    private static List<String> filtersIdToSkip = Arrays.asList("search", "category");
 
     public static List<TargetItem> createTargetItems(List<Item> itemList) {
         List<TargetItem> targetItems = new ArrayList<>();
