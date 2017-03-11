@@ -55,7 +55,7 @@ public class SearchService extends Service {
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         //TODO: change share pref name
-        searchingInterval = mSharedPreferences.getLong("searching_interval", TimeUnit.MINUTES.toMillis(1));
+        searchingInterval = mSharedPreferences.getLong("searching_interval", TimeUnit.MINUTES.toMillis(10));
 
         //start searching targets
         mHandler = new Handler();
