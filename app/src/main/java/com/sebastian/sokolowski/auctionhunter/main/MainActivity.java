@@ -17,8 +17,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -98,16 +96,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mTargetList.setAdapter(mMainAdapter);
         mTargetList.setLayoutManager(new LinearLayoutManager(this));
 
+        mDrawerList = (ListView) findViewById(R.id.left_drawer_lv);
         mDrawerAdapter = new DrawerAdapter(this);
         mDrawerAdapter.setOnClickListener(new DrawerAdapter.OnClickDrawerItemListener() {
             @Override
-            public void onClick(Target target) {
+            public void onClick(Target target, int position) {
+                mDrawerList.setItemChecked(position, true);
                 mMainPresenter.changeTarget(target);
                 closeDrawer();
             }
         });
 
-        mDrawerList = (ListView) findViewById(R.id.left_drawer_lv);
+
         mDrawerList.setAdapter(mDrawerAdapter);
 
         mTextInfo = (TextView) findViewById(R.id.tv_info);

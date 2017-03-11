@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/list_selected"
     android:gravity="top"
     android:orientation="vertical">
 
@@ -20,7 +19,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/main_adapter_selector"
         android:orientation="vertical"
         android:padding="10dp">
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_container"
     android:layout_width="240dp"
     android:layout_height="wrap_content"
-    android:background="@color/colorAccent"
+    android:background="@drawable/drawer_adapter_selector"
     android:padding="10dp">
 
     <TextView

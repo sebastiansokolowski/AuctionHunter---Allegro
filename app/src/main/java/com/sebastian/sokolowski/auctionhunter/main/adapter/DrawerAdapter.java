@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
@@ -21,6 +22,7 @@ public class DrawerAdapter extends BaseAdapter {
     private final Context context;
     private List<Target> targetList = new ArrayList<>();
     private OnClickDrawerItemListener mOnClickListener;
+
 
     public DrawerAdapter(Context context) {
         this.context = context;
@@ -46,7 +48,7 @@ public class DrawerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).
                     inflate(R.layout.list_drawer_target_item, parent, false);
@@ -65,7 +67,8 @@ public class DrawerAdapter extends BaseAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnClickListener.onClick(currentItem);
+                    mOnClickListener.onClick(currentItem, position);
+                    notifyDataSetChanged();
                 }
             });
         }
@@ -80,6 +83,6 @@ public class DrawerAdapter extends BaseAdapter {
     }
 
     public interface OnClickDrawerItemListener {
-        void onClick(Target target);
+        void onClick(Target target, int position);
     }
 }
