@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
-import com.sebastian.sokolowski.auctionhunter.utils.AnimationUtils;
+import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -46,22 +46,23 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
 
         holder.name.setText(item.getName());
         holder.when.setText(item.getWhen());
-        holder.priceFull.setText(item.getPriceFull() + context.getString(R.string.currency_name));
+
+        holder.priceFull.setText(MyUtils.getPrice(context, item.getPriceFull()));
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.BUY_NOW) {
             holder.price.setVisibility(View.VISIBLE);
-            holder.price.setText(item.getPrice() + context.getString(R.string.currency_name));
+            holder.price.setText(MyUtils.getPrice(context, item.getPrice()));
         }
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.AUCTION) {
             holder.priceBid.setVisibility(View.VISIBLE);
-            holder.priceBid.setText(item.getPriceBid() + context.getString(R.string.currency_name));
+            holder.priceBid.setText(MyUtils.getPrice(context, item.getPriceBid()));
         }
 
         if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {
-            holder.mItemImage.startAnimation(AnimationUtils.createRotateAnimation(context));
+            holder.mItemImage.startAnimation(MyUtils.createRotateAnimation(context));
             Picasso.with(context).load(item.getImageUrl()).placeholder(R.drawable.ic_loading).into(holder.mItemImage, new Callback() {
                 @Override
                 public void onSuccess() {

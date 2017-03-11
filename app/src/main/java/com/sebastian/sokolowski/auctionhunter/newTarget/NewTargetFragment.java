@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.newTarget.selectCat.SelectCatFragment;
-import com.sebastian.sokolowski.auctionhunter.utils.AnimationUtils;
+import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 
 /**
  * Created by Sebastian Sokołowski on 04.03.17.
@@ -118,7 +118,7 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
     public void setLoadingFilters(boolean loading) {
         if(loading){
             mImageViewLoading.setVisibility(View.VISIBLE);
-            mImageViewLoading.startAnimation(AnimationUtils.createRotateAnimation(getContext()));
+            mImageViewLoading.startAnimation(MyUtils.createRotateAnimation(getContext()));
         }else{
             if(mImageViewLoading.getVisibility() == View.VISIBLE){
                 mImageViewLoading.clearAnimation();

@@ -50,12 +50,13 @@ public class FilterHelper {
             targetItem.setName(item.getItemTitle());
 
             if(item.getPhotosInfo() != null){
+                mainLoop:
                 for (PhotoInfoType photoInfoType : item.getPhotosInfo()
                         ) {
                     switch (photoInfoType.getPhotoSize()) {
                         case PHOTO_TYPE_LARGE:
                             targetItem.setImageUrl(photoInfoType.getPhotoUrl());
-                            break;
+                            break mainLoop;
                     }
                 }
             }

@@ -26,6 +26,7 @@ import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.soap.RequestManager;
 import com.sebastian.sokolowski.auctionhunter.soap.fault.AllegroSOAPFault;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.DoGetItemsListResponse;
+import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
@@ -128,17 +129,17 @@ public class SearchService extends Service {
         String title = "";
         switch (targetItem.getOffertype()) {
             case AUCTION:
-                title = targetItem.getPriceBid() + " " + getString(R.string.currency_name);
+                title = MyUtils.getPrice(getApplicationContext(), targetItem.getPriceBid());
                 break;
             case BOTH:
                 if (targetItem.getPriceBid() > targetItem.getPrice()) {
-                    title = targetItem.getPrice() + " " + getString(R.string.currency_name);
+                    title = MyUtils.getPrice(getApplicationContext(), targetItem.getPrice());
                 } else {
-                    title = targetItem.getPriceBid() + " " + getString(R.string.currency_name);
+                    title = MyUtils.getPrice(getApplicationContext(), targetItem.getPriceBid());
                 }
                 break;
             case BUY_NOW:
-                title = targetItem.getPrice() + " " + getString(R.string.currency_name);
+                title = MyUtils.getPrice(getApplicationContext(), targetItem.getPrice());
                 break;
         }
 

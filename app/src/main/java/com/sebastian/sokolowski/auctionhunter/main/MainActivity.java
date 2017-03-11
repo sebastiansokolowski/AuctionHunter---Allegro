@@ -34,6 +34,7 @@ import com.sebastian.sokolowski.auctionhunter.settings.SettingsActivity;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
+import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 
 import java.util.List;
 
@@ -249,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             mTextInfo.setVisibility(View.INVISIBLE);
             mSwipeContainer.setVisibility(View.INVISIBLE);
 
-            mLoadingImage.startAnimation(com.sebastian.sokolowski.auctionhunter.utils.AnimationUtils.createRotateAnimation(this));
+            mLoadingImage.startAnimation(MyUtils.createRotateAnimation(this));
         } else {
             mLoadingImage.setVisibility(View.INVISIBLE);
             mLoadingImage.clearAnimation();

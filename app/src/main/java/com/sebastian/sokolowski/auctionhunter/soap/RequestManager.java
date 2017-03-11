@@ -14,6 +14,9 @@ import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoGetItemsListEnvel
 import com.sebastian.sokolowski.auctionhunter.soap.fault.AllegroSOAPFault;
 import com.sebastian.sokolowski.auctionhunter.soap.request.FilterOptionsType;
 import com.sebastian.sokolowski.auctionhunter.soap.request.RangeValueType;
+import com.sebastian.sokolowski.auctionhunter.soap.request.SortOptionsType;
+import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
+import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataCountResponse.DoGetCatsDataCountResponse;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse.DoGetCatsDataLimitResponse;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.DoGetItemsListResponse;
@@ -33,6 +36,11 @@ public class RequestManager {
     public void doGetItemsList(Target target, SOAPObserver<DoGetItemsListResponse, AllegroSOAPFault> doGetItemsListResponseAllegroSOAPFaultSOAPObserver) {
         DoGetItemsListEnvelope doGetItemsListEnvelope = new DoGetItemsListEnvelope();
         doGetItemsListEnvelope.setResultScope(3);
+
+        SortOptionsType sortOptionsType = new SortOptionsType();
+        sortOptionsType.setSortOrder(SortOrderEnum.desc);
+        sortOptionsType.setSortType(SortTypeEnum.startingTime);
+        doGetItemsListEnvelope.setSortOptionsType(sortOptionsType);
 
         FilterOptionsType filterCategory = new FilterOptionsType();
         filterCategory.setFilterId("category");
