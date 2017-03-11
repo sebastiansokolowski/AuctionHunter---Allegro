@@ -18,15 +18,12 @@ public class SelectCatPresenter implements SelectCatContract.Presenter {
     private final Context mContext;
     private final Integer mParentId;
     private final SelectCatContract.View mView;
-    private final Realm mRealm;
+    private final Realm mRealm = Realm.getDefaultInstance();
 
     public SelectCatPresenter(SelectCatFragment selectCatFragment, Integer parentId) {
         mContext = selectCatFragment.getContext();
         mView = selectCatFragment;
         mParentId = parentId;
-
-        Realm.init(mContext);
-        mRealm = Realm.getDefaultInstance();
     }
 
     @Override

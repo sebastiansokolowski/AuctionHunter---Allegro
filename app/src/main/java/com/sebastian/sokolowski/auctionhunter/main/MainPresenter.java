@@ -36,7 +36,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     private final MainContract.View mView;
     private final RequestManager mRequestManager = new RequestManager();
-    private Realm mRealm;
+    private Realm mRealm = Realm.getDefaultInstance();
     private SharedPreferences mSharedPreferences;
     private Context mContext;
 
@@ -48,9 +48,6 @@ public class MainPresenter implements MainContract.Presenter {
         mView = mainActivity;
         mContext = mainActivity;
         mSharedPreferences = mainActivity.getPreferences(Context.MODE_PRIVATE);
-
-        Realm.init(mContext);
-        mRealm = Realm.getDefaultInstance();
     }
 
     @Override

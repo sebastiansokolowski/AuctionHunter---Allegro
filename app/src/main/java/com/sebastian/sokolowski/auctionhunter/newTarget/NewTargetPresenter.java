@@ -29,7 +29,7 @@ import io.realm.Realm;
 
 public class NewTargetPresenter implements NewTargetContract.Presenter {
     private final NewTargetContract.View mView;
-    private final Realm mRealm;
+    private final Realm mRealm = Realm.getDefaultInstance();
     private final Context mContext;
     private final RequestManager mRequestManager = new RequestManager();
     private HashMap<FilterModel, View> mFiltersHashMap;
@@ -40,9 +40,6 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
     public NewTargetPresenter(NewTargetFragment newTargetFragment) {
         mView = newTargetFragment;
         mContext = newTargetFragment.getContext();
-
-        Realm.init(mContext);
-        mRealm = Realm.getDefaultInstance();
     }
 
     @Override
