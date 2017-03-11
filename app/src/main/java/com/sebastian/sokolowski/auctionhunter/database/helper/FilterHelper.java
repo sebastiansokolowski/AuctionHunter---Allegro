@@ -48,12 +48,15 @@ public class FilterHelper {
             TargetItem targetItem = new TargetItem();
             targetItem.setId(item.getItemId());
             targetItem.setName(item.getItemTitle());
-            for (PhotoInfoType photoInfoType : item.getPhotosInfo()
-                    ) {
-                switch (photoInfoType.getPhotoSize()) {
-                    case PHOTO_TYPE_LARGE:
-                        targetItem.setImageUrl(photoInfoType.getPhotoUrl());
-                        break;
+
+            if(item.getPhotosInfo() != null){
+                for (PhotoInfoType photoInfoType : item.getPhotosInfo()
+                        ) {
+                    switch (photoInfoType.getPhotoSize()) {
+                        case PHOTO_TYPE_LARGE:
+                            targetItem.setImageUrl(photoInfoType.getPhotoUrl());
+                            break;
+                    }
                 }
             }
 
