@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case BUTTON_POSITIVE:
+                                        mDrawerList.setItemChecked(-1, true);
                                         mMainPresenter.deleteTarget();
                                         break;
                                     case BUTTON_NEGATIVE:

@@ -193,7 +193,13 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void deleteTarget() {
+        mView.showSelectTargetButton();
 
+        mRealm.beginTransaction();
+        mCurrentTarget.deleteFromRealm();
+        mRealm.commitTransaction();
+
+        refreshDrawerAdapter();
     }
 
     @Override
