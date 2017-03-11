@@ -109,4 +109,17 @@ public class Target extends RealmObject {
     public Integer getCategoryId() {
         return categoryId;
     }
+
+    @Override
+    public String toString() {
+        return "Target{" +
+                "drawerName='" + drawerName + '\'' +
+                ", searchingName='" + searchingName + '\'' +
+                ", categoryId=" + categoryId +
+                ", allItems=" + allItems +
+                ", newItems=" + newItems +
+                ", favoriteItems=" + favoriteItems +
+                ", filterModels=" + filterModels +
+                '}';
+    }
 }

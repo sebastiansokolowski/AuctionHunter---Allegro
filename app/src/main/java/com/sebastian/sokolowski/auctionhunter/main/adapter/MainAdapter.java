@@ -46,18 +46,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
 
         holder.name.setText(item.getName());
         holder.when.setText(item.getWhen());
-        holder.priceFull.setText(item.getPriceFull() + context.getString(R.string.main_activity_currency_name));
+        holder.priceFull.setText(item.getPriceFull() + context.getString(R.string.currency_name));
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.BUY_NOW) {
             holder.price.setVisibility(View.VISIBLE);
-            holder.price.setText(item.getPrice() + context.getString(R.string.main_activity_currency_name));
+            holder.price.setText(item.getPrice() + context.getString(R.string.currency_name));
         }
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.AUCTION) {
             holder.priceBid.setVisibility(View.VISIBLE);
-            holder.priceBid.setText(item.getPriceBid() + context.getString(R.string.main_activity_currency_name));
+            holder.priceBid.setText(item.getPriceBid() + context.getString(R.string.currency_name));
         }
 
         if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {

@@ -21,8 +21,12 @@ import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.FilterModel;
 import com.sebastian.sokolowski.auctionhunter.database.models.FilterValueModel;
 import com.sebastian.sokolowski.auctionhunter.database.models.RealmString;
+import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.FilterItem;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.FilterValuesItem;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.Item;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.PhotoInfoType;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.PriceInfoType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +39,53 @@ import java.util.List;
 
 public class FilterHelper {
     private static List<String> filtersIdToSkip = Arrays.asList("search", "category", "startingTime");
+
+    public static List<TargetItem> createTargetItems(List<Item> itemList) {
+        List<TargetItem> targetItems = new ArrayList<>();
+
+        for (Item item : itemList
+                ) {
+            TargetItem targetItem = new TargetItem();
+            targetItem.setId(item.getItemId());
+            targetItem.setName(item.getItemTitle());
+            for (PhotoInfoType photoInfoType : item.getPhotosInfo()
+                    ) {
+                switch (photoInfoType.getPhotoSize()) {
+                    case PHOTO_TYPE_LARGE:
+                        targetItem.setImageUrl(photoInfoType.getPhotoUrl());
+                        break;
+                }
+            }
+
+            for (PriceInfoType priceInfoType : item.getPriceInfo()
+                    ) {
+                switch (priceInfoType.getPriceType()) {
+                    case PRICE_TYPE_BIDDING:
+                        if (targetItem.getOffertype() == null) {
+                            targetItem.setOffertype(TargetItem.Offertype.AUCTION);
+                        } else {
+                            targetItem.setOffertype(TargetItem.Offertype.BOTH);
+                        }
+                        targetItem.setPriceBid(priceInfoType.getPriceValue());
+                        break;
+                    case PRICE_TYPE_BUY_NOW:
+                        if (targetItem.getOffertype() == null) {
+                            targetItem.setOffertype(TargetItem.Offertype.BUY_NOW);
+                        } else {
+                            targetItem.setOffertype(TargetItem.Offertype.BOTH);
+                        }
+                        targetItem.setPrice(priceInfoType.getPriceValue());
+                        break;
+                    case PRICE_TYPE_WITH_DELIVERY:
+                        targetItem.setPriceFull(priceInfoType.getPriceValue());
+                        break;
+                }
+            }
+            targetItems.add(targetItem);
+        }
+
+        return targetItems;
+    }
 
     public static HashMap<FilterModel, View> createFiltersViews(Context context, List<FilterItem> filterItemList) {
         HashMap<FilterModel, View> filterViewHashMap = new HashMap<>();

@@ -7,6 +7,7 @@ import com.alexgilleran.icesoap.exception.SOAPException;
 import com.alexgilleran.icesoap.observer.SOAPObserver;
 import com.alexgilleran.icesoap.request.Request;
 import com.sebastian.sokolowski.auctionhunter.R;
+import com.sebastian.sokolowski.auctionhunter.database.helper.FilterHelper;
 import com.sebastian.sokolowski.auctionhunter.database.models.Cat;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
@@ -19,9 +20,6 @@ import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataCountRe
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse.CatInfoType;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse.DoGetCatsDataLimitResponse;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.DoGetItemsListResponse;
-import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.Item;
-import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.PhotoInfoType;
-import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.PriceInfoType;
 
 import java.util.List;
 
@@ -32,7 +30,6 @@ import io.realm.Realm;
  */
 
 public class MainPresenter implements MainContract.Presenter {
-    private final String ALLEGRO_URL_ITEM = "http://allegro.pl/show_item.php?item=";
 
     private final MainContract.View mView;
     private final RequestManager mRequestManager = new RequestManager();
@@ -227,55 +224,17 @@ public class MainPresenter implements MainContract.Presenter {
                 mRealm.beginTransaction();
                 mCurrentTarget.getAllItems().clear();
 
-                for (Item item : request.getResult().getItemList()
-                        ) {
-                    TargetItem targetItem = new TargetItem();
-                    targetItem.setId(item.getItemId());
-                    targetItem.setName(item.getItemTitle());
-                    for (PhotoInfoType photoInfoType : item.getPhotosInfo()
-                            ) {
-                        switch (photoInfoType.getPhotoSize()) {
-                            case PHOTO_TYPE_LARGE:
-                                targetItem.setImageUrl(photoInfoType.getPhotoUrl());
-                                break;
-                        }
-                    }
+                List<TargetItem> targetItems = FilterHelper.createTargetItems(request.getResult().getItemList());
 
-                    for (PriceInfoType priceInfoType : item.getPriceInfo()
-                            ) {
-                        switch (priceInfoType.getPriceType()) {
-                            case PRICE_TYPE_BIDDING:
-                                if (targetItem.getOffertype() == null) {
-                                    targetItem.setOffertype(TargetItem.Offertype.AUCTION);
-                                } else {
-                                    targetItem.setOffertype(TargetItem.Offertype.BOTH);
-                                }
-                                targetItem.setPriceBid(priceInfoType.getPriceValue());
-                                break;
-                            case PRICE_TYPE_BUY_NOW:
-                                if (targetItem.getOffertype() == null) {
-                                    targetItem.setOffertype(TargetItem.Offertype.BUY_NOW);
-                                } else {
-                                    targetItem.setOffertype(TargetItem.Offertype.BOTH);
-                                }
-                                targetItem.setPrice(priceInfoType.getPriceValue());
-                                break;
-                            case PRICE_TYPE_WITH_DELIVERY:
-                                targetItem.setPriceFull(priceInfoType.getPriceValue());
-                                break;
-                        }
-                    }
+                if (targetItems.size() > 0) {
+                    mCurrentTarget.addTargetItemsToAllItems(targetItems);
 
-                    mCurrentTarget.addTargetItemToAllItems(targetItem);
+                    mView.setMainAdapterList(mCurrentTarget.getAllItems());
+                } else {
+                    mView.showNoDataInfo();
                 }
 
                 mRealm.commitTransaction();
-
-                if (mCurrentTarget.getAllItems().size() == 0) {
-                    mView.showNoDataInfo();
-                } else {
-                    mView.setMainAdapterList(mCurrentTarget.getAllItems());
-                }
             }
 
             @Override
@@ -289,7 +248,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void clickTargetItem(TargetItem targetItem) {
-        mView.showTargetItem(ALLEGRO_URL_ITEM + targetItem.getId());
+        mView.showTargetItem(mContext.getString(R.string.ALLEGRO_URL_ITEM) + targetItem.getId());
     }
 
     @Override
