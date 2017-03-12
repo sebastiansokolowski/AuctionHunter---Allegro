@@ -99,12 +99,11 @@ public class TargetItem extends RealmObject {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
 
         TargetItem that = (TargetItem) o;
 
         return id != null ? id.equals(that.id) : that.id == null;
-
     }
 
     @Override
