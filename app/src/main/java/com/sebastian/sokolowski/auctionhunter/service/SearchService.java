@@ -70,6 +70,18 @@ public class SearchService extends Service {
         });
     }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Log.d(TAG, "onLowMemory");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -161,6 +173,7 @@ public class SearchService extends Service {
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(title)
+                .setAutoCancel(true)
                 .setContentText(targetItem.getName())
                 .setSmallIcon(R.mipmap.ic_launcher);
 
