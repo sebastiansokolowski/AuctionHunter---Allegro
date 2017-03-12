@@ -11,7 +11,6 @@ public class TargetItem extends RealmObject {
     @PrimaryKey
     private Long id;
     private String offertype;
-    private String url;
     private String name;
     private String imageUrl;
     private Float price;
@@ -30,14 +29,6 @@ public class TargetItem extends RealmObject {
 
     public void setOffertype(Offertype offertype) {
         this.offertype = offertype.toString();
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getName() {
