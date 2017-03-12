@@ -166,9 +166,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 break;
             case R.id.target_view_type:
                 break;
-            case R.id.add_target:
-                mMainPresenter.addNewTarget();
-                break;
             case R.id.edit_target:
                 mMainPresenter.editTarget();
                 break;
@@ -212,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mTargetList.setVisibility(View.INVISIBLE);
         mTextInfo.setVisibility(View.VISIBLE);
         mSwipeContainer.setVisibility(View.VISIBLE);
+        mSwipeContainer.setRefreshing(false);
         mTextInfo.setText(getString(R.string.main_activity_no_data));
     }
 
