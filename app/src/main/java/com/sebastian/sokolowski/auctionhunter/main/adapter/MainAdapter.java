@@ -53,12 +53,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
                 item.getOffertype() == TargetItem.Offertype.BUY_NOW) {
             holder.price.setVisibility(View.VISIBLE);
             holder.price.setText(MyUtils.getPrice(context, item.getPrice()));
+        }else{
+            holder.price.setVisibility(View.GONE);
         }
 
         if (item.getOffertype() == TargetItem.Offertype.BOTH ||
                 item.getOffertype() == TargetItem.Offertype.AUCTION) {
             holder.priceBid.setVisibility(View.VISIBLE);
             holder.priceBid.setText(MyUtils.getPrice(context, item.getPriceBid()));
+        }else{
+            holder.priceBid.setVisibility(View.GONE);
         }
 
         if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {
