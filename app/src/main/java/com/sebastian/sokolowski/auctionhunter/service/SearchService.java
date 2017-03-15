@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -126,9 +127,11 @@ public class SearchService extends Service {
 
                 @Override
                 public void onException(Request<DoGetItemsListResponse, AllegroSOAPFault> request, SOAPException e) {
-                    if (request.getSOAPFault().getFaultString() != null) {
-                        Log.d(TAG, "Target: " + target.toString());
+                    Log.d(TAG, "Target: " + target.toString());
+                    if (request.getSOAPFault()!= null && request.getSOAPFault().getFaultString() != null) {
                         Log.d(TAG, "onException: " + request.getSOAPFault().getFaultString());
+                    }else{
+                        Log.d(TAG, "onException: " + e.toString());
                     }
                 }
             });
@@ -174,6 +177,8 @@ public class SearchService extends Service {
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(title)
                 .setAutoCancel(true)
+                .setVibrate(new long[]{1000, 1000})
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setContentText(targetItem.getName())
                 .setSmallIcon(R.mipmap.ic_launcher);
 
