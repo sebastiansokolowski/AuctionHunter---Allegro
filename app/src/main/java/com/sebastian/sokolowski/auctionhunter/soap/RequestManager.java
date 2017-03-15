@@ -65,7 +65,7 @@ public class RequestManager {
 
                     String minValue = filterValueRangeModel.getRangeValueMin();
                     String maxValue = filterValueRangeModel.getRangeValueMax();
-                    if (minValue != null && !minValue.equals("") &&
+                    if (minValue != null && !minValue.equals("") ||
                             maxValue != null && !maxValue.equals("")) {
                         RangeValueType rangeValueType = new RangeValueType();
                         rangeValueType.setRangeValueMin(minValue);

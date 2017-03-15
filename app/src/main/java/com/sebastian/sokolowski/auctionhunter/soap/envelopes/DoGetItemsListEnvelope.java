@@ -44,8 +44,12 @@ public class DoGetItemsListEnvelope extends BaseEnvelope {
                 if (rangeValueType != null) {
                     XMLParentNode filterValueItem = filterItem.addNode(
                             NAMESPACE, "filterValueRange");
-                    filterValueItem.addTextNode(NAMESPACE, "rangeValueMin", rangeValueType.getRangeValueMin());
-                    filterValueItem.addTextNode(NAMESPACE, "rangeValueMax", rangeValueType.getRangeValueMax());
+                    if (rangeValueType.getRangeValueMin() != null) {
+                        filterValueItem.addTextNode(NAMESPACE, "rangeValueMin", rangeValueType.getRangeValueMin());
+                    }
+                    if (rangeValueType.getRangeValueMax() != null) {
+                        filterValueItem.addTextNode(NAMESPACE, "rangeValueMax", rangeValueType.getRangeValueMax());
+                    }
                 } else {
                     XMLParentNode filterValueItem = filterItem.addNode(
                             NAMESPACE, "filterValueId");
