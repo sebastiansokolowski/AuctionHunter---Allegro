@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.sebastian.sokolowski.auctionhunter.service.SearchService;
+import com.sebastian.sokolowski.auctionhunter.utils.MyLogging;
 
 import io.realm.Realm;
 
@@ -15,6 +16,9 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        //start logging to file
+        MyLogging.loggingToStorage();
 
         Realm.init(this);
 

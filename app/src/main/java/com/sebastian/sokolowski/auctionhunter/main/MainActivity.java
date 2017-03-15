@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +43,7 @@ import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
+    private final static String TAG = MainActivity.class.getSimpleName();
 
     private MainPresenter mMainPresenter;
     private ListView mDrawerList;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -126,12 +129,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     protected void onResume() {
+        Log.d(TAG, "onResume");
         super.onResume();
         mMainPresenter.start();
     }
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause");
         super.onPause();
     }
 
