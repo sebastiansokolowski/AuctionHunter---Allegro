@@ -62,6 +62,7 @@
     <string name="main_activity_no_data">No results</string>
     <string name="main_activity_add_new_target">Add target to see results</string>
     <string name="main_activity_select_target">Select target</string>
+    <string name="main_activity_error">Error. Try again after some time.</string>
 
     <!-- ADD NEW TARGET ACTIVITY -->
     <string name="new_target_select_category">Select category</string>

@@ -91,6 +91,10 @@ public class MainPresenter implements MainContract.Presenter {
 
             @Override
             public void onException(Request<DoGetCatsDataCountResponse, AllegroSOAPFault> request, SOAPException e) {
+                if(request.getSOAPFault() == null || request.getSOAPFault().getFaultString() == null){
+                    mView.showErrorToast(mContext.getString(R.string.main_activity_error));
+                    return;
+                }
                 if (request.getSOAPFault().getFaultString() != null) {
                     mView.showErrorProgressDialog(request.getSOAPFault().getFaultString());
                 }
@@ -148,6 +152,10 @@ public class MainPresenter implements MainContract.Presenter {
 
                 @Override
                 public void onException(Request<DoGetCatsDataLimitResponse, AllegroSOAPFault> request, SOAPException e) {
+                    if(request.getSOAPFault() == null || request.getSOAPFault().getFaultString() == null){
+                        mView.showErrorToast(mContext.getString(R.string.main_activity_error));
+                        return;
+                    }
                     if (request.getSOAPFault().getFaultString() != null) {
                         mView.showErrorProgressDialog(request.getSOAPFault().getFaultString());
                     }
@@ -245,6 +253,10 @@ public class MainPresenter implements MainContract.Presenter {
 
             @Override
             public void onException(Request<DoGetItemsListResponse, AllegroSOAPFault> request, SOAPException e) {
+                if(request.getSOAPFault() == null || request.getSOAPFault().getFaultString() == null){
+                    mView.showErrorToast(mContext.getString(R.string.main_activity_error));
+                    return;
+                }
                 if (request.getSOAPFault().getFaultString() != null) {
                     mView.showErrorToast(request.getSOAPFault().getFaultString());
                 }

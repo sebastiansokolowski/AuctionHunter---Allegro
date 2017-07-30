@@ -84,6 +84,10 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
 
             @Override
             public void onException(Request<DoGetItemsListResponse, AllegroSOAPFault> request, SOAPException e) {
+                if(request.getSOAPFault() == null || request.getSOAPFault().getFaultString() == null){
+                    mView.showErrorMessage(mContext.getString(R.string.main_activity_error));
+                    return;
+                }
                 mView.setLoadingFilters(false);
                 mView.showErrorMessage(request.getSOAPFault().getFaultString());
             }
