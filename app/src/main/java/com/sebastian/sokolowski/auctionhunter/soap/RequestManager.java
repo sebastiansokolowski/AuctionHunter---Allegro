@@ -8,18 +8,24 @@ import com.sebastian.sokolowski.auctionhunter.database.models.FilterModel;
 import com.sebastian.sokolowski.auctionhunter.database.models.FilterValueRangeModel;
 import com.sebastian.sokolowski.auctionhunter.database.models.RealmString;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
+import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoBidItemEnvelope;
 import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoGetCatsDataCountEnvelope;
 import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoGetCatsDataLimitEnvelope;
 import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoGetItemsListEnvelope;
+import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoLoginEnvelope;
+import com.sebastian.sokolowski.auctionhunter.soap.envelopes.DoQuerySysStatusEnvelope;
 import com.sebastian.sokolowski.auctionhunter.soap.fault.AllegroSOAPFault;
 import com.sebastian.sokolowski.auctionhunter.soap.request.FilterOptionsType;
 import com.sebastian.sokolowski.auctionhunter.soap.request.RangeValueType;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOptionsType;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doBidItemResponse.DoBidItemResponse;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataCountResponse.DoGetCatsDataCountResponse;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetCatsDataLimitResponse.DoGetCatsDataLimitResponse;
 import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.DoGetItemsListResponse;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doLoginResponse.DoLoginResponse;
+import com.sebastian.sokolowski.auctionhunter.soap.response.doQuerySysStatus.DoQuerySysStatusResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,5 +128,32 @@ public class RequestManager {
                 "#doGetCatsDataLimit",
                 DoGetCatsDataLimitResponse.class, AllegroSOAPFault.class);
         definitionRequest.execute(doGetCatsDataLimitResponseAllegroSOAPFaultSOAPObserver);
+    }
+
+    public void doQuerySysStatus(DoQuerySysStatusEnvelope doQuerySysStatusEnvelope, SOAPObserver<DoQuerySysStatusResponse, AllegroSOAPFault> doQuerySysStatusResponseAllegroSOAPFaultSOAPObserver) {
+        Request<DoQuerySysStatusResponse, AllegroSOAPFault> definitionRequest = requestFactory.buildRequest(
+                URL,
+                doQuerySysStatusEnvelope.create(),
+                "#doQuerySysStatus",
+                DoQuerySysStatusResponse.class, AllegroSOAPFault.class);
+        definitionRequest.execute(doQuerySysStatusResponseAllegroSOAPFaultSOAPObserver);
+    }
+
+    public void doBidItem(DoBidItemEnvelope doBidItemEnvelope, SOAPObserver<DoBidItemResponse, AllegroSOAPFault> doBidItemResponseAllegroSOAPFaultSOAPObserver) {
+        Request<DoBidItemResponse, AllegroSOAPFault> definitionRequest = requestFactory.buildRequest(
+                URL,
+                doBidItemEnvelope.create(),
+                "#doBidItem",
+                DoBidItemResponse.class, AllegroSOAPFault.class);
+        definitionRequest.execute(doBidItemResponseAllegroSOAPFaultSOAPObserver);
+    }
+
+    public void doLogin(DoLoginEnvelope doLoginEnvelope, SOAPObserver<DoLoginResponse, AllegroSOAPFault> doLoginResponseAllegroSOAPFaultSOAPObserver) {
+        Request<DoLoginResponse, AllegroSOAPFault> definitionRequest = requestFactory.buildRequest(
+                URL,
+                doLoginEnvelope.create(),
+                "#doLogin",
+                DoLoginResponse.class, AllegroSOAPFault.class);
+        definitionRequest.execute(doLoginResponseAllegroSOAPFaultSOAPObserver);
     }
 }
