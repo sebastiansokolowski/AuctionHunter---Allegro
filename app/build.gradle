@@ -37,7 +37,7 @@ buildscript {
 }
 
 dependencies {
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.alexgilleran:icesoap:1.1.1'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -48,4 +48,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 }
