@@ -1,7 +1,9 @@
 package com.sebastian.sokolowski.auctionhunter.newTarget;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.fragment.app.FragmentManager;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 
@@ -34,7 +36,7 @@ public class NewTargetActivity extends AppCompatActivity {
     }
 
     private void backOrNavigateUpClicked() {
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         int backCount = fragmentManager.getBackStackEntryCount();
 
         if (backCount > 1) {
