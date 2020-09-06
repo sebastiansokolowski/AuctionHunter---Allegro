@@ -26,7 +26,7 @@ public class Item {
     @XMLField("timeToEnd")
     private String timeToEnd;
     @XMLField("categoryId")
-    private Integer categoryId;
+    private String categoryId;
     @XMLField("conditionInfo")
     private String conditionInfo;
     @XMLField("promotionInfo")
@@ -76,7 +76,7 @@ public class Item {
         return timeToEnd;
     }
 
-    public Integer getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 

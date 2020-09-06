@@ -89,8 +89,8 @@ public class SelectCatAdapter extends BaseAdapter {
     }
 
     public interface OnClickListenerCatItem {
-        void onCategoryChildrenClicked(int categoryId);
+        void onCategoryChildrenClicked(String categoryId);
 
-        void onCategoryClicked(int categoryId);
+        void onCategoryClicked(String categoryId);
     }
 }

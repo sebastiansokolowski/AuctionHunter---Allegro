@@ -1,11 +1,14 @@
 package com.sebastian.sokolowski.auctionhunter.newTarget.selectCat;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.newTarget.NewTargetContract;
@@ -23,7 +26,7 @@ public class SelectCatFragment extends ListFragment implements SelectCatContract
 
     private SelectCatAdapter mSelectCatAdapter;
     private SelectCatPresenter mSelectCatPresenter;
-    private Integer mParentId = 0;
+    private String mParentId;
     private NewTargetContract.OnClickCatItemListener mOnClickCatItemListener;
 
     public SelectCatFragment() {
@@ -33,7 +36,7 @@ public class SelectCatFragment extends ListFragment implements SelectCatContract
         return new SelectCatFragment();
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(String parentId) {
         mParentId = parentId;
     }
 
@@ -61,7 +64,7 @@ public class SelectCatFragment extends ListFragment implements SelectCatContract
     }
 
     @Override
-    public void showSelectCategoryFragment(int parentId) {
+    public void showSelectCategoryFragment(String parentId) {
         SelectCatFragment selectCatFragment = SelectCatFragment.newInstance();
         selectCatFragment.setParentId(parentId);
         selectCatFragment.setOnClickCatItemListener(mOnClickCatItemListener);
@@ -80,16 +83,21 @@ public class SelectCatFragment extends ListFragment implements SelectCatContract
     }
 
     @Override
-    public void onCategoryChildrenClicked(int categoryId) {
+    public void onCategoryChildrenClicked(String categoryId) {
         mSelectCatPresenter.categoryChildClicked(categoryId);
     }
 
     @Override
-    public void onCategoryClicked(int categoryId) {
+    public void onCategoryClicked(String categoryId) {
         getFragmentManager().popBackStack(NewTargetFragment.class.getSimpleName(), 0);
         if (mOnClickCatItemListener != null) {
             mOnClickCatItemListener.onClickedCatItem(categoryId);
         }
+    }
+
+    @Override
+    public void showToastMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public void setOnClickCatItemListener(NewTargetContract.OnClickCatItemListener onClickCatItemListener) {

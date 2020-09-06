@@ -10,14 +10,17 @@ import java.util.List;
 
 public interface SelectCatContract {
     interface View {
-        void showSelectCategoryFragment(int parentId);
+        void showSelectCategoryFragment(String parentId);
 
         void setAdapterListItems(List<CatAdapterItem> adapterList);
+
+        void showToastMessage(String message);
+
     }
 
     interface Presenter {
         void start();
 
-        void categoryChildClicked(int categoryId);
+        void categoryChildClicked(String categoryId);
     }
 }

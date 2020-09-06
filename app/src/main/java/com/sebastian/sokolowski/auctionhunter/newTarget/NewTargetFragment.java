@@ -97,10 +97,10 @@ public class NewTargetFragment extends Fragment implements NewTargetContract.Vie
     @Override
     public void showSelectCategoryFragment() {
         SelectCatFragment selectCatFragment = SelectCatFragment.newInstance();
-        selectCatFragment.setParentId(0);
+        selectCatFragment.setParentId(null);
         selectCatFragment.setOnClickCatItemListener(new NewTargetContract.OnClickCatItemListener() {
             @Override
-            public void onClickedCatItem(int catId) {
+            public void onClickedCatItem(String catId) {
                 mNewTargetPresenter.onCategoryClickListener(catId);
                 mSelectCategoryInfo.setVisibility(View.GONE);
                 setLoadingFilters(true);

@@ -24,12 +24,12 @@ public interface NewTargetContract {
     interface Presenter {
         void start();
 
-        void onCategoryClickListener(int catId);
+        void onCategoryClickListener(String catId);
 
         void save(Target target);
     }
 
     interface OnClickCatItemListener {
-        void onClickedCatItem(int catId);
+        void onClickedCatItem(String catId);
     }
 }

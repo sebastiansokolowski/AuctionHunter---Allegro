@@ -12,7 +12,7 @@ import io.realm.RealmObject;
 public class Target extends RealmObject {
     private String drawerName;
     private String searchingName;
-    private Integer categoryId;
+    private String categoryId;
     private RealmList<TargetItem> allItems = new RealmList<>();
     private RealmList<TargetItem> newItems = new RealmList<>();
     private RealmList<TargetItem> favoriteItems = new RealmList<>();
@@ -102,11 +102,11 @@ public class Target extends RealmObject {
         this.filterModels.add(filterModel);
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 
-    public Integer getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 

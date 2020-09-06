@@ -5,15 +5,15 @@ package com.sebastian.sokolowski.auctionhunter.newTarget.selectCat.adapter;
  */
 
 public class CatAdapterItem {
-    private Integer id;
+    private String id;
     private String name;
     private boolean hasChild;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

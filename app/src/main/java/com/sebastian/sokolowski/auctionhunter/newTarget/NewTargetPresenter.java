@@ -35,7 +35,7 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
     private HashMap<FilterModel, View> mFiltersHashMap;
 
     //data
-    private Integer mCatId;
+    private String mCatId;
 
     public NewTargetPresenter(NewTargetFragment newTargetFragment) {
         mView = newTargetFragment;
@@ -48,7 +48,7 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
     }
 
     @Override
-    public void onCategoryClickListener(int catId) {
+    public void onCategoryClickListener(String catId) {
         mCatId = catId;
 
         //loading categories
