@@ -1,5 +1,7 @@
 package com.sebastian.sokolowski.auctionhunter.database.models;
 
+import com.sebastian.sokolowski.auctionhunter.rest.response.CategoryParameterType;
+
 import java.util.List;
 
 import io.realm.RealmList;
@@ -10,31 +12,11 @@ import io.realm.RealmObject;
  */
 
 public class FilterModel extends RealmObject {
-    public enum ControlTypeEnum {
-        CONTROL_TYPE_COMBOBOX("combobox"), CONTROL_TYPE_CHECKBOX("checkbox"), CONTROL_TYPE_TEXTBOX("textbox");
-
-        String value;
-
-        ControlTypeEnum(String value) {
-            this.value = value;
-        }
-    }
-
-    public enum DataTypeEnum {
-        DATA_TYPE_STRING("string"), DATA_TYPE_INT("int"), DATA_TYPE_LONG("long"), DATA_TYPE_FLOAT("float"), DATA_TYPE_DATETIME("datetime");
-
-        String value;
-
-        DataTypeEnum(String value) {
-            this.value = value;
-        }
-    }
-
     private String filterId;
     private String filterName;
-    private String controlTypeEnum;
     private String dataTypeEnum;
     private boolean isRange;
+    private boolean multipleChoices;
     private Integer arraySize;
     private RealmList<FilterValueModel> filterValueModels = new RealmList<>();
 
@@ -58,36 +40,15 @@ public class FilterModel extends RealmObject {
         this.filterName = filterName;
     }
 
-    public ControlTypeEnum getControlTypeEnum() {
+    public CategoryParameterType getDataTypeEnum() {
         if (dataTypeEnum == null || dataTypeEnum.isEmpty()) {
             return null;
         }
-        return ControlTypeEnum.valueOf(controlTypeEnum);
+        return CategoryParameterType.valueOf(dataTypeEnum);
     }
 
-    public void setControlTypeEnum(String controlType) {
-        for (ControlTypeEnum controlTypeEnum : ControlTypeEnum.values()
-                ) {
-            if (controlTypeEnum.value.equals(controlType)) {
-                this.controlTypeEnum = controlTypeEnum.toString();
-            }
-        }
-    }
-
-    public DataTypeEnum getDataTypeEnum() {
-        if (dataTypeEnum == null || dataTypeEnum.isEmpty()) {
-            return null;
-        }
-        return DataTypeEnum.valueOf(dataTypeEnum);
-    }
-
-    public void setDataTypeEnum(String dataType) {
-        for (DataTypeEnum dataTypeEnum : DataTypeEnum.values()
-                ) {
-            if (dataTypeEnum.value.equals(dataType)) {
-                this.dataTypeEnum = dataTypeEnum.toString();
-            }
-        }
+    public void setDataTypeEnum(CategoryParameterType dataType) {
+        this.dataTypeEnum = dataType.name();
     }
 
     public boolean isRange() {
@@ -96,6 +57,14 @@ public class FilterModel extends RealmObject {
 
     public void setRange(boolean range) {
         isRange = range;
+    }
+
+    public boolean isMultipleChoices() {
+        return multipleChoices;
+    }
+
+    public void setMultipleChoices(boolean multipleChoices) {
+        this.multipleChoices = multipleChoices;
     }
 
     public Integer getArraySize() {

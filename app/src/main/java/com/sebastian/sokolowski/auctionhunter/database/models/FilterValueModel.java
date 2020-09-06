@@ -9,7 +9,6 @@ import io.realm.RealmObject;
 public class FilterValueModel extends RealmObject {
     private String filterValueId;
     private String filterValueName;
-    private String filterValueCount;
 
     public String getFilterValueId() {
         return filterValueId;
@@ -25,13 +24,5 @@ public class FilterValueModel extends RealmObject {
 
     public void setFilterValueName(String filterValueName) {
         this.filterValueName = filterValueName;
-    }
-
-    public String getFilterValueCount() {
-        return filterValueCount;
-    }
-
-    public void setFilterValueCount(String filterValueCount) {
-        this.filterValueCount = filterValueCount;
     }
 }
