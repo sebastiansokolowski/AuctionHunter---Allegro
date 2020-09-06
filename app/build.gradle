@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 def ALLEGRO_WEBAPI_KEY = '"' + AllegroWebApiKey + '"' ?: '""';
@@ -8,11 +10,15 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.sebastian.sokolowski.auctionhunter"
-        minSdkVersion 19
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes.each {
         it.buildConfigField("String", "CLIENT_ID", client_id)
@@ -32,11 +38,13 @@ android {
 }
 
 buildscript {
+    ext.kotlin_version = '1.4.0'
     repositories {
         jcenter()
     }
     dependencies {
         classpath "io.realm:realm-gradle-plugin:3.2.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -52,5 +60,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+}
+repositories {
+    mavenCentral()
 }
