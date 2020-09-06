@@ -45,7 +45,6 @@
     <string name="ALLEGRO_URL_ITEM">http://allegro.pl/show_item.php?item=</string>
 
     <!-- SHARED PREFERENCES -->
-    <string name="SHARED_PREFERENCES_DOWNLOADED_CATS" translatable="false">SHARED_PREFERENCES_DOWNLOADED_CATS</string>
 
     <!-- PREFERENCES -->
     <string name="preferences_searching_interval">Searching interval</string>
