@@ -47,6 +47,7 @@ class AuthInterceptor(context: Context) : Interceptor {
 
     private fun setAuthHeader(requestBuilder: Request.Builder, token: String) {
         requestBuilder.addHeader("Authorization", "Bearer $token")
+        requestBuilder.addHeader("Accept", "application/vnd.allegro.public.v1+json")
     }
 
     private fun auth(): AuthResponse? {
