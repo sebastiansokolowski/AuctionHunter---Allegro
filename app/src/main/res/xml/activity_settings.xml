@@ -33,14 +33,5 @@
             app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/preferences_other"
-        app:iconSpaceReserved="false">
-        <Preference
-            android:key="btn_category"
-            android:title="@string/preferences_update_cats"
-            app:iconSpaceReserved="false" />
-
-    </PreferenceCategory>
 
 </PreferenceScreen>
