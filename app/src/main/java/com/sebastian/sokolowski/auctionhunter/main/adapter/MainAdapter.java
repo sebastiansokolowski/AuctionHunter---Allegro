@@ -2,18 +2,16 @@ package com.sebastian.sokolowski.auctionhunter.main.adapter;
 
 import android.content.Context;
 import android.os.Build;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
-import com.sebastian.sokolowski.auctionhunter.rest.response.SellingModeFormat;
 import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -68,7 +66,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
 
         if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {
             holder.mItemImage.startAnimation(MyUtils.createRotateAnimation(context));
-            Picasso.with(context).load(item.getImageUrl()).placeholder(R.drawable.ic_loading).into(holder.mItemImage, new Callback() {
+            Picasso.with(context).load(item.getImageUrl()).fit().centerInside().placeholder(R.drawable.ic_loading).into(holder.mItemImage, new Callback() {
                 @Override
                 public void onSuccess() {
                     holder.mItemImage.clearAnimation();
