@@ -1,36 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/preferences_notification">
+    <PreferenceCategory
+        android:title="@string/preferences_notification"
+        app:iconSpaceReserved="false">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="cbp_vibration"
-            android:title="@string/preferences_vibration" />
+            android:title="@string/preferences_vibration"
+            app:iconSpaceReserved="false" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="cbp_sound"
-            android:title="@string/preferences_sound" />
-        <RingtonePreference
-            android:key="rp_ringtone"
-            android:ringtoneType="all"
-            android:title="@string/preferences_select_sound" />
+            android:title="@string/preferences_sound"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/preferences_searching">
+    <PreferenceCategory
+        android:title="@string/preferences_searching"
+        app:iconSpaceReserved="false">
         <SeekBarPreference
             android:defaultValue="11"
             android:max="24"
-            android:title="@string/preferences_searching_interval" />
+            android:title="@string/preferences_searching_interval"
+            app:iconSpaceReserved="false"
+            app:showSeekBarValue="true" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:disableDependentsState="true"
             android:key="cbp_sound"
-            android:title="@string/preferences_night_mode" />
+            android:title="@string/preferences_night_mode"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/preferences_other">
+    <PreferenceCategory
+        android:title="@string/preferences_other"
+        app:iconSpaceReserved="false">
         <Preference
             android:key="btn_category"
-            android:title="@string/preferences_update_cats" />
+            android:title="@string/preferences_update_cats"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
