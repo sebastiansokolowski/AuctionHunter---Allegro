@@ -2,8 +2,8 @@ package com.sebastian.sokolowski.auctionhunter.main;
 
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
-import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
-import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
+import com.sebastian.sokolowski.auctionhunter.rest.request.SortType;
+import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 
 import java.util.List;
 
@@ -53,9 +53,7 @@ public interface MainContract {
 
         void setActualTarget(Target actualTarget);
 
-        void changeSortType(SortTypeEnum sortTypeEnum);
-
-        void changeSortOrder(SortOrderEnum sortOrderEnum);
+        void changeSortType(SortType sortType);
 
         void addToFavouriteTarget(Target target);
 

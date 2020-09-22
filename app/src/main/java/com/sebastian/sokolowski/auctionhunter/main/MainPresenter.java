@@ -7,9 +7,9 @@ import com.sebastian.sokolowski.auctionhunter.database.helper.FilterHelper;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.rest.AllegroClient;
+import com.sebastian.sokolowski.auctionhunter.rest.request.SortType;
 import com.sebastian.sokolowski.auctionhunter.rest.response.Listing;
-import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
-import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
+import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 
 import java.util.List;
 
@@ -75,12 +75,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void changeSortType(SortTypeEnum sortTypeEnum) {
-
-    }
-
-    @Override
-    public void changeSortOrder(SortOrderEnum sortOrderEnum) {
+    public void changeSortType(SortType sortType) {
 
     }
 

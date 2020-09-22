@@ -31,9 +31,8 @@ import com.sebastian.sokolowski.auctionhunter.main.adapter.DrawerAdapter;
 import com.sebastian.sokolowski.auctionhunter.main.adapter.MainAdapter;
 import com.sebastian.sokolowski.auctionhunter.main.views.SliderRecyclerView;
 import com.sebastian.sokolowski.auctionhunter.newTarget.NewTargetActivity;
+import com.sebastian.sokolowski.auctionhunter.rest.request.SortType;
 import com.sebastian.sokolowski.auctionhunter.settings.SettingsActivity;
-import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
-import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
 import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 
@@ -163,9 +162,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             case R.id.target_sort_type:
                 DialogHelper.changeSortTypeDialog(this, new DialogHelper.OnChangeSortType() {
                     @Override
-                    public void onChangeSortType(SortTypeEnum sortTypeEnum, SortOrderEnum sortOrderEnum) {
-                        mMainPresenter.changeSortType(sortTypeEnum);
-                        mMainPresenter.changeSortOrder(sortOrderEnum);
+                    public void onChangeSortType(SortType sortType) {
+                        mMainPresenter.changeSortType(sortType);
                     }
                 });
                 break;

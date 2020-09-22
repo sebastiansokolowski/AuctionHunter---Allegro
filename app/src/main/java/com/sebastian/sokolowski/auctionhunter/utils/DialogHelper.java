@@ -10,8 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
-import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
-import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
+import com.sebastian.sokolowski.auctionhunter.rest.request.SortType;
 
 /**
  * Created by Sebastian Sokołowski on 27.02.17.
@@ -56,22 +55,14 @@ public class DialogHelper {
                 context.getResources().getStringArray(R.array.sort_type));
         listViewSortType.setAdapter(adapterSortType);
 
-        final ListView listViewSortOrder = (ListView) view.findViewById(R.id.lv_sort_order);
-        ArrayAdapter<String> adapterSortOrder = new ArrayAdapter<>(context, android.R.layout.simple_list_item_single_choice,
-                context.getResources().getStringArray(R.array.sort_order));
-        listViewSortOrder.setAdapter(adapterSortOrder);
-
-
         builder.setPositiveButton(R.string.dialog_ok_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SortTypeEnum sortTypeEnum;
-                SortOrderEnum sortOrderEnum;
+                SortType sortTypeEnum;
 
-                sortTypeEnum = SortTypeEnum.values()[listViewSortType.getCheckedItemPosition()];
-                sortOrderEnum = SortOrderEnum.values()[listViewSortOrder.getCheckedItemPosition()];
+                sortTypeEnum = SortType.values()[listViewSortType.getCheckedItemPosition()];
 
-                onChangeSortType.onChangeSortType(sortTypeEnum, sortOrderEnum);
+                onChangeSortType.onChangeSortType(sortTypeEnum);
             }
         });
         builder.setNegativeButton(R.string.dialog_cancel_button, null);
@@ -80,6 +71,6 @@ public class DialogHelper {
     }
 
     public interface OnChangeSortType {
-        void onChangeSortType(SortTypeEnum sortTypeEnum, SortOrderEnum sortOrderEnum);
+        void onChangeSortType(SortType sortType);
     }
 }

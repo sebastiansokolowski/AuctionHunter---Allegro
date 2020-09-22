@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="sort_type">
+        <item>Trafność</item>
+        <item>Cena rosnąco</item>
+        <item>Cena malejąco</item>
+        <item>Cena z dostawą rosnąco</item>
+        <item>Cena z dostawą malejąco</item>
+        <item>Popularność</item>
         <item>Czas do końca</item>
         <item>Czas dodania</item>
-        <item>Cena</item>
-        <item>Cena z dostawą</item>
-        <item>Popularność</item>
-        <item>Nazwa</item>
-        <item>Trafność</item>
-    </array>
-    <array name="sort_order">
-        <item>Rosnąco</item>
-        <item>Malejąco</item>
     </array>
     <array name="offer_type">
         <item>Wszystkie</item>

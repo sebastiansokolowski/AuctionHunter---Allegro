@@ -24,7 +24,6 @@ import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.rest.AllegroClient;
 import com.sebastian.sokolowski.auctionhunter.rest.response.Listing;
-import com.sebastian.sokolowski.auctionhunter.soap.RequestManager;
 import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 import com.squareup.picasso.Picasso;
 
@@ -45,7 +44,6 @@ public class SearchService extends Service {
     private static String TAG = SearchService.class.getSimpleName();
     private static int NOTIFICATION_ID = 2;
 
-    private final RequestManager mRequestManager = new RequestManager();
     private Realm mRealm = Realm.getDefaultInstance();
     private SharedPreferences mSharedPreferences;
     private AllegroClient allegroClient;
