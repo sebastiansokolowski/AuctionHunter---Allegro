@@ -13,20 +13,18 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
-import com.alexgilleran.icesoap.exception.SOAPException;
-import com.alexgilleran.icesoap.observer.SOAPObserver;
-import com.alexgilleran.icesoap.request.Request;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.helper.FilterHelper;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
+import com.sebastian.sokolowski.auctionhunter.rest.AllegroClient;
+import com.sebastian.sokolowski.auctionhunter.rest.response.Listing;
 import com.sebastian.sokolowski.auctionhunter.soap.RequestManager;
-import com.sebastian.sokolowski.auctionhunter.soap.fault.AllegroSOAPFault;
-import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.DoGetItemsListResponse;
 import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +33,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Sebastian Sokołowski on 02.03.17.
@@ -47,6 +48,8 @@ public class SearchService extends Service {
     private final RequestManager mRequestManager = new RequestManager();
     private Realm mRealm = Realm.getDefaultInstance();
     private SharedPreferences mSharedPreferences;
+    private AllegroClient allegroClient;
+
 
     private long searchingInterval;
     private Handler mHandler;
@@ -56,6 +59,7 @@ public class SearchService extends Service {
         super.onCreate();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        allegroClient = new AllegroClient(this);
         //TODO: change share pref name
         searchingInterval = mSharedPreferences.getLong("searching_interval", TimeUnit.MINUTES.toMillis(10));
 
@@ -93,21 +97,16 @@ public class SearchService extends Service {
         Log.d(TAG, "Start searching new targets, data:" + new Date().toString());
         List<Target> targetList = mRealm.where(Target.class).findAll();
         for (final Target target : targetList
-                ) {
-            mRequestManager.doGetItemsList(target, new SOAPObserver<DoGetItemsListResponse, AllegroSOAPFault>() {
+        ) {
+            allegroClient.getOffers(target).enqueue(new Callback<Listing>() {
                 @Override
-                public void onCompletion(Request<DoGetItemsListResponse, AllegroSOAPFault> request) {
-                    if (request.getResult() == null || request.getResult().getItemList() == null) {
-                        Log.d(TAG, "No results");
-                        return;
-                    }
-
-                    List<TargetItem> targetItems = FilterHelper.createTargetItems(request.getResult().getItemList());
+                public void onResponse(Call<Listing> call, Response<Listing> response) {
+                    List<TargetItem> targetItems = FilterHelper.createTargetItems(response.body());
                     for (TargetItem downloadedTargetItem : targetItems
-                            ) {
+                    ) {
                         boolean exist = false;
                         for (TargetItem savedTargetItem : target.getAllItems()
-                                ) {
+                        ) {
                             if (savedTargetItem.equals(downloadedTargetItem)) {
                                 exist = true;
                                 break;
@@ -126,33 +125,24 @@ public class SearchService extends Service {
                 }
 
                 @Override
-                public void onException(Request<DoGetItemsListResponse, AllegroSOAPFault> request, SOAPException e) {
-                    Log.d(TAG, "Target: " + target.toString());
-                    if (request.getSOAPFault()!= null && request.getSOAPFault().getFaultString() != null) {
-                        Log.d(TAG, "onException: " + request.getSOAPFault().getFaultString());
-                    }else{
-                        Log.d(TAG, "onException: " + e.toString());
-                    }
+                public void onFailure(Call<Listing> call, Throwable t) {
+                    Log.e(TAG, "Target: " + target.toString());
+                    Log.e(TAG, "onException: " + t.getMessage());
                 }
             });
         }
+
     }
 
     private void showNotification(TargetItem targetItem) {
         NOTIFICATION_ID++;
 
         String title = "";
-        switch (targetItem.getOffertype()) {
+        switch (targetItem.getSettingModeFormat()) {
             case AUCTION:
                 title = MyUtils.getPrice(getApplicationContext(), targetItem.getPriceBid());
                 break;
-            case BOTH:
-                if (targetItem.getPriceBid() > targetItem.getPrice()) {
-                    title = MyUtils.getPrice(getApplicationContext(), targetItem.getPrice());
-                } else {
-                    title = MyUtils.getPrice(getApplicationContext(), targetItem.getPriceBid());
-                }
-                break;
+            case ADVERTISEMENT:
             case BUY_NOW:
                 title = MyUtils.getPrice(getApplicationContext(), targetItem.getPrice());
                 break;

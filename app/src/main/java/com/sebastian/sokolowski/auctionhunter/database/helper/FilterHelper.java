@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.FilterModel;
 import com.sebastian.sokolowski.auctionhunter.database.models.FilterValueModel;
@@ -25,9 +26,10 @@ import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.rest.response.CategoryParameter;
 import com.sebastian.sokolowski.auctionhunter.rest.response.CategoryParameterDictionary;
 import com.sebastian.sokolowski.auctionhunter.rest.response.CategoryParameterType;
-import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.Item;
-import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.PhotoInfoType;
-import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.PriceInfoType;
+import com.sebastian.sokolowski.auctionhunter.rest.response.Listing;
+import com.sebastian.sokolowski.auctionhunter.rest.response.ListingOffer;
+import com.sebastian.sokolowski.auctionhunter.rest.response.OfferImages;
+import com.sebastian.sokolowski.auctionhunter.rest.response.SellingModeFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,58 +43,133 @@ import java.util.List;
 public class FilterHelper {
     private static List<String> filtersIdToSkip = Arrays.asList();
 
-    public static List<TargetItem> createTargetItems(List<Item> itemList) {
+    public static List<TargetItem> createTargetItems(Listing itemList) {
         List<TargetItem> targetItems = new ArrayList<>();
 
-        for (Item item : itemList
+        List<ListingOffer> offers = new ArrayList<>();
+        offers.addAll(itemList.getItems().getPromoted());
+        offers.addAll(itemList.getItems().getRegular());
+
+        for (ListingOffer item : offers
         ) {
             TargetItem targetItem = new TargetItem();
-            targetItem.setId(item.getItemId());
-            targetItem.setName(item.getItemTitle());
+            targetItem.setId(item.getId());
+            targetItem.setName(item.getName());
+            targetItem.setSellingModeFormat(item.getSellingMode().getFormat());
 
-            if (item.getPhotosInfo() != null) {
-                mainLoop:
-                for (PhotoInfoType photoInfoType : item.getPhotosInfo()
-                ) {
-                    switch (photoInfoType.getPhotoSize()) {
-                        case PHOTO_TYPE_LARGE:
-                            targetItem.setImageUrl(photoInfoType.getPhotoUrl());
-                            break mainLoop;
-                    }
-                }
-            }
-
-            for (PriceInfoType priceInfoType : item.getPriceInfo()
+            for (OfferImages offerImages : item.getImages()
             ) {
-                switch (priceInfoType.getPriceType()) {
-                    case PRICE_TYPE_BIDDING:
-                        if (targetItem.getOffertype() == null) {
-                            targetItem.setOffertype(TargetItem.Offertype.AUCTION);
-                        } else {
-                            targetItem.setOffertype(TargetItem.Offertype.BOTH);
-                        }
-                        targetItem.setPriceBid(priceInfoType.getPriceValue());
-                        break;
-                    case PRICE_TYPE_BUY_NOW:
-                        if (targetItem.getOffertype() == null) {
-                            targetItem.setOffertype(TargetItem.Offertype.BUY_NOW);
-                        } else {
-                            targetItem.setOffertype(TargetItem.Offertype.BOTH);
-                        }
-                        targetItem.setPrice(priceInfoType.getPriceValue());
-                        break;
-                    case PRICE_TYPE_WITH_DELIVERY:
-                        targetItem.setPriceFull(priceInfoType.getPriceValue());
-                        break;
+                targetItem.setImageUrl(offerImages.getUrl());
+            }
+
+            if (item.getSellingMode().getFormat() == SellingModeFormat.AUCTION) {
+                targetItem.setPriceBid(Float.parseFloat(item.getSellingMode().getPrice().getAmount()));
+                if (item.getSellingMode().getFixedPrice() != null) {
+                    targetItem.setPrice(Float.parseFloat(item.getSellingMode().getFixedPrice().getAmount()));
                 }
             }
+            float fullPrice = Float.parseFloat(item.getSellingMode().getPrice().getAmount()) +
+                    Float.parseFloat(item.getDelivery().getLowestPrice().getAmount());
+            targetItem.setPriceFull(fullPrice);
+
             targetItems.add(targetItem);
         }
 
         return targetItems;
     }
 
-    public static HashMap<FilterModel, View> createFiltersViews(Context context, List<CategoryParameter> filterItemList) {
+    public static HashMap<FilterModel, View> createDefaultFiltersViews(Context context) {
+        List<CategoryParameter> categoryParameters = new ArrayList<>();
+        //Price
+        LinkedTreeMap<String, Object> priceRestrictions = new LinkedTreeMap<>();
+        priceRestrictions.put("range", true);
+        CategoryParameter priceCategoryParameter = new CategoryParameter(
+                "price",
+                "Cena",
+                CategoryParameterType.FLOAT,
+                false,
+                false,
+                "zł",
+                priceRestrictions,
+                null
+        );
+        categoryParameters.add(priceCategoryParameter);
+        //SellingMode
+        LinkedTreeMap<String, Object> sellingModeRestrictions = new LinkedTreeMap<>();
+        sellingModeRestrictions.put("multipleChoices", true);
+        List<CategoryParameterDictionary> sellingModes = new ArrayList<>();
+        sellingModes.add(new CategoryParameterDictionary("BUY_NOW", "Kup teraz", new ArrayList<>()));
+        sellingModes.add(new CategoryParameterDictionary("AUCTION", "Aukcja", new ArrayList<>()));
+        sellingModes.add(new CategoryParameterDictionary("ADVERTISEMENT", "Ogłoszenie", new ArrayList<>()));
+        CategoryParameter sellingModeCategoryParameter = new CategoryParameter(
+                "sellingMode.format",
+                "Rodzaj oferty",
+                CategoryParameterType.DICTIONARY,
+                false,
+                false,
+                "",
+                sellingModeRestrictions,
+                sellingModes
+        );
+        categoryParameters.add(sellingModeCategoryParameter);
+        //SearchMode
+        LinkedTreeMap<String, Object> searchModeRestrictions = new LinkedTreeMap<>();
+        List<CategoryParameterDictionary> searchModes = new ArrayList<>();
+        searchModes.add(new CategoryParameterDictionary("REGULAR", "W tytule", new ArrayList<>()));
+        searchModes.add(new CategoryParameterDictionary("DESCRIPTIONS", "W tytule i opisach", new ArrayList<>()));
+        searchModes.add(new CategoryParameterDictionary("CLOSED", "W tytule ofert zamkniętych", new ArrayList<>()));
+        CategoryParameter searchModeCategoryParameter = new CategoryParameter(
+                "searchMode",
+                "Wyszukiwanie",
+                CategoryParameterType.DICTIONARY,
+                false,
+                false,
+                "",
+                searchModeRestrictions,
+                searchModes
+        );
+        categoryParameters.add(searchModeCategoryParameter);
+        //Location
+        LinkedTreeMap<String, Object> locationRestrictions = new LinkedTreeMap<>();
+        CategoryParameter locationCategoryParameter = new CategoryParameter(
+                "location.city",
+                "Lokalizacja",
+                CategoryParameterType.STRING,
+                false,
+                false,
+                "",
+                locationRestrictions,
+                null
+        );
+        categoryParameters.add(locationCategoryParameter);
+        //Options
+        LinkedTreeMap<String, Object> optionsRestrictions = new LinkedTreeMap<>();
+        optionsRestrictions.put("multipleChoices", true);
+        List<CategoryParameterDictionary> options = new ArrayList<>();
+        options.add(new CategoryParameterDictionary("FREE_SHIPPING", "Darmowa wysyłka", new ArrayList<>()));
+        options.add(new CategoryParameterDictionary("FREE_RETURN", "Darmowy zwrot", new ArrayList<>()));
+        options.add(new CategoryParameterDictionary("VAT_INVOICE", "Faktura VAT", new ArrayList<>()));
+        options.add(new CategoryParameterDictionary("COINS", "Monety Allegro", new ArrayList<>()));
+        options.add(new CategoryParameterDictionary("BRAND_ZONE", "Strefa Marek", new ArrayList<>()));
+        options.add(new CategoryParameterDictionary("SUPERSELLER", "Super Sprzedawca", new ArrayList<>()));
+        options.add(new CategoryParameterDictionary("CHARITY", "Oferta charytatywna", new ArrayList<>()));
+        options.add(new CategoryParameterDictionary("SMART", "Allegro Smart", new ArrayList<>()));
+        CategoryParameter optionCategoryParameter = new CategoryParameter(
+                "option",
+                "Opcje",
+                CategoryParameterType.DICTIONARY,
+                false,
+                false,
+                null,
+                optionsRestrictions,
+                options
+        );
+        categoryParameters.add(optionCategoryParameter);
+
+        return createFiltersViews(context, categoryParameters, false);
+    }
+
+    public static HashMap<FilterModel, View> createFiltersViews(Context context, List<CategoryParameter> filterItemList, boolean parameter) {
         HashMap<FilterModel, View> filterViewHashMap = new HashMap<>();
 
         for (final CategoryParameter categoryParameter : filterItemList
@@ -104,6 +181,7 @@ public class FilterHelper {
             final FilterModel filterModel = new FilterModel();
             filterModel.setFilterId(categoryParameter.getId());
             filterModel.setFilterName(categoryParameter.getName());
+            filterModel.setParameter(parameter);
             filterModel.setDataTypeEnum(categoryParameter.getType());
             switch (categoryParameter.getType()) {
                 case INTEGER:

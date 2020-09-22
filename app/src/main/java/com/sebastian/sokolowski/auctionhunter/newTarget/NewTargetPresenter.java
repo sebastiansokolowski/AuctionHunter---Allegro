@@ -29,6 +29,7 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
     private final NewTargetContract.View mView;
     private final Realm mRealm = Realm.getDefaultInstance();
     private final Context mContext;
+    private HashMap<FilterModel, View> mDefaultFiltersHashMap;
     private HashMap<FilterModel, View> mFiltersHashMap;
     private AllegroService allegroService;
 
@@ -43,7 +44,12 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
 
     @Override
     public void start() {
+        mDefaultFiltersHashMap = FilterHelper.createDefaultFiltersViews(mContext);
 
+        for (Map.Entry<FilterModel, View> entry : mDefaultFiltersHashMap.entrySet()
+        ) {
+            mView.addFilterView(entry.getValue());
+        }
     }
 
     @Override
@@ -65,7 +71,7 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
                     mView.showErrorMessage(mContext.getString(R.string.new_target_no_filters_info));
                     return;
                 }
-                mFiltersHashMap = FilterHelper.createFiltersViews(mContext, categoryParameters);
+                mFiltersHashMap = FilterHelper.createFiltersViews(mContext, categoryParameters, true);
 
                 for (Map.Entry<FilterModel, View> entry : mFiltersHashMap.entrySet()
                 ) {
@@ -97,6 +103,9 @@ public class NewTargetPresenter implements NewTargetContract.Presenter {
         }
 
         for (Map.Entry<FilterModel, View> entry : mFiltersHashMap.entrySet()) {
+            target.addFilterModel(entry.getKey());
+        }
+        for (Map.Entry<FilterModel, View> entry : mDefaultFiltersHashMap.entrySet()) {
             target.addFilterModel(entry.getKey());
         }
 

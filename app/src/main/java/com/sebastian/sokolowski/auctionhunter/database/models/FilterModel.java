@@ -15,6 +15,7 @@ public class FilterModel extends RealmObject {
     private String filterId;
     private String filterName;
     private String dataTypeEnum;
+    private boolean parameter;
     private boolean isRange;
     private boolean multipleChoices;
     private Integer arraySize;
@@ -49,6 +50,14 @@ public class FilterModel extends RealmObject {
 
     public void setDataTypeEnum(CategoryParameterType dataType) {
         this.dataTypeEnum = dataType.name();
+    }
+
+    public boolean isParameter() {
+        return parameter;
+    }
+
+    public void setParameter(boolean parameter) {
+        this.parameter = parameter;
     }
 
     public boolean isRange() {

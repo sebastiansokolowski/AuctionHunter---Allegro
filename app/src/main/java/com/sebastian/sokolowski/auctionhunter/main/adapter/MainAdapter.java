@@ -2,7 +2,9 @@ package com.sebastian.sokolowski.auctionhunter.main.adapter;
 
 import android.content.Context;
 import android.os.Build;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
+import com.sebastian.sokolowski.auctionhunter.rest.response.SellingModeFormat;
 import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -49,19 +52,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TargetViewHold
 
         holder.priceFull.setText(MyUtils.getPrice(context, item.getPriceFull()));
 
-        if (item.getOffertype() == TargetItem.Offertype.BOTH ||
-                item.getOffertype() == TargetItem.Offertype.BUY_NOW) {
+        if (item.getPrice() != null) {
             holder.price.setVisibility(View.VISIBLE);
             holder.price.setText(MyUtils.getPrice(context, item.getPrice()));
-        }else{
+        } else {
             holder.price.setVisibility(View.GONE);
         }
 
-        if (item.getOffertype() == TargetItem.Offertype.BOTH ||
-                item.getOffertype() == TargetItem.Offertype.AUCTION) {
+        if (item.getPriceBid() != null) {
             holder.priceBid.setVisibility(View.VISIBLE);
             holder.priceBid.setText(MyUtils.getPrice(context, item.getPriceBid()));
-        }else{
+        } else {
             holder.priceBid.setVisibility(View.GONE);
         }
 

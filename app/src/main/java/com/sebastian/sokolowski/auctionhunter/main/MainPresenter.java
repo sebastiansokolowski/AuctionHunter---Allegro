@@ -2,22 +2,21 @@ package com.sebastian.sokolowski.auctionhunter.main;
 
 import android.content.Context;
 
-import com.alexgilleran.icesoap.exception.SOAPException;
-import com.alexgilleran.icesoap.observer.SOAPObserver;
-import com.alexgilleran.icesoap.request.Request;
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.helper.FilterHelper;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
-import com.sebastian.sokolowski.auctionhunter.soap.RequestManager;
-import com.sebastian.sokolowski.auctionhunter.soap.fault.AllegroSOAPFault;
+import com.sebastian.sokolowski.auctionhunter.rest.AllegroClient;
+import com.sebastian.sokolowski.auctionhunter.rest.response.Listing;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortOrderEnum;
 import com.sebastian.sokolowski.auctionhunter.soap.request.SortTypeEnum;
-import com.sebastian.sokolowski.auctionhunter.soap.response.doGetItemsListResponse.DoGetItemsListResponse;
 
 import java.util.List;
 
 import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Sebastain Sokołowski on 21.02.17.
@@ -27,15 +26,16 @@ public class MainPresenter implements MainContract.Presenter {
     private String TAG = MainPresenter.class.getSimpleName();
 
     private final MainContract.View mView;
-    private final RequestManager mRequestManager = new RequestManager();
     private Realm mRealm = Realm.getDefaultInstance();
     private Context mContext;
+    private AllegroClient allegroClient;
 
     private Target mCurrentTarget;
 
     public MainPresenter(MainActivity mainActivity) {
         mView = mainActivity;
         mContext = mainActivity;
+        allegroClient = new AllegroClient(mContext);
     }
 
     @Override
@@ -121,19 +121,15 @@ public class MainPresenter implements MainContract.Presenter {
         if (mCurrentTarget == null) {
             return;
         }
-        mRequestManager.doGetItemsList(mCurrentTarget, new SOAPObserver<DoGetItemsListResponse, AllegroSOAPFault>() {
+        allegroClient.getOffers(mCurrentTarget).enqueue(new Callback<Listing>() {
             @Override
-            public void onCompletion(Request<DoGetItemsListResponse, AllegroSOAPFault> request) {
+            public void onResponse(Call<Listing> call, Response<Listing> response) {
                 mView.showLoadingProgress(false);
-                if (request.getResult() == null || request.getResult().getItemList() == null) {
-                    mView.showNoDataInfo();
-                    return;
-                }
 
                 mRealm.beginTransaction();
                 mCurrentTarget.getAllItems().clear();
 
-                List<TargetItem> targetItems = FilterHelper.createTargetItems(request.getResult().getItemList());
+                List<TargetItem> targetItems = FilterHelper.createTargetItems(response.body());
 
                 if (targetItems.size() > 0) {
                     mCurrentTarget.addTargetItemsToAllItems(targetItems);
@@ -147,14 +143,8 @@ public class MainPresenter implements MainContract.Presenter {
             }
 
             @Override
-            public void onException(Request<DoGetItemsListResponse, AllegroSOAPFault> request, SOAPException e) {
-                if (request.getSOAPFault() == null || request.getSOAPFault().getFaultString() == null) {
-                    mView.showErrorToast(mContext.getString(R.string.main_activity_error));
-                    return;
-                }
-                if (request.getSOAPFault().getFaultString() != null) {
-                    mView.showErrorToast(request.getSOAPFault().getFaultString());
-                }
+            public void onFailure(Call<Listing> call, Throwable t) {
+                mView.showErrorToast(t.getMessage());
             }
         });
     }

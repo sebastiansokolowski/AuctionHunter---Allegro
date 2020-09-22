@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface AllegroService {
     companion object {
@@ -24,5 +25,11 @@ interface AllegroService {
     fun getCategoryParameters(@Path("categoryId") categoryId: String): Call<CategoryParameters>
 
     @GET("/offers/listing")
-    fun getOffers(): Call<Listing>
+    fun getOffers(
+            @Query("category.id") categoryId: String? = null,
+            @Query("phrase") phrase: String? = null,
+            @Query("fallback") fallback: Boolean = false,
+            @Query("sort") sort: String = "+price",
+            @QueryMap parameters: Map<String, String>
+    ): Call<Listing>
 }

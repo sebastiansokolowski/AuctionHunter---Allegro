@@ -1,5 +1,7 @@
 package com.sebastian.sokolowski.auctionhunter.database.models;
 
+import com.sebastian.sokolowski.auctionhunter.rest.response.SellingModeFormat;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -9,8 +11,8 @@ import io.realm.annotations.PrimaryKey;
 
 public class TargetItem extends RealmObject {
     @PrimaryKey
-    private Long id;
-    private String offertype;
+    private String id;
+    private String sellingModeFormat;
     private String name;
     private String imageUrl;
     private Float price;
@@ -18,17 +20,15 @@ public class TargetItem extends RealmObject {
     private Float priceBid;
     private String when;
 
-    public enum Offertype {BUY_NOW, AUCTION, BOTH}
-
-    public Offertype getOffertype() {
-        if (offertype == null || offertype.equals("")) {
+    public SellingModeFormat getSettingModeFormat() {
+        if (sellingModeFormat == null || sellingModeFormat.equals("")) {
             return null;
         }
-        return Offertype.valueOf(offertype);
+        return SellingModeFormat.valueOf(sellingModeFormat);
     }
 
-    public void setOffertype(Offertype offertype) {
-        this.offertype = offertype.toString();
+    public void setSellingModeFormat(SellingModeFormat sellingModeFormat) {
+        this.sellingModeFormat = sellingModeFormat.toString();
     }
 
     public String getName() {
@@ -79,11 +79,11 @@ public class TargetItem extends RealmObject {
         this.when = when;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
