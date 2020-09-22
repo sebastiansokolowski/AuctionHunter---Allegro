@@ -54,6 +54,9 @@ public class FilterHelper {
         ) {
             TargetItem targetItem = new TargetItem();
             targetItem.setId(item.getId());
+            if (item.getVendor() != null) {
+                targetItem.setUrl(item.getVendor().getUrl());
+            }
             targetItem.setName(item.getName());
             targetItem.setSellingModeFormat(item.getSellingMode().getFormat());
 

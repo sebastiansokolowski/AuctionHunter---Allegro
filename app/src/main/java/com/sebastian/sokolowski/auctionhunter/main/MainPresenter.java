@@ -9,7 +9,6 @@ import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
 import com.sebastian.sokolowski.auctionhunter.rest.AllegroClient;
 import com.sebastian.sokolowski.auctionhunter.rest.request.SortType;
 import com.sebastian.sokolowski.auctionhunter.rest.response.Listing;
-import com.sebastian.sokolowski.auctionhunter.utils.DialogHelper;
 
 import java.util.List;
 
@@ -146,7 +145,11 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void clickTargetItem(TargetItem targetItem) {
-        mView.showTargetItem(mContext.getString(R.string.ALLEGRO_URL_ITEM) + targetItem.getId());
+        if (targetItem.getUrl() != null) {
+            mView.showTargetItem(targetItem.getUrl());
+        } else {
+            mView.showTargetItem(mContext.getString(R.string.ALLEGRO_URL_ITEM) + targetItem.getId());
+        }
     }
 
     @Override

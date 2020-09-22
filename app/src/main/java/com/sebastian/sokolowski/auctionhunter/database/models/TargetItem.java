@@ -12,6 +12,7 @@ import io.realm.annotations.PrimaryKey;
 public class TargetItem extends RealmObject {
     @PrimaryKey
     private String id;
+    private String url;
     private String sellingModeFormat;
     private String name;
     private String imageUrl;
@@ -85,6 +86,14 @@ public class TargetItem extends RealmObject {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

@@ -6,5 +6,6 @@ data class ListingOffer @JvmOverloads constructor(
         val delivery: OfferDelivery,
         val images: List<OfferImages>,
         val sellingMode: OfferSellingMode,
+        val vendor: OfferVendor?,
         val category: OfferCategory
 )
