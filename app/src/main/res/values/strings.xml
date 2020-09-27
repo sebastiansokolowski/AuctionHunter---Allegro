@@ -81,7 +81,8 @@
 
     <!-- NOTIFICATION-->
     <string name="notification_channel_name">Default notification channel</string>
-    <string name="foreground_notifiation_text">Searching for new auctions...</string>
+    <string name="foreground_notification_title">Searching for new auctions...</string>
+    <string name="foreground_notification_text">Last scan time: %1$s</string>
 
 
 </resources>

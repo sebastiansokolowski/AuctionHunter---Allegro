@@ -20,6 +20,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.helper.FilterHelper;
@@ -31,6 +32,7 @@ import com.sebastian.sokolowski.auctionhunter.rest.response.Listing;
 import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -63,7 +65,6 @@ public class SearchService extends Service {
         super.onCreate();
 
         createNotificationChannel();
-        showForegroundNotification();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         allegroClient = new AllegroClient(this);
@@ -102,6 +103,9 @@ public class SearchService extends Service {
 
     private void searchingNewTargets() {
         Log.d(TAG, "Start searching new targets, data:" + new Date().toString());
+
+        updateForegroundNotificationText();
+
         List<Target> targetList = mRealm.where(Target.class).findAll();
         for (final Target target : targetList
         ) {
@@ -151,20 +155,36 @@ public class SearchService extends Service {
         }
     }
 
-    private void showForegroundNotification(){
+    private Notification createForegroundNotification(Date lastScanDate) {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        Notification notification =
-                new Notification.Builder(this, NOTIFICATION__CHANNEL_ID)
-                        .setContentTitle(getString(R.string.app_name))
-                        .setContentText(getString(R.string.foreground_notifiation_text))
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentIntent(pendingIntent)
-                        .build();
+        String lastScanTimeText = "null";
+        if (lastScanDate != null) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+            lastScanTimeText = simpleDateFormat.format(lastScanDate);
+        }
 
+        return new Notification.Builder(this, NOTIFICATION__CHANNEL_ID)
+                .setContentTitle(getString(R.string.foreground_notification_title))
+                .setContentText(getString(R.string.foreground_notification_text, lastScanTimeText))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(true)
+                .build();
+    }
+
+    private void showForegroundNotification() {
+        Notification notification = createForegroundNotification(null);
         startForeground(FOREGROUND_NOTIFICATION_ID, notification);
+    }
+
+    private void updateForegroundNotificationText() {
+        Notification notification = createForegroundNotification(new Date());
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.notify(FOREGROUND_NOTIFICATION_ID, notification);
     }
 
     private void showNotification(TargetItem targetItem) {

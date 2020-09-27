@@ -65,5 +65,7 @@
 
     <!-- NOTIFICATION-->
     <string name="notification_channel_name">Domyślny kanał komunikacji</string>
-    <string name="foreground_notifiation_text">Wyszukiwanie nowych aukcji...</string>
+    <string name="foreground_notification_title">Wyszukiwanie nowych aukcji...</string>
+    <string name="foreground_notification_text">Ostatni czas skanowania: %1$s</string>
+
 </resources>
