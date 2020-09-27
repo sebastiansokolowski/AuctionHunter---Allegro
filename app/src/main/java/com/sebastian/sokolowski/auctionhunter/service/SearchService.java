@@ -1,5 +1,7 @@
 package com.sebastian.sokolowski.auctionhunter.service;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -9,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -22,6 +25,7 @@ import com.sebastian.sokolowski.auctionhunter.R;
 import com.sebastian.sokolowski.auctionhunter.database.helper.FilterHelper;
 import com.sebastian.sokolowski.auctionhunter.database.models.Target;
 import com.sebastian.sokolowski.auctionhunter.database.models.TargetItem;
+import com.sebastian.sokolowski.auctionhunter.main.MainActivity;
 import com.sebastian.sokolowski.auctionhunter.rest.AllegroClient;
 import com.sebastian.sokolowski.auctionhunter.rest.response.Listing;
 import com.sebastian.sokolowski.auctionhunter.utils.MyUtils;
@@ -42,6 +46,8 @@ import retrofit2.Response;
 
 public class SearchService extends Service {
     private static String TAG = SearchService.class.getSimpleName();
+    private final static int FOREGROUND_NOTIFICATION_ID = 1;
+    private final static String NOTIFICATION__CHANNEL_ID = "default_channel";
     private static int NOTIFICATION_ID = 2;
 
     private Realm mRealm = Realm.getDefaultInstance();
@@ -56,10 +62,13 @@ public class SearchService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        createNotificationChannel();
+        showForegroundNotification();
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         allegroClient = new AllegroClient(this);
         //TODO: change share pref name
-        searchingInterval = mSharedPreferences.getLong("searching_interval", TimeUnit.MINUTES.toMillis(10));
+        searchingInterval = mSharedPreferences.getLong("searching_interval", TimeUnit.SECONDS.toMillis(10));
 
         //start searching targets
         mHandler = new Handler();
@@ -103,8 +112,7 @@ public class SearchService extends Service {
                     for (TargetItem downloadedTargetItem : targetItems
                     ) {
                         boolean exist = false;
-                        for (TargetItem savedTargetItem : target.getAllItems()
-                        ) {
+                        for (TargetItem savedTargetItem : target.getAllItems()) {
                             if (savedTargetItem.equals(downloadedTargetItem)) {
                                 exist = true;
                                 break;
@@ -130,6 +138,33 @@ public class SearchService extends Service {
             });
         }
 
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.notification_channel_name);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION__CHANNEL_ID, name, importance);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void showForegroundNotification(){
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent =
+                PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        Notification notification =
+                new Notification.Builder(this, NOTIFICATION__CHANNEL_ID)
+                        .setContentTitle(getString(R.string.app_name))
+                        .setContentText(getString(R.string.foreground_notifiation_text))
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentIntent(pendingIntent)
+                        .build();
+
+        startForeground(FOREGROUND_NOTIFICATION_ID, notification);
     }
 
     private void showNotification(TargetItem targetItem) {
@@ -161,7 +196,7 @@ public class SearchService extends Service {
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, NOTIFICATION__CHANNEL_ID)
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(title)
                 .setAutoCancel(true)

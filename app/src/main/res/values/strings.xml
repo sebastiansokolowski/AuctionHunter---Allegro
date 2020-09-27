@@ -79,4 +79,9 @@
     <string name="new_target_searching_name">Searching name</string>
     <string name="new_target_no_filters_info">No filters available at this category</string>
 
+    <!-- NOTIFICATION-->
+    <string name="notification_channel_name">Default notification channel</string>
+    <string name="foreground_notifiation_text">Searching for new auctions...</string>
+
+
 </resources>

@@ -62,4 +62,8 @@
     <string name="new_target_message_enter_searching_name">Podaj nazwę wyszukiwania</string>
     <string name="new_target_message_select_category">Wybierz kategorię</string>
     <string name="currency_name">zł</string>
+
+    <!-- NOTIFICATION-->
+    <string name="notification_channel_name">Domyślny kanał komunikacji</string>
+    <string name="foreground_notifiation_text">Wyszukiwanie nowych aukcji...</string>
 </resources>

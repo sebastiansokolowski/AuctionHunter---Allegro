@@ -20,10 +20,11 @@
         android:title="@string/preferences_searching"
         app:iconSpaceReserved="false">
         <SeekBarPreference
-            android:defaultValue="11"
-            android:max="24"
+            android:defaultValue="10"
+            android:max="60"
             android:title="@string/preferences_searching_interval"
             app:iconSpaceReserved="false"
+            app:min="5"
             app:showSeekBarValue="true" />
         <CheckBoxPreference
             android:defaultValue="false"
