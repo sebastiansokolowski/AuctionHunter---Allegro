@@ -30,6 +30,8 @@ interface AllegroService {
             @Query("phrase") phrase: String? = null,
             @Query("fallback") fallback: Boolean = false,
             @Query("sort") sort: String = "+price",
+            @Query("include") excludeObjects: String = "-all",
+            @Query("include") includeObjects: String = "items",
             @QueryMap parameters: Map<String, String>
     ): Call<Listing>
 }
