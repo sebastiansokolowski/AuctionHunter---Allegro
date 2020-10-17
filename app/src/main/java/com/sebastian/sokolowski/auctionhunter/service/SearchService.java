@@ -65,6 +65,7 @@ public class SearchService extends Service {
         super.onCreate();
 
         createNotificationChannel();
+        showForegroundNotification();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         allegroClient = new AllegroClient(this);
