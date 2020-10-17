@@ -45,7 +45,7 @@ class AllegroAuthClient(val context: Context) {
 
     private fun getOkHttpClient(): OkHttpClient {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
 
         return OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
