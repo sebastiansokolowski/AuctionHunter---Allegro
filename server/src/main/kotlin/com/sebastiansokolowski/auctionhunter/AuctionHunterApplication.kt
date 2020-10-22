@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class AuctionhunterApplication
+class AuctionHunterApplication
 
 fun main(args: Array<String>) {
-	runApplication<AuctionhunterApplication>(*args)
+	runApplication<AuctionHunterApplication>(*args)
 }
