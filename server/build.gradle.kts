@@ -29,6 +29,12 @@ dependencies {
 
 	//database
 	implementation("mysql:mysql-connector-java:8.0.19")
+
+	//retrofit
+	implementation("com.squareup.retrofit2:retrofit:2.9.0")
+	implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+	implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
+	implementation("com.squareup.okhttp3:okhttp:4.2.1")
 }
 
 tasks.withType<Test> {
