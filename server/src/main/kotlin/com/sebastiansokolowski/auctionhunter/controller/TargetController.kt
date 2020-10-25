@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/target")
-class TargetsController {
+class TargetController {
 
     @Autowired
     private lateinit var targetDao: TargetDao
