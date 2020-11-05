@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {HashRouter, Route, Switch} from 'react-router-dom'
 import ListTargetComponent from './components/ListTargetComponent';
 import HeaderComponent from './components/HeaderComponent';
 import ViewTargetComponent from './components/ViewTargetComponent';
@@ -8,7 +8,7 @@ import ViewTargetComponent from './components/ViewTargetComponent';
 function App() {
   return (
     <div>
-        <Router>
+        <HashRouter>
               <HeaderComponent />
                 <div className="container">
                     <Switch> 
@@ -17,7 +17,7 @@ function App() {
                           <Route path = "/edit/:id" component = {ViewTargetComponent}></Route>
                     </Switch>
                 </div>
-        </Router>
+        </HashRouter>
     </div>
     
   );
