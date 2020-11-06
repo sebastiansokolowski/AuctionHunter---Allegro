@@ -11,10 +11,10 @@ data class Target(
         var name: String = "",
         var categoryId: String = "",
         var phrase: String = "",
-        @OneToMany(cascade = [CascadeType.ALL])
+        @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
         @JoinColumn(name = "target_id")
         var parameters: MutableList<TargetParameters> = mutableListOf(),
-        @OneToMany(cascade = [CascadeType.ALL])
+        @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
         @JoinColumn(name = "target_id")
         var offers: MutableList<Offer> = mutableListOf()
 )
