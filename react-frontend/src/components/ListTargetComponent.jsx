@@ -57,7 +57,7 @@ class ListTargetComponent extends Component {
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Link</th>
+                                <th>Phrase</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -67,7 +67,7 @@ class ListTargetComponent extends Component {
                                     target =>
                                         <tr key={target.id}>
                                             <td>{target.name}</td>
-                                            <td>{target.name}</td>
+                                            <td>{target.phrase}</td>
                                             <td>
                                                 <button style={{ marginLeft: "10px" }} onClick={() => this.viewTarget(target)} className="btn btn-info">View</button>
                                                 <button style={{ marginLeft: "10px" }} onClick={() => this.editTarget(target.id)} className="btn btn-info">Update</button>
