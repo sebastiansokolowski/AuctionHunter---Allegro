@@ -160,17 +160,27 @@ class CreateTargetComponent extends Component {
         }
         let newParameters = this.state.parameters;
 
-        //remove old value
-        if (event.target.type === "radio"
-            || event.target.type === "text"
-            || (event.target.type === "checkbox" && !event.target.checked)) {
-            newParameters = newParameters.filter(a => a.name !== parameter.name);
+        switch (event.target.type) {
+            case 'radio':
+            case 'text':
+                newParameters = newParameters.filter(a => a.name !== parameter.name);
+                if (parameter.value && parameter.value !== '') {
+                    newParameters.push(parameter);
+                }
+                break;
+            case 'checkbox':
+                if (!event.target.checked) {
+                    newParameters = newParameters.filter(
+                        a => (a.name !== parameter.name || a.value !== parameter.value)
+                    );
+                } else {
+                    newParameters.push(parameter);
+                }
+                break;
+            default:
+                break;
         }
-        //push new value
-        if (parameter.value && parameter.value !== '') {
-            newParameters.push(parameter);
-        }
-
+        console.log(newParameters);
         this.setState({ parameters: newParameters });
     }
 
