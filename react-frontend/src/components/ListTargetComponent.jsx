@@ -24,7 +24,9 @@ class ListTargetComponent extends Component {
     }
 
     viewTarget(target) {
-        var link = `https://allegro.pl/kategoria/${target.categoryId}?&order=d`;
+        var link = `https://allegro.pl/kategoria/${target.categoryId}?`;
+        link +=`&order=d`;
+        link +=`&string=${target.phrase}`;
         for (let parameter of target.parameters) {
             if (parameter.name === "price.from") {
                 link += `&price.from=${parameter.value}`;
