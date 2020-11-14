@@ -17,6 +17,7 @@ class ListTargetComponent extends Component {
     refreshTargets() {
         TargetService.getTargets().then((res) => {
             this.setState({ targets: res.data });
+            this.state.targets.sort((a, b) => a.name.localeCompare(b.name));
         }).catch((error) => {
             console.log(error);
         });
