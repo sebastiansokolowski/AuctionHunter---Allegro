@@ -82,8 +82,8 @@ class CreateTargetComponent extends Component {
     selectPrevCategory = (e) => {
         let categoryId = this.state.categoryIdsHistory.pop();
         this.setState({ categoryId: categoryId });
-        this.setState({ parameters: [] });
         this.refreshCategories(categoryId);
+        this.clearCategoryParameters();
         this.refreshCategorParameters(categoryId);
     }
 
@@ -94,8 +94,8 @@ class CreateTargetComponent extends Component {
         });
         this.setState({ categoryName: category.name });
         this.setState({ categoryId: categoryId });
-        this.setState({ parameters: [] });
         this.handleCloseSelectCategoryModal();
+        this.clearCategoryParameters();
         this.refreshCategorParameters(categoryId);
     }
 
@@ -103,9 +103,20 @@ class CreateTargetComponent extends Component {
         this.state.categoryIdsHistory.push(this.state.categoryId)
         let categoryId = event.target.value;
         this.setState({ categoryId: categoryId });
-        this.setState({ parameters: [] });
         this.refreshCategories(categoryId);
+        this.clearCategoryParameters();
         this.refreshCategorParameters(categoryId);
+    }
+
+    clearCategoryParameters() {
+        if (this.state.categoryParameters) {
+            var newParameters = this.state.parameters.filter(
+                parameter => !this.state.categoryParameters.some(
+                    categoryParameter => categoryParameter.id === parameter.name
+                )
+            )
+            this.setState({ parameters: newParameters });
+        }
     }
 
     saveOrUpdateTarget = (e) => {
@@ -138,6 +149,7 @@ class CreateTargetComponent extends Component {
     changeCategoryId = (event) => {
         this.setState({ categoryId: event.target.value });
         this.setState({ categoryName: '' });
+        this.clearCategoryParameters();
         if (event.target.value) {
             this.refreshCategorParameters(event.target.value);
         } else {
@@ -180,7 +192,7 @@ class CreateTargetComponent extends Component {
             default:
                 break;
         }
-        
+
         this.setState({ parameters: newParameters });
     }
 
