@@ -9,7 +9,7 @@ data class Target(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long = 0,
         var name: String = "",
-        var categoryId: String = "",
+        var categoryId: String? = null,
         var phrase: String? = null,
         @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
         @JoinColumn(name = "target_id")
