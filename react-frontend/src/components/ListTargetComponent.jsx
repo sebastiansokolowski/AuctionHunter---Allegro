@@ -32,7 +32,9 @@ class ListTargetComponent extends Component {
             link += `kategoria/${target.categoryId}?`;
         }
         link +=`&order=d`;
-        link +=`&string=${target.phrase}`;
+        if(target.phrase){
+            link +=`&string=${target.phrase}`;
+        }
         for (let parameter of target.parameters) {
             if (parameter.name === "price.from") {
                 link += `&price.from=${parameter.value}`;
