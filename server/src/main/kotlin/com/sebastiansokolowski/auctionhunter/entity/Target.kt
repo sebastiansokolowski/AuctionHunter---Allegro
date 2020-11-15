@@ -10,7 +10,7 @@ data class Target(
         var id: Long = 0,
         var name: String = "",
         var categoryId: String = "",
-        var phrase: String = "",
+        var phrase: String? = null,
         @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
         @JoinColumn(name = "target_id")
         var parameters: MutableList<TargetParameters> = mutableListOf(),
