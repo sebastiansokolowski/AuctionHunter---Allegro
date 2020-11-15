@@ -180,7 +180,7 @@ class CreateTargetComponent extends Component {
             default:
                 break;
         }
-        console.log(newParameters);
+        
         this.setState({ parameters: newParameters });
     }
 
@@ -270,7 +270,7 @@ class CreateTargetComponent extends Component {
     }
 
     render() {
-        var lowPrice = {
+        var sellingMode = {
             id: 'sellingMode.format',
             name: 'Rodzaj oferty',
             type: 'DICTIONARY',
@@ -300,6 +300,15 @@ class CreateTargetComponent extends Component {
             type: 'FLOAT',
             restrictions: {
                 range: true
+            }
+        };
+
+        var sellerLogin = {
+            id: 'seller.login',
+            name: 'Sprzedawca',
+            type: 'STRING',
+            restrictions: {
+                range: false
             }
         };
 
@@ -398,7 +407,10 @@ class CreateTargetComponent extends Component {
                                         this.getParameters(price)
                                     }
                                     {
-                                        this.getParameters(lowPrice)
+                                        this.getParameters(sellingMode)
+                                    }
+                                    {
+                                        this.getParameters(sellerLogin)
                                     }
                                     <Button variant="success" onClick={this.saveOrUpdateTarget}>
                                         Save

@@ -24,7 +24,13 @@ class ListTargetComponent extends Component {
     }
 
     viewTarget(target) {
-        var link = `https://allegro.pl/kategoria/${target.categoryId}?`;
+        var link = "https://allegro.pl/";
+        var sellerLogin = target.parameters.find (parameter => parameter.name == "seller.login")
+        if (sellerLogin) {
+            link += `uzytkownik/${sellerLogin.value}/${target.categoryId}?`
+        } else {
+            link += `kategoria/${target.categoryId}?`;
+        }
         link +=`&order=d`;
         link +=`&string=${target.phrase}`;
         for (let parameter of target.parameters) {
