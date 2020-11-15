@@ -186,7 +186,7 @@ class CreateTargetComponent extends Component {
 
     cancel() {
         this.setState({ categoryIdsHistory: [] })
-        this.props.history.push('/target');
+        this.props.history.push('/');
     }
 
     //SelectCategoryModal
