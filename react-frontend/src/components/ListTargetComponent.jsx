@@ -25,7 +25,7 @@ class ListTargetComponent extends Component {
 
     viewTarget(target) {
         var link = "https://allegro.pl/";
-        var sellerLogin = target.parameters.find (parameter => parameter.name == "seller.login")
+        var sellerLogin = target.parameters.find (parameter => parameter.name === "seller.login")
         if (sellerLogin) {
             link += `uzytkownik/${sellerLogin.value}/${target.categoryId}?`
         } else {
