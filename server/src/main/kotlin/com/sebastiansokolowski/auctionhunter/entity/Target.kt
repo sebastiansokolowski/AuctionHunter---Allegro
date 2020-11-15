@@ -8,7 +8,7 @@ data class Target(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long = 0,
-        var name: String = "",
+        var name: String? = null,
         var categoryId: String? = null,
         var phrase: String? = null,
         @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
