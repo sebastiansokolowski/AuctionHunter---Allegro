@@ -3,6 +3,7 @@ package com.sebastiansokolowski.auctionhunter.model
 import com.sebastiansokolowski.auctionhunter.allegro_api.AllegroClient
 import com.sebastiansokolowski.auctionhunter.allegro_api.response.Listing
 import com.sebastiansokolowski.auctionhunter.allegro_api.response.ListingOffer
+import com.sebastiansokolowski.auctionhunter.dao.BlacklistUserDao
 import com.sebastiansokolowski.auctionhunter.dao.TargetDao
 import com.sebastiansokolowski.auctionhunter.entity.Offer
 import com.sebastiansokolowski.auctionhunter.entity.Target
@@ -27,6 +28,9 @@ class SearchEngineModel {
 
     @Autowired
     private lateinit var targetDao: TargetDao
+
+    @Autowired
+    private lateinit var blacklistUserDao: BlacklistUserDao
 
     @Value("\${SEARCH_PERIOD_IN_S}")
     private lateinit var searchPeriodInS: Number
@@ -88,7 +92,8 @@ class SearchEngineModel {
         val offersToNotify = mutableListOf<ListingOffer>()
 
         val oldOffers = target.offers.map { it.offer_id }
-        offers.forEach { newOffer ->
+        val newOffers = offers.filterNot { blacklistUserDao.existByUsername(it.seller.login) }
+        newOffers.forEach { newOffer ->
             if (!oldOffers.contains(newOffer.id)) {
                 offersToNotify.add(newOffer)
                 target.offers.add(Offer(offer_id = newOffer.id))
