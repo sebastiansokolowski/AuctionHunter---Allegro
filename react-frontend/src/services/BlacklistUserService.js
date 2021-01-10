@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BLACKLIST_USER_API_BASE_URL = "http://localhost:8080/blacklist_user";
+const BLACKLIST_USER_API_BASE_URL = "http://192.168.0.136:8080/blacklist_user";
 
 class BlacklistUserService {
 
