@@ -9,7 +9,6 @@ import com.sebastiansokolowski.auctionhunter.dao.TargetDao
 import com.sebastiansokolowski.auctionhunter.entity.Offer
 import com.sebastiansokolowski.auctionhunter.entity.Target
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +16,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 import kotlin.collections.HashMap
+import kotlin.collections.set
 
 class SearchEngineModel {
     private val LOG = Logger.getLogger(javaClass.simpleName)
@@ -47,7 +47,9 @@ class SearchEngineModel {
 
     inner class SearchTask : TimerTask() {
         override fun run() {
-            search()
+            if (!isNightTime()) {
+                search()
+            }
         }
 
         override fun scheduledExecutionTime(): Long {
@@ -57,6 +59,19 @@ class SearchEngineModel {
         override fun cancel(): Boolean {
             return super.cancel()
         }
+    }
+
+    private fun isNightTime(): Boolean {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+
+        auctionHunterProp.nightMode?.run {
+            if (hour in start..stop) {
+                LOG.info("night mode on")
+                return true
+            }
+        }
+        return false
     }
 
     private fun search() {
