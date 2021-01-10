@@ -6,5 +6,5 @@ import javax.transaction.Transactional
 
 @Transactional
 interface BlacklistUserDao : CrudRepository<BlacklistUser, Long> {
-    fun existByUsername(username: String): Boolean
+    fun existsByUsername(username: String): Boolean
 }
