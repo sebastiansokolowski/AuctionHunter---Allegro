@@ -1,6 +1,5 @@
 package com.sebastiansokolowski.auctionhunter.controller
 
-import com.sebastiansokolowski.auctionhunter.config.ServiceProperties
 import com.sebastiansokolowski.auctionhunter.dao.BlacklistUserDao
 import com.sebastiansokolowski.auctionhunter.entity.BlacklistUser
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,9 +13,6 @@ import java.util.logging.Logger
 @RequestMapping("/blacklist_user")
 class BlacklistController {
     private val LOG = Logger.getLogger(javaClass.simpleName)
-
-    @Autowired
-    private lateinit var serviceProperties: ServiceProperties
 
     @Autowired
     private lateinit var blacklistUserDao: BlacklistUserDao
