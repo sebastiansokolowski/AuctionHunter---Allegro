@@ -92,7 +92,7 @@ class SearchEngineModel {
         val offersToNotify = mutableListOf<ListingOffer>()
 
         val oldOffers = target.offers.map { it.offer_id }
-        val newOffers = offers.filterNot { blacklistUserDao.existsByUsername(it.seller.login) }
+        val newOffers = offers.filterNot { it.seller.login != null && blacklistUserDao.existsByUsername(it.seller.login) }
         newOffers.forEach { newOffer ->
             if (!oldOffers.contains(newOffer.id)) {
                 offersToNotify.add(newOffer)
