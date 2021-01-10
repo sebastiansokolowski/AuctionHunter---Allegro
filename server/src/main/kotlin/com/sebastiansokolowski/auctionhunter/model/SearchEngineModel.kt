@@ -3,6 +3,7 @@ package com.sebastiansokolowski.auctionhunter.model
 import com.sebastiansokolowski.auctionhunter.allegro_api.AllegroClient
 import com.sebastiansokolowski.auctionhunter.allegro_api.response.Listing
 import com.sebastiansokolowski.auctionhunter.allegro_api.response.ListingOffer
+import com.sebastiansokolowski.auctionhunter.config.AuctionHunterProp
 import com.sebastiansokolowski.auctionhunter.dao.BlacklistUserDao
 import com.sebastiansokolowski.auctionhunter.dao.TargetDao
 import com.sebastiansokolowski.auctionhunter.entity.Offer
@@ -32,15 +33,15 @@ class SearchEngineModel {
     @Autowired
     private lateinit var blacklistUserDao: BlacklistUserDao
 
-    @Value("\${SEARCH_PERIOD_IN_S}")
-    private lateinit var searchPeriodInS: Number
+    @Autowired
+    private lateinit var auctionHunterProp: AuctionHunterProp
 
     fun startSearching() {
         val timer = Timer()
         timer.scheduleAtFixedRate(
                 SearchTask(),
                 0,
-                TimeUnit.SECONDS.toMillis(searchPeriodInS.toLong())
+                TimeUnit.SECONDS.toMillis(auctionHunterProp.searchPeriodInS.toLong())
         )
     }
 
