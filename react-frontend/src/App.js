@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import {HashRouter, Route, Switch} from 'react-router-dom'
+import BlacklistUserComponent from './components/BlacklistUserComponent';
 import ListTargetComponent from './components/ListTargetComponent';
 import HeaderComponent from './components/HeaderComponent';
 import ViewTargetComponent from './components/ViewTargetComponent';
@@ -12,6 +13,7 @@ function App() {
               <HeaderComponent />
                 <div className="container">
                     <Switch> 
+                          <Route path = "/blacklist_user" component = {BlacklistUserComponent}></Route>
                           <Route path = "/" exact component = {ListTargetComponent}></Route>
                           <Route path = "/add" component = {ViewTargetComponent}></Route>
                           <Route path = "/edit/:id" component = {ViewTargetComponent}></Route>

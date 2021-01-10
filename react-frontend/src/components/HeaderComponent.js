@@ -18,6 +18,7 @@ class HeaderComponent extends Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
+                        <Link className="nav-item nav-link" to="/blacklist_user">Blacklist Users</Link>
                         <Link className="nav-item nav-link" to="/">Targets</Link>
                         <Link className="nav-item nav-link" to="/add">Add target</Link>
                     </Nav>
