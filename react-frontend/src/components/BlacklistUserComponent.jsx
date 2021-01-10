@@ -42,6 +42,7 @@ class BlacklistUserComponent extends Component {
 
         BlacklistUserService.createBlacklistUser(blacklistUser).then(res => {
             this.refreshBlacklistUsers();
+            this.setState({ blacklistUsername: "" });
         }).catch((error) => {
             console.log(error);
         });
