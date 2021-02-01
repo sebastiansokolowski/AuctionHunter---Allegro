@@ -28,6 +28,9 @@ class SearchEngineModel {
     private lateinit var mailSenderModel: MailSenderModel
 
     @Autowired
+    private lateinit var telegramBotModel: TelegramBotModel
+
+    @Autowired
     private lateinit var targetDao: TargetDao
 
     @Autowired
@@ -120,7 +123,12 @@ class SearchEngineModel {
             offersToNotify.sortBy { it.sellingMode.price.amount }
 
             LOG.info("new offers! offersIds=${offersToNotify.map { it.id }}")
-            mailSenderModel.sendMail(offersToNotify)
+            if (auctionHunterProp.email.isNotEmpty()) {
+                mailSenderModel.sendMail(offersToNotify)
+            }
+            if (auctionHunterProp.telegramBot != null) {
+                telegramBotModel.sendMessage(offersToNotify)
+            }
             targetDao.save(target)
         }
     }
