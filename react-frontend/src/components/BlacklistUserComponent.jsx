@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import BlacklistUserService from '../services/BlacklistUserService';
-import { Table, Button, FormControl } from 'react-bootstrap';
+import { Table, Button, FormControl, Form} from 'react-bootstrap';
 
 class BlacklistUserComponent extends Component {
     constructor(props) {
         super(props)
 
         this.changeBlacklistUsername = this.changeBlacklistUsername.bind(this);
+        this.changeRegex = this.changeRegex.bind(this);
 
         this.state = {
             blacklistUsers: [],
-            blacklistUsername: ''
+            blacklistUsername: '',
+            regex: false
         }
     }
 
@@ -37,9 +39,12 @@ class BlacklistUserComponent extends Component {
         this.setState({ blacklistUsername: event.target.value });
     }
 
-    createBlacklistUser = () => {
-        let blacklistUser = { username: this.state.blacklistUsername }
+    changeRegex = (event) => {
+        this.setState({ regex: event.target.checked });
+    }
 
+    createBlacklistUser = () => {
+        let blacklistUser = { username: this.state.blacklistUsername, regex: this.state.regex}
         BlacklistUserService.createBlacklistUser(blacklistUser).then(res => {
             this.refreshBlacklistUsers();
             this.setState({ blacklistUsername: "" });
@@ -56,12 +61,16 @@ class BlacklistUserComponent extends Component {
                         <thead>
                             <tr>
                                 <th>Username</th>
+                                <th>Regex</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <td>
                                 <FormControl placeholder="username to blacklist" value={this.state.blacklistUsername} onChange={this.changeBlacklistUsername} ></FormControl>
+                            </td>
+                            <td>
+                                <Form.Check type="checkbox" onChange={this.changeRegex} />
                             </td>
                             <td>
                                 <Button style={{ marginLeft: "10px" }} onClick={this.createBlacklistUser}>
@@ -74,7 +83,10 @@ class BlacklistUserComponent extends Component {
                                         <tr key={blacklistUser.id}>
                                             <td>{blacklistUser.username}</td>
                                             <td>
-                                                <button style={{ marginLeft: "10px" }} onClick={() => this.deleteBlacklistUser(blacklistUser.id)} className="btn btn-danger">Delete</button>
+                                                <Form.Check disabled={true} type="checkbox" defaultChecked={blacklistUser.regex} />
+                                            </td>
+                                            <td>
+                                                <Button style={{ marginLeft: "10px" }} onClick={() => this.deleteBlacklistUser(blacklistUser.id)} className="btn btn-danger">Delete</Button>
                                             </td>
                                         </tr>
                                 )
