@@ -8,5 +8,6 @@ data class BlacklistUser(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long = 0,
-        var username: String = ""
+        var username: String = "",
+        var regex: Boolean = false
 )

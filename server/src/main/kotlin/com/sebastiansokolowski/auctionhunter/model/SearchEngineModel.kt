@@ -108,28 +108,45 @@ class SearchEngineModel {
     }
 
     private fun checkNewOffers(target: Target, offers: MutableList<ListingOffer>) {
-        val offersToNotify = mutableListOf<ListingOffer>()
+        var filteredOffers = offers
+        filteredOffers = filterOldOffers(target, filteredOffers)
+        filteredOffers = filterBlacklistUsers(filteredOffers)
 
-        val oldOffers = target.offers.map { it.offer_id }
-        val newOffers = offers.filterNot { it.seller.login != null && blacklistUserDao.existsByUsername(it.seller.login) }
-        newOffers.forEach { newOffer ->
-            if (!oldOffers.contains(newOffer.id)) {
-                offersToNotify.add(newOffer)
-                target.offers.add(Offer(offer_id = newOffer.id))
-            }
-        }
+        target.offers.addAll(filteredOffers.map { Offer(offer_id = it.id) })
 
-        if (offersToNotify.isNotEmpty()) {
-            offersToNotify.sortBy { it.sellingMode.price.amount }
+        if (filteredOffers.isNotEmpty()) {
+            filteredOffers.sortBy { it.sellingMode.price.amount }
 
-            LOG.info("new offers! offersIds=${offersToNotify.map { it.id }}")
+            LOG.info("new offers! offersIds=${filteredOffers.map { it.id }}")
             if (auctionHunterProp.email.isNotEmpty()) {
-                mailSenderModel.sendMail(offersToNotify)
+                mailSenderModel.sendMail(filteredOffers)
             }
             if (auctionHunterProp.telegramBot != null) {
-                telegramBotModel.sendMessage(offersToNotify)
+                telegramBotModel.sendMessage(filteredOffers)
             }
             targetDao.save(target)
         }
+    }
+
+    private fun filterBlacklistUsers(offers: MutableList<ListingOffer>): MutableList<ListingOffer> {
+        val matchedOffers = mutableListOf<ListingOffer>()
+        val blacklistUsers = blacklistUserDao.findAll()
+
+        offers.forEach { offer ->
+            blacklistUsers.forEach blacklist_loop@{ blacklistUser ->
+                val sellerLogin = offer.seller.login ?: return@blacklist_loop
+                if (blacklistUser.regex && sellerLogin.matches(Regex(blacklistUser.username)) ||
+                        sellerLogin == blacklistUser.username) {
+                    matchedOffers.add(offer)
+                }
+            }
+        }
+
+        return offers.minus(matchedOffers).toMutableList()
+    }
+
+    private fun filterOldOffers(target: Target, offers: MutableList<ListingOffer>): MutableList<ListingOffer> {
+        val oldOffers = target.offers.map { it.offer_id }
+        return offers.filterNot { oldOffers.contains(it.id) }.toMutableList()
     }
 }
