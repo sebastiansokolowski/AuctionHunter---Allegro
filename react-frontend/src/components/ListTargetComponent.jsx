@@ -45,6 +45,9 @@ class ListTargetComponent extends Component {
             if (parameter.name === "sellingMode.format" && parameter.value === "BUY_NOW") {
                 link += "&offerTypeBuyNow=1";
             }
+            if (parameter.name === "searchMode" && parameter.value === "DESCRIPTIONS") {
+                link += "&description=1";
+            }
         }
         window.open(link);
     }
