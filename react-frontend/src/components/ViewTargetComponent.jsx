@@ -324,6 +324,25 @@ class CreateTargetComponent extends Component {
             }
         };
 
+        var searchMode = {
+            id: 'searchMode',
+            name: 'Tryb wyszukiwania',
+            type: 'DICTIONARY',
+            restrictions: {
+                multipleChoices: false
+            },
+            dictionary: [
+                {
+                    id: 'DESCRIPTIONS',
+                    value: 'Tytuł i opis'
+                },
+                {
+                    id: 'CLOSED',
+                    value: 'Oferty zamknięte'
+                }
+            ]
+        };
+
         return (
             <div>
                 <br></br>
@@ -423,6 +442,9 @@ class CreateTargetComponent extends Component {
                                     }
                                     {
                                         this.getParameters(sellerLogin)
+                                    }
+                                    {
+                                        this.getParameters(searchMode)
                                     }
                                     <Button variant="success" onClick={this.saveOrUpdateTarget}>
                                         Save
