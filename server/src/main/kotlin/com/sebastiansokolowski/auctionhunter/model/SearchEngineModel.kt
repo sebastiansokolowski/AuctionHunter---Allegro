@@ -159,7 +159,7 @@ class SearchEngineModel {
         if (includeKeywords.isNotEmpty()) {
             offers.forEach { offer ->
                 includeKeywords.forEach { includeKeyword ->
-                    if (offer.name.contains(includeKeyword)) {
+                    if (offer.name.contains(includeKeyword, ignoreCase = true)) {
                         matchedOffers.add(offer)
                     }
                 }
@@ -177,7 +177,7 @@ class SearchEngineModel {
         if (excludeKeywords.isNotEmpty()) {
             offers.forEach { offer ->
                 excludeKeywords.forEach { excludeKeyword ->
-                    if (!offer.name.contains(excludeKeyword)) {
+                    if (!offer.name.contains(excludeKeyword, ignoreCase = true)) {
                         matchedOffers.add(offer)
                     }
                 }
