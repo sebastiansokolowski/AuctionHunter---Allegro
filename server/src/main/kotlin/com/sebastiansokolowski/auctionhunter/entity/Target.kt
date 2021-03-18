@@ -16,5 +16,8 @@ data class Target(
         var parameters: MutableList<TargetParameters> = mutableListOf(),
         @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
         @JoinColumn(name = "target_id")
-        var offers: MutableList<Offer> = mutableListOf()
+        var offers: MutableList<Offer> = mutableListOf(),
+        @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+        @JoinColumn(name = "target_id")
+        var keywords: MutableList<Keyword> = mutableListOf()
 )

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import TargetService from '../services/TargetService';
 import AllegroService from '../services/AllegroService';
-import { Modal, Button, Form, FormGroup, FormLabel, FormControl, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Form, FormGroup, FormLabel, FormControl, Row, Col, Table } from 'react-bootstrap';
 
 class CreateTargetComponent extends Component {
     constructor(props) {
@@ -15,6 +15,8 @@ class CreateTargetComponent extends Component {
         this.handleCloseSelectCategoryModal = this.handleCloseSelectCategoryModal.bind(this);
         this.handleShowCategoryParametersModal = this.handleShowCategoryParametersModal.bind(this);
         this.handleCloseCategoryParametersModal = this.handleCloseCategoryParametersModal.bind(this);
+        this.handleShowKeywordsModal = this.handleShowKeywordsModal.bind(this);
+        this.handleCloseKeywordsModal = this.handleCloseKeywordsModal.bind(this);
 
         this.state = {
             id: this.props.match.params.id,
@@ -23,12 +25,16 @@ class CreateTargetComponent extends Component {
             categoryId: null,
             categoryName: '',
             parameters: [],
+            keywords: [],
             //view
             categoryIdsHistory: [],
             categories: [],
             showSelectCategoryModal: false,
             categoryParameters: null,
             showCategoryParametersModal: false,
+            showKeywordsModal: false,
+            phraseKeyword: '',
+            includeKeyword: false
         }
     }
 
@@ -44,7 +50,8 @@ class CreateTargetComponent extends Component {
                     name: target.name,
                     categoryId: target.categoryId,
                     phrase: target.phrase,
-                    parameters: target.parameters
+                    parameters: target.parameters,
+                    keywords: target.keywords
                 });
                 if (target.categoryId) {
                     this.refreshCategorParameters(target.categoryId)
@@ -121,7 +128,13 @@ class CreateTargetComponent extends Component {
 
     saveOrUpdateTarget = (e) => {
         console.log(e);
-        let target = { name: this.state.name, categoryId: this.state.categoryId, phrase: this.state.phrase, parameters: this.state.parameters };
+        let target = { 
+            name: this.state.name, 
+            categoryId: this.state.categoryId, 
+            phrase: this.state.phrase, 
+            parameters: this.state.parameters,
+            keywords: this.state.keywords
+        };
 
         if (!this.state.id) {
             TargetService.createTarget(target).then(res => {
@@ -155,6 +168,32 @@ class CreateTargetComponent extends Component {
         } else {
             this.setState({ categoryParameters: null });
         }
+    }
+
+    changePhraseKeyword = (event) => {
+        this.setState({ phraseKeyword: event.target.value });
+    }
+
+    changeIncludeKeywordCheckbox = (event) => {
+        this.setState({ includeKeyword: event.target.checked });
+    }
+
+    addKeyword = () => {
+        let keyword = {
+            phrase: this.state.phraseKeyword,
+            include: this.state.includeKeyword
+        }
+        let newKeywords = this.state.keywords
+        newKeywords.push(keyword)
+
+        this.setState({keyword: ''})
+        this.setState({keywords: newKeywords})
+    }
+
+    deleteKeyword = (phrase) => {
+        let newKeywords = this.state.keywords.filter(a => a.phrase !== phrase)
+
+        this.setState({keywords: newKeywords})
     }
 
     getParameterValue(parameterId) {
@@ -219,6 +258,16 @@ class CreateTargetComponent extends Component {
 
     handleCloseCategoryParametersModal() {
         this.setState({ showCategoryParametersModal: false });
+    }
+
+    //KeywordsModal
+
+    handleShowKeywordsModal() {
+        this.setState({ showKeywordsModal: true });
+    }
+    
+    handleCloseKeywordsModal() {
+        this.setState({ showKeywordsModal: false });
     }
 
     getTitle() {
@@ -409,6 +458,55 @@ class CreateTargetComponent extends Component {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
+                                {/* showKeywordsModal */}
+                                <Modal show={this.state.showKeywordsModal} onHide={this.handleCloseKeywordsModal}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Keywords</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <Table className="includeKeywords">
+                                            <thead>
+                                                <tr>
+                                                    <th>Phrase</th>
+                                                    <th>Include</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <td>
+                                                    <FormControl placeholder="keyword to include" value={this.state.phraseKeyword} onChange={this.changePhraseKeyword}></FormControl>
+                                                </td>
+                                                <td>
+                                                    <Form.Check type="checkbox" onChange={this.changeIncludeKeywordCheckbox} />
+                                                </td>
+                                                <td>
+                                                <Button style={{ marginLeft: "10px" }} onClick={this.addKeyword}>
+                                                        Add
+                                                </Button>
+                                                </td>
+                                                {
+                                                    this.state.keywords.map(
+                                                        keyword =>
+                                                            <tr>
+                                                                <td>{keyword.phrase}</td>
+                                                                <td>
+                                                                    <Form.Check disabled={true} type="checkbox" defaultChecked={keyword.include} />
+                                                                </td>
+                                                                <td>
+                                                                    <Button style={{ marginLeft: "10px" }} onClick={() => this.deleteKeyword(keyword.phrase)} className="btn btn-danger">Delete</Button>
+                                                                </td>
+                                                            </tr>
+                                                    )
+                                                }
+                                            </tbody>
+                                        </Table>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={this.handleCloseKeywordsModal}>
+                                            Close
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal>
                             </>
                             <div className="card-body">
                                 <Form>
@@ -446,6 +544,11 @@ class CreateTargetComponent extends Component {
                                     {
                                         this.getParameters(searchMode)
                                     }
+                                    <FormGroup>
+                                        <Button className="m-1" onClick={this.handleShowKeywordsModal} size="lg" block>
+                                            Keywords
+                                        </Button>
+                                    </FormGroup>
                                     <Button variant="success" onClick={this.saveOrUpdateTarget}>
                                         Save
                                     </Button>

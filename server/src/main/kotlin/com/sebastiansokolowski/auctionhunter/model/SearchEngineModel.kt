@@ -110,6 +110,8 @@ class SearchEngineModel {
     private fun checkNewOffers(target: Target, offers: MutableList<ListingOffer>) {
         var filteredOffers = offers
         filteredOffers = filterOldOffers(target, filteredOffers)
+        filteredOffers = filterIncludeKeywords(target, filteredOffers)
+        filteredOffers = filterExcludeKeywords(target, filteredOffers)
         filteredOffers = filterBlacklistUsers(filteredOffers)
 
         target.offers.addAll(filteredOffers.map { Offer(offer_id = it.id) })
@@ -126,6 +128,11 @@ class SearchEngineModel {
             }
             targetDao.save(target)
         }
+    }
+
+    private fun filterOldOffers(target: Target, offers: MutableList<ListingOffer>): MutableList<ListingOffer> {
+        val oldOffers = target.offers.map { it.offer_id }
+        return offers.filterNot { oldOffers.contains(it.id) }.toMutableList()
     }
 
     private fun filterBlacklistUsers(offers: MutableList<ListingOffer>): MutableList<ListingOffer> {
@@ -145,8 +152,40 @@ class SearchEngineModel {
         return offers.minus(matchedOffers).toMutableList()
     }
 
-    private fun filterOldOffers(target: Target, offers: MutableList<ListingOffer>): MutableList<ListingOffer> {
-        val oldOffers = target.offers.map { it.offer_id }
-        return offers.filterNot { oldOffers.contains(it.id) }.toMutableList()
+    private fun filterIncludeKeywords(target: Target, offers: MutableList<ListingOffer>): MutableList<ListingOffer> {
+        val matchedOffers = mutableListOf<ListingOffer>()
+
+        val includeKeywords = target.keywords.filter { it.include }.map { it.phrase }
+        if (includeKeywords.isNotEmpty()) {
+            offers.forEach { offer ->
+                includeKeywords.forEach { includeKeyword ->
+                    if (offer.name.contains(includeKeyword)) {
+                        matchedOffers.add(offer)
+                    }
+                }
+            }
+        } else {
+            matchedOffers.addAll(offers)
+        }
+        return matchedOffers
+    }
+
+    private fun filterExcludeKeywords(target: Target, offers: MutableList<ListingOffer>): MutableList<ListingOffer> {
+        val matchedOffers = mutableListOf<ListingOffer>()
+
+        val excludeKeywords = target.keywords.filter { !it.include }.map { it.phrase }
+        if (excludeKeywords.isNotEmpty()) {
+            offers.forEach { offer ->
+                excludeKeywords.forEach { excludeKeyword ->
+                    if (!offer.name.contains(excludeKeyword)) {
+                        matchedOffers.add(offer)
+                    }
+                }
+            }
+        } else {
+            matchedOffers.addAll(offers)
+        }
+
+        return matchedOffers
     }
 }
