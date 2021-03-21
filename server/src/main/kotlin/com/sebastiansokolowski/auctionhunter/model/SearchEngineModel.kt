@@ -112,7 +112,8 @@ class SearchEngineModel {
         filteredOffers = filterOldOffers(target, filteredOffers)
         filteredOffers = filterIncludeKeywords(target, filteredOffers)
         filteredOffers = filterExcludeKeywords(target, filteredOffers)
-        filteredOffers = filterBlacklistUsers(filteredOffers)
+        //TODO
+        //filteredOffers = filterBlacklistUsers(filteredOffers)
 
         target.offers.addAll(filteredOffers.map { Offer(offer_id = it.id) })
 
