@@ -1,9 +1,8 @@
 package com.sebastiansokolowski.auctionhunter.model
 
-import com.sebastiansokolowski.auctionhunter.allegro_api.response.ListingOffer
 import com.sebastiansokolowski.auctionhunter.config.AuctionHunterProp
+import com.sebastiansokolowski.auctionhunter.entity.Offer
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.thymeleaf.TemplateEngine
@@ -21,7 +20,7 @@ class MailSenderModel {
     @Autowired
     private lateinit var auctionHunterProp: AuctionHunterProp
 
-    fun sendMail(offers: List<ListingOffer>) {
+    fun sendMail(offers: List<Offer>) {
         val context = Context()
         context.setVariable("offers", offers)
         context.setVariable("allegroBaseUrl", auctionHunterProp.allegroShowItemBaseUrl)

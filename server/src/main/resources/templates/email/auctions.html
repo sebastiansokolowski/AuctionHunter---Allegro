@@ -30,7 +30,6 @@
     <tbody>
     <tr>
         <th align="center">Tytuł</th>
-        <th align="center">Firma</th>
         <th align="center">Cena</th>
         <th align="center">Link</th>
     </tr>
@@ -39,31 +38,10 @@
             <span th:text="${offer.name}"/>
         </th>
         <th>
-            <span th:text="${offer.seller.company}"/>
+            Kup teraz<br/><span th:text="${offer.price}"/>zł
         </th>
         <th>
-            <div th:switch="${offer.sellingMode.format.name()}">
-                <p th:case="BUY_NOW">
-                    Kup teraz<br/><span th:text="${offer.sellingMode.price.amount}"/>zł
-                </p>
-                <p th:case="AUCTION">
-                    Licytacja<br/><span th:text="${offer.sellingMode.price.amount}"/>zł
-                <div th:if="${offer.sellingMode.fixedPrice!=null}">
-                    Kup teraz<br/><span th:text="${offer.sellingMode.fixedPrice.amount}"/>zł
-                </div>
-                </p>
-                <p th:case="ADVERTISEMENT">
-                    Ogłoszenie
-                </p>
-            </div>
-        </th>
-        <th>
-            <div th:if="${offer.vendor!=null and offer.vendor.url!=null}">
-                <a th:href="${offer.vendor.url}">Allegro Lokalne</a>
-            </div>
-            <div th:unless="${offer.vendor!=null and offer.vendor.url!=null}">
-                <a th:href="@{${allegroBaseUrl}+${offer.id}}">Allegro</a>
-            </div>
+            <a th:href="${offer.url}">Link</a>
         </th>
     </tr>
     </tbody>

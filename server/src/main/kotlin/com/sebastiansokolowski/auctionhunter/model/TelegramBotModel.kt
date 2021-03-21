@@ -1,8 +1,7 @@
 package com.sebastiansokolowski.auctionhunter.model
 
-import com.sebastiansokolowski.auctionhunter.allegro_api.response.ListingOffer
-import com.sebastiansokolowski.auctionhunter.allegro_api.response.SellingModeFormat
 import com.sebastiansokolowski.auctionhunter.config.AuctionHunterProp
+import com.sebastiansokolowski.auctionhunter.entity.Offer
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.springframework.beans.factory.annotation.Autowired
@@ -58,32 +57,18 @@ class TelegramBotModel {
                 .build()
     }
 
-    fun sendMessage(offers: List<ListingOffer>) {
-        offers.forEach {
+    fun sendMessage(offers: List<Offer>) {
+        offers.forEach { offer ->
             var message = ""
             //1st line
-            message += it.name + "\n"
-            //2nd line
-            message += when (it.sellingMode.format) {
-                SellingModeFormat.BUY_NOW -> ""
-                SellingModeFormat.AUCTION -> "Auction: "
-                else -> "Advertisement: "
-            }
-            message += "<b>${it.sellingMode.price.amount} ${it.sellingMode.price.currency}</b>" + "\n"
-            //3rd line
-            if (it.sellingMode.fixedPrice != null) {
-                message += "Fixed buy now: ${it.sellingMode.fixedPrice.amount} ${it.sellingMode.fixedPrice.currency}" + "\n"
-            }
-            //4th line
-            message += if (it.vendor?.url != null) {
-                it.vendor.url
-            } else {
-                auctionHunterProp.allegroShowItemBaseUrl + it.id
-            }
+            message += offer.name + "\n"
+            message += "<b>${offer.price} zł</b>" + "\n"
+            //2th line
+            message += offer.url
 
             //send
-            auctionHunterProp.telegramBot?.let {
-                getTelegramApi().sendMessage(it.token, it.chatId, message).enqueue(object : retrofit2.Callback<Any> {
+            auctionHunterProp.telegramBot?.let { prop ->
+                getTelegramApi().sendMessage(prop.token, prop.chatId, message).enqueue(object : retrofit2.Callback<Any> {
                     override fun onFailure(call: Call<Any>, t: Throwable) {
                         LOG.info(t.message)
                     }
