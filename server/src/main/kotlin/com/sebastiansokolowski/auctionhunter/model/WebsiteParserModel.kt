@@ -42,8 +42,6 @@ class WebsiteParserModel {
         val agent = userAgents[Random.nextInt(userAgents.size)]
         val referrer = userReferrers[Random.nextInt(userReferrers.size)]
 
-        Thread.sleep(Random.nextLong(500))
-
         executor.submit {
             try {
                 val doc = Jsoup.connect(url)

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
+import kotlin.random.Random
 
 class SearchEngineModel {
     private val LOG = Logger.getLogger(javaClass.simpleName)
@@ -81,6 +82,8 @@ class SearchEngineModel {
                     checkNewOffers(target, offers)
                 }
             })
+
+            Thread.sleep(Random.nextLong(500))
         }
     }
 
