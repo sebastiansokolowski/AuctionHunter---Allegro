@@ -16,8 +16,7 @@ class AllegroWebsiteParser: WebsiteParserModel.WebsiteParserEngine {
             val offerId = element.attr("data-analytics-view-value")
             val name = element.select("a._w7z6o").text()
             val price = element.select("span._1svub").text()
-                    .replace(",", ".")
-                    .split(" ")[0].toFloat()
+                    .filter { it.isDigit() }.toFloat()/100
             val offerUrl = element.select("a._w7z6o").attr("href")
 
             val offer = Offer(
