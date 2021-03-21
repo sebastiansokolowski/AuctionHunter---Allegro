@@ -1,6 +1,7 @@
 package com.sebastiansokolowski.auctionhunter.config
 
 import com.sebastiansokolowski.auctionhunter.allegro_api.AllegroClient
+import com.sebastiansokolowski.auctionhunter.model.WebsiteParserModel
 import com.sebastiansokolowski.auctionhunter.model.MailSenderModel
 import com.sebastiansokolowski.auctionhunter.model.SearchEngineModel
 import com.sebastiansokolowski.auctionhunter.model.TelegramBotModel
@@ -20,4 +21,7 @@ class BeanConfig {
 
     @Bean
     fun getSearchEngine() = SearchEngineModel()
+
+    @Bean
+    fun getWebsiteParserModel() = WebsiteParserModel()
 }

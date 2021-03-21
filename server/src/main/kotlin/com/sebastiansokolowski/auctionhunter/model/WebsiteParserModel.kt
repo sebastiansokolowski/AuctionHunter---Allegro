@@ -29,7 +29,7 @@ class WebsiteParserModel {
     )
 
     private val parsers = arrayOf(
-            //TODO:
+            AllegroWebsiteParser()
     )
 
     fun getOffers(url: String, callback: WebsiteParserCallback) {
