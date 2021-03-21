@@ -12,10 +12,6 @@ class AllegroService {
         return axios.get(ALLEGRO_API_BASE_URL + '/categories/' + parentId);
     }
 
-    getCategoryParameters(categoryId) {
-        return axios.get(ALLEGRO_API_BASE_URL + '/categories/' + categoryId + '/parameters');
-    }
-
     getOffers(params) {
         return axios.get(ALLEGRO_API_BASE_URL + '/offers', params);
     }

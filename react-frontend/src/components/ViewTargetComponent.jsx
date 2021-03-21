@@ -13,8 +13,6 @@ class CreateTargetComponent extends Component {
         this.changeCategoryId = this.changeCategoryId.bind(this);
         this.handleShowSelectCategoryModal = this.handleShowSelectCategoryModal.bind(this);
         this.handleCloseSelectCategoryModal = this.handleCloseSelectCategoryModal.bind(this);
-        this.handleShowCategoryParametersModal = this.handleShowCategoryParametersModal.bind(this);
-        this.handleCloseCategoryParametersModal = this.handleCloseCategoryParametersModal.bind(this);
         this.handleShowKeywordsModal = this.handleShowKeywordsModal.bind(this);
         this.handleCloseKeywordsModal = this.handleCloseKeywordsModal.bind(this);
 
@@ -30,8 +28,6 @@ class CreateTargetComponent extends Component {
             categoryIdsHistory: [],
             categories: [],
             showSelectCategoryModal: false,
-            categoryParameters: null,
-            showCategoryParametersModal: false,
             showKeywordsModal: false,
             phraseKeyword: '',
             includeKeyword: false
@@ -53,9 +49,6 @@ class CreateTargetComponent extends Component {
                     parameters: target.parameters,
                     keywords: target.keywords
                 });
-                if (target.categoryId) {
-                    this.refreshCategorParameters(target.categoryId)
-                }
             });
         }
     }
@@ -76,21 +69,10 @@ class CreateTargetComponent extends Component {
         }
     }
 
-    refreshCategorParameters(categoryId) {
-        if (categoryId) {
-            AllegroService.getCategoryParameters(categoryId).then((res) => {
-                this.setState({ categoryParameters: res.data.parameters });
-            }).catch((error) => {
-                console.log(error);
-            });
-        }
-    }
-
     selectPrevCategory = (e) => {
         let categoryId = this.state.categoryIdsHistory.pop();
         this.setState({ categoryId: categoryId });
         this.refreshCategories(categoryId);
-        this.clearCategoryParameters();
         this.refreshCategorParameters(categoryId);
     }
 
@@ -102,8 +84,6 @@ class CreateTargetComponent extends Component {
         this.setState({ categoryName: category.name });
         this.setState({ categoryId: categoryId });
         this.handleCloseSelectCategoryModal();
-        this.clearCategoryParameters();
-        this.refreshCategorParameters(categoryId);
     }
 
     showCategoryChildren = (event) => {
@@ -111,19 +91,6 @@ class CreateTargetComponent extends Component {
         let categoryId = event.target.value;
         this.setState({ categoryId: categoryId });
         this.refreshCategories(categoryId);
-        this.clearCategoryParameters();
-        this.refreshCategorParameters(categoryId);
-    }
-
-    clearCategoryParameters() {
-        if (this.state.categoryParameters) {
-            var newParameters = this.state.parameters.filter(
-                parameter => !this.state.categoryParameters.some(
-                    categoryParameter => categoryParameter.id === parameter.name
-                )
-            )
-            this.setState({ parameters: newParameters });
-        }
     }
 
     saveOrUpdateTarget = (e) => {
@@ -248,16 +215,6 @@ class CreateTargetComponent extends Component {
 
     handleShowSelectCategoryModal() {
         this.setState({ showSelectCategoryModal: true });
-    }
-
-    //CategoryParametersModal
-
-    handleShowCategoryParametersModal() {
-        this.setState({ showCategoryParametersModal: true });
-    }
-
-    handleCloseCategoryParametersModal() {
-        this.setState({ showCategoryParametersModal: false });
     }
 
     //KeywordsModal
@@ -435,29 +392,6 @@ class CreateTargetComponent extends Component {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
-                                {/* showCategoryParametersModal */}
-                                <Modal show={this.state.showCategoryParametersModal} onHide={this.handleCloseCategoryParametersModal}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Category parameters</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        {this.state.categoryParameters &&
-                                            this.state.categoryParameters.map(
-                                                categoryParameter =>
-                                                    <>
-                                                        {
-                                                            this.getParameters(categoryParameter)
-                                                        }
-                                                    </>
-                                            )
-                                        }
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <Button variant="secondary" onClick={this.handleCloseCategoryParametersModal}>
-                                            Close
-                                        </Button>
-                                    </Modal.Footer>
-                                </Modal>
                                 {/* showKeywordsModal */}
                                 <Modal show={this.state.showKeywordsModal} onHide={this.handleCloseKeywordsModal}>
                                     <Modal.Header closeButton>
@@ -524,13 +458,6 @@ class CreateTargetComponent extends Component {
                                         <Button className="m-1" onClick={this.handleShowSelectCategoryModal} size="lg" block>
                                             Select category
                                         </Button>
-                                        {this.state.categoryParameters &&
-                                            <FormGroup>
-                                                <Button className="m-1" onClick={this.handleShowCategoryParametersModal} size="lg" block>
-                                                    Show parameters
-                                                </Button>
-                                            </FormGroup>
-                                        }
                                     </FormGroup>
                                     {
                                         this.getParameters(price)
